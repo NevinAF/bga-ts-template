@@ -2,7 +2,7 @@
  * @file The entrypoint for the game. This is the only file that should be included in the typescript configuration. All other tiles will be included by the compiler through reference tags. This file should only contain one *.ts reference which should always be the file that defines the the game specific class as all files needed for t
  */
 /// <reference path="types/index.d.ts" />
-/// <reference path="yourgamename.ts" />
+/// <reference path="kiriaitheduel.ts" />
 
 define([
 	"dojo",
@@ -11,7 +11,7 @@ define([
 	"ebg/counter",
 ],
 function (_dojo, declare) {
-	return declare("bgagame.yourgamename", ebg.core.gamegui, new YourGameName());
+	return declare("bgagame.kiriaitheduel", ebg.core.gamegui, new KiriaiTheDuel());
 });
 
 /**
@@ -20,9 +20,9 @@ function (_dojo, declare) {
  * @param callback The function that will define the game class and return it.
  * - param `_dojo`: The dojo library. This should not be used but instead the global `dojo` object should be used.
  * - param `declare`: The declare function used to create the module.
- * - - param `module_name`: The name of the module to be defined. Should be 'bgagame.yourgamename'.
+ * - - param `module_name`: The name of the module to be defined. Should be 'bgagame.kiriaitheduel'.
  * - - param `base_class`: The target to define the module on. Should be `ebg.core.gamegui`.
- * - - param `module`: The game class to be defined. Should be a new instance of the game class: `new YourGameName()`.
+ * - - param `module`: The game class to be defined. Should be a new instance of the game class: `new KiriaiTheDuel()`.
  * @example
  * define([
  * 	"dojo",
@@ -31,7 +31,7 @@ function (_dojo, declare) {
  * 	"ebg/counter",
  * ],
  * function (dojo, declare) {
- * 	return declare("bgagame.yourgamename", ebg.core.gamegui, new YourGameName());
+ * 	return declare("bgagame.kiriaitheduel", ebg.core.gamegui, new KiriaiTheDuel());
  * });
  */
 declare const define: <T extends Gamegui>(

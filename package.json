@@ -1,8 +1,8 @@
 {
-	"name": "yourgamename",
+	"name": "kiriaitheduel",
 	"version": "1.0.0",
 	"description": "",
-	"main": "../yourgamename.js",
+	"main": "../kiriaitheduel.js",
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w"

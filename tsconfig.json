@@ -16,6 +16,6 @@
 			"types/**",
 			"./node_modules/@types"
 		],
-		"outFile": "../yourgamename.js"
+		"outFile": "../kiriaitheduel.js"
 	},
 }
