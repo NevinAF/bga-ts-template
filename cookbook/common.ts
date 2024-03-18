@@ -11,7 +11,7 @@ interface GameguiCookbook
 	attachToNewParentNoDestroy(mobile_in: string | HTMLElement, new_parent_in: string | HTMLElement, relation?: string | number, place_position?: string): dojo.DomGeometryBox;
 
 	/**
-	 * Typed `ajaxcallWrapper` method recommended by the BGA wiki. This method removes obsolete parameters, simplifies action url, and auto adds the lock parameter the the args if needed. This significantly reduces the amount of code needed to make an ajax call and makes the parameters much more readable.
+	 * Typed `ajaxcallWrapper` method recommended by the BGA wiki. This method removes obsolete parameters, simplifies action url, and auto adds the lock parameter to the args if needed. This significantly reduces the amount of code needed to make an ajax call and makes the parameters much more readable.
 	 * @param action The action to be called.
 	 * @param args The arguments to be passed to the server for the action. This does not need to include the `lock` parameter, as it will be added automatically if needed.
 	 * @param callback The callback to be called once a response is received from the server.
