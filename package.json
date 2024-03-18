@@ -1,0 +1,15 @@
+{
+	"name": "yourgamename",
+	"version": "1.0.0",
+	"description": "",
+	"main": "../yourgamename.js",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -w"
+	},
+	"author": "NevinAF",
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^4.1.3"
+	}
+}
