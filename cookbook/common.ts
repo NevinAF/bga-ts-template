@@ -140,7 +140,7 @@ GameguiCookbook.prototype.ajaxAction = function<T extends keyof PlayerActions>(t
 	this.ajaxcall(
 		`/${this.game_name}/${this.game_name}/${action}.html`,
 		args as PlayerActions[T] & { lock: boolean },
-		this, undefined, callback, ajax_method
+		this, () => {}, callback, ajax_method
 	);
 
 	return true;
