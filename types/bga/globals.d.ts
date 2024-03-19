@@ -32,3 +32,20 @@ declare const g_tutorialwritten: {
 	version_override: string | null;
 	viewer_id: string;
 } | undefined;
+
+/**
+ * The url to the game source folder. This should be used for loading images and sounds.
+ * @example
+ * // Player hand
+ * this.playerHand = new ebg.stock();
+ * this.playerHand.create( this, $('myhand'), this.cardwidth, this.cardheight );
+ * // Create cards types:
+ * for (var color = 1; color <= 4; color++) {
+ * 	for (var value = 2; value <= 14; value++) {
+ * 		// Build card type id
+ * 		var card_type_id = this.getCardUniqueId(color, value);
+ * 		this.playerHand.addItemType(card_type_id, card_type_id, g_gamethemeurl + 'img/cards.jpg', card_type_id);
+ * 	}
+ * }
+ */
+declare const g_gamethemeurl: string;
