@@ -148,5 +148,5 @@ class YourGameName extends GameguiCookbook {
 ```
 
 Using the common cookbook module is recommended as it contains function that are used in nearly every game, and wrappers for much more concise and type safe code. The two big functions in this module are:
-- `ajaxAction`: Typed `ajaxcallWrapper` method recommended by the BGA wiki. This method removes obsolete parameters, simplifies action url, and auto adds the lock parameter the the args if needed. See JSDocs for more information.
-- `subscribeNotif`: A typed dojo.subscribe wrapper notifications. See JSDocs for more information.
+- `ajaxAction`: Typed `ajaxcallWrapper` method recommended by the BGA wiki. This method removes obsolete parameters, simplifies action url, and auto adds the lock parameter to the args if needed. See JSDocs for more information.
+- `subscribeNotif`: A typed dojo.subscribe wrapper for notifications. See JSDocs for more information.

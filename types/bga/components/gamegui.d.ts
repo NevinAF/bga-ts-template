@@ -221,7 +221,7 @@ interface Gamegui {
 	 * var player = gamedatas.players[this.player_id];
 	 * var div = this.format_block('jstpl_player_board', player ); // var jstpl_player_board = ... is defined in .tpl file 
 	 */
-	format_block: (var_template: string, args: { [key: string]: object }) => string;
+	format_block: (var_template: string, args: { [key: string]: any }) => string;
 
 	/**
 	 * Formats the string with the values from `args` using ${key} syntax. This is a simple templating system that is generally used to format HTML blocks. The `format` is a string that contains ${key} placeholders, and `args` is an object that contains the values to replace the placeholders with. The method returns the formatted string. Note: result is trimmed.
@@ -231,7 +231,7 @@ interface Gamegui {
 	 * @returns The formatted string.
 	 * @example var div = this.format_string('<div color="${player_color}"></div>', {player_color: '#ff0000'} );
 	 */
-	format_string: (format: string, args: { [key: string]: object }) => string;
+	format_string: (format: string, args: { [key: string]: any }) => string;
 
 	/**
 	 * Same as `format_string` but recursively formats until no more placeholders are found. This is useful for nested templates, like with server notifications.
@@ -239,7 +239,7 @@ interface Gamegui {
 	 * @param args The values to replace the placeholders with.
 	 * @returns The formatted string.
 	 */
-	format_string_recursive: (format: string, args: { [key: string]: object }) => string;
+	format_string_recursive: (format: string, args: { [key: string]: any }) => string;
 
 	/**
 	 * Moves an element such that the visual position of the `target` element is located at the top-left of the `location` element. This is not really an animation, but placeOnObject is frequently used to set up the initial position of an element before an animation is performed.
