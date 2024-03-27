@@ -383,7 +383,7 @@ interface Gamegui {
 	/**
 	 * Sends a client side notification to the server in the form of a player action. This should be used only in reaction to a user action in the interface to prevent race conditions or breaking replay game and tutorial features.
 	 * @param actionURL The relative URL of the action to perform. Usually, it must be: "/<mygame>/<mygame>/myAction.html"
-	 * @param args An array of parameter to send to the game server. Note that "lock: true" must always be specified in this list of parameters in order the interface can be locked during the server call. Cannot use lock: false - to not lock it has to be undefined.
+	 * @param args An array of parameter to send to the game server. Note that `lock` must always be specified and be truthy when calling player actions. Player actions must always be accompanied by a uuid lock parameter else the server will respond with a lock error. NOTE: If you are seeing an error here, it is likely that you are using a reserved args property (e.g. action/module/class). Make sure no player action arguments have these properties.
 	 * @param source (non-optional) The object that triggered the action. This is usually `this`.
 	 * @param onSuccess (non-optional but rarely used) A function to trigger when the server returns result and everything went fine (not used, as all data handling is done via notifications).
 	 * @param callback (optional) A function to trigger when the server returns ok OR error. If no error this function is called with parameter value false. If an error occurred, the first parameter will be set to true, the second will contain the error message sent by the PHP back-end, and the third will contain an error code.
@@ -394,7 +394,13 @@ interface Gamegui {
 	 * 	arg2: myarg2
 	 * }, this, (result) => {} );
 	 */
-	ajaxcall: <T extends keyof PlayerActions>(actionURL: string, args: PlayerActions[T] & { lock: boolean }, source: Gamegui, onSuccess?: Function, callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any, ajax_method?: 'post' | 'get') => void;
+	ajaxcall: <T extends keyof PlayerActions>(
+		actionURL: string,
+		args: PlayerActions[T] & { lock: boolean | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined },
+		source: Gamegui,
+		onSuccess?: Function,
+		callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any,
+		ajax_method?: 'post' | 'get' | 'iframe') => void;
 
 	/**
 	 * Checks if the player can do the specified action by taking into account:
@@ -492,6 +498,8 @@ interface Gamegui {
 	/**
 	 * Shows a message in a big rectangular area on the top of the screen of the current player, and it disappears after few seconds (also it will be in the log in some cases).
 	 * Important: the normal way to inform players about the progression of the game is the game log. The "showMessage" is intrusive and should not be used often.
+	 * 
+	 * Override this method to customize the message display, usually only used for handling specific custom messages.
 	 * @param message The string to display. It should be translated.
 	 * @param type The type of message to display. If set to "info", the message will be an informative message on a white background. If set to "error", the message will be an error message on a red background and it will be added to log. If set to "only_to_log", the message will be added to the game log but will not popup at the top of the screen. If set to custom string, it will be transparent, to use custom type define "head_xxx" in css, where xxx is the type. For example if you want yellow warning, use "warning" as type and add this to css: `.head_warning { background-color: #e6c66e; }`
 	 * @example this.showMessage('This is a message', 'info');
@@ -504,7 +512,16 @@ interface Gamegui {
 	 * 	}
 	 * 	...
 	 * },
-	 */
+	 * @example
+	 * // This is an override example, presented by anewcar on discord.
+	 * showMessage: function (msg, type) {
+	 * 	if (type == "error" && msg && msg.includes("!!!club!!!")) {
+	 * 		msg = msg.replace("!!!club!!!", this.getTokenDiv("club")); 
+	 * 		//return; // suppress red banner and gamelog message
+	 * 	}
+	 * 	this.inherited(arguments);
+	 * },
+	  */
 	showMessage: (message: string, type: 'info' | 'error' | 'only_to_log' | string) => void;
 
 	/**

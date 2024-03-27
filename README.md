@@ -10,6 +10,15 @@ A starting template built with typescript containing:
 - Nearly full typing for all BGA and Dojo components and heavy documentation.
 - Detailed yet simple typechecking using expandable types for game states, player actions, notifications, and gamedatas.
 - Cookbook recipes for common game mechanics and components, pulled from the BGA documentation and other sources.
+- Schema files for all major BGA json files (game options, stats, and game preferences).
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Existing Project](#existing-project)
+- [Usage](#usage)
+- [Cookbook](#cookbook)
+- [JSON Schema Files](#json-schema-files)
 
 ## Getting Started
 
@@ -150,3 +159,30 @@ class YourGameName extends GameguiCookbook {
 Using the common cookbook module is recommended as it contains function that are used in nearly every game, and wrappers for much more concise and type safe code. The two big functions in this module are:
 - `ajaxAction`: Typed `ajaxcallWrapper` method recommended by the BGA wiki. This method removes obsolete parameters, simplifies action url, and auto adds the lock parameter to the args if needed. See JSDocs for more information.
 - `subscribeNotif`: A typed dojo.subscribe wrapper for notifications. See JSDocs for more information.
+
+> Note: Recipes (or modules) with the exception of `common` are user defined and may not be fully tested.
+
+## JSON Schema Files
+
+The `gameoptions.json`, `gamepreferences.json` and `stats.json` files are used to define several game aspects. To add auto completion, error detection, and tooltips to these files, you can use their respective schema files.
+
+For Visual Studio Code, you can copy-paste the following code snippet into your `settings.json` file to enable this feature. *Replace `src` with this folder name if needed*:
+
+```json
+{
+	"json.schemas": [
+		{
+			"fileMatch": [ "gameoptions.json" ],
+			"url": "./src/json-schema/gameoptions.schema.json"
+		},
+		{
+			"fileMatch": [ "gamepreferences.json" ],
+			"url": "./src/json-schema/gamepreferences.schema.json"
+		},
+		{
+			"fileMatch": [ "stats.json" ],
+			"url": "./src/json-schema/stats.schema.json"
+		}
+	],
+}
+```
