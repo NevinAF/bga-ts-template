@@ -6,7 +6,7 @@ interface DojoDependencies {}
 /** @gameSpecific Add game specific states here. See {@link GameStates} for more information. */
 interface GameStates {
 	// [id: number]: string | { name: string, args: object} | any; // Uncomment to remove type safety with ids, names, and arguments for game states
-	2: 'drawSpecialCards';
+	2: 'setupBattlefield';
 	3: 'pickCards';
 	4: 'resolveCards';
 }
@@ -14,53 +14,81 @@ interface GameStates {
 /** @gameSpecific Add game specific player actions / arguments here. See {@link PlayerActions} for more information. */
 interface PlayerActions {
 	// [action: string]: object; // Uncomment to remove type safety on player action names and arguments
-	'pickedCards': { firstCard: number, secondCard: number };
+	'confirmedStanceAndPosition': { isHeavenStance: boolean, position: number };
+	'pickedFirst': { card: number };
+	'pickedSecond': { card: number };
+	'undoFirst': { };
+	'undoSecond': { };
+	'confirmedCards': { };
 }
 
 /** @gameSpecific Add game specific notifications / arguments here. See {@link NotifTypes} for more information. */
 interface NotifTypes {
 	// [name: string]: object; // Uncomment to remove type safety on notification names and arguments
-	'playCards': { state: StateData };
-	'cardsResolved': { state: StateData };
-	'drawSpecialCard': { state: StateData };
-	'cardsPlayed': null;
-	'cardFlipped': { back_card_id: number; card_id: number };
+	'starting special card': { card_name: string } & GameStateData;
+	'battlefield setup': GameStateData;
+	'played card': GameStateData;
+	'undo card': GameStateData;
+	'before first resolve': GameStateData;
+	'before second resolve': GameStateData;
+	'after resolve': GameStateData;
+	'player(s) charged': GameStateData;
+	'player(s) moved': GameStateData;
+	'player(s) changed stance': GameStateData;
+	'player(s) attacked': GameStateData;
+	'player(s) hit': GameStateData & { redScore?: number, blueScore?: number };
+
+	'log': any;
 }
 
 /** @gameSpecific Add game specific gamedatas arguments here. See {@link Gamedatas} for more information. */
-interface Gamedatas {
+interface Gamedatas extends GameStateData {
 	// [key: string | number]: object; // Uncomment to remove type safety on game state arguments
-	redPlayer: number;
-	bluePlayer: number;
-	state: StateData;
 }
 
-interface StateData {
-	cards: {
-		redHand?: number[];
-		blueHand?: number[];
-		redPlayed?: number[];
-		bluePlayed?: number[];
-		redDiscard?: number[];
-		blueDiscard?: number[];
-		deck?: number[];
-	},
-	flippedState: {
-		redPlayed_0_Flipped: number;
-		redPlayed_1_Flipped: number;
-		bluePlayed_0_Flipped: number;
-		bluePlayed_1_Flipped: number;
-	},
-	stances: {
-		red_samurai: number;
-		blue_samurai: number;
-	},
-	positions: {
-		red_samurai: number;
-		blue_samurai: number;
-	},
-	damage: {
-		red_samurai: number;
-		blue_samurai: number;
-	}
+interface GameStateData {
+	battlefield: number;
+	cards: number;
+}
+
+type ValueOf<T> = T[keyof T];
+
+interface Stance
+{
+	HEAVEN: 0;
+	EARTH: 1;
+}
+
+interface PlayedCard
+{
+	NOT_PLAYED: 0;
+	HIDDEN: 9;
+
+	APPROACH: 1;
+	CHARGE: 2;
+	HIGH_STRIKE: 3;
+	LOW_STRIKE: 4;
+	BALANCED_STRIKE: 5;
+	RETREAT: 6;
+	CHANGE_STANCE: 7;
+	SPECIAL: 8;
+}
+
+interface Discarded
+{
+	NONE: 0;
+
+	APPROACH_RETREAT: 1;
+	CHARGE_CHANGE_STANCE: 2;
+	HIGH_STRIKE: 3;
+	LOW_STRIKE: 4;
+	BALANCED_STRIKE: 5;
+}
+
+interface SpecialCard
+{
+	HIDDEN: 0;
+	KESA_STRIKE: 1;
+	ZAN_TETSU_STRIKE: 2;
+	COUNTERATTACK: 3;
 }
