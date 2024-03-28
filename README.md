@@ -48,6 +48,8 @@ bga-project/
 ├── ...
 ```
 
+> Step 2 can be skipped by instead overriding the bga project with `EmptyProjectTS` using option under `Source code version control` in the manage game page. This will ensure the project structure is correct, but this is not recommended. Cloning from the git repository is the best way to ensure that the template is up to date and it provides no benefits other than placing the files in the correct location.
+
 3. Open a terminal on the bga-ts-template. Run `npm run build` to install the necessary dependencies and verify that typescript project is set up correctly.
 	- If you use an IDE like Visual Studio Code, there will likely be a prompt to run any tasks when looking at the `package.json` file. This will automatically run `npm run build` for you at the correct directory.
 
@@ -126,7 +128,7 @@ Unfortunately, there is not a great way to convert the bga template js file to a
 
 6. (optional) Replace the signatures of the five main methods (`setup`, `onEnteringState`, `onLeavingState`, `onUpdateActionButtons`, `setupNotifications`) with the `Gamegui` signatures. This will enable typechecking and intellisense on arguments for these methods.
 
-Before deleting/overriding the old `yourgamename.js` file, you should look at the structure and comments in the file. These provide great documentation for how the typescript project works.
+Before deleting/overriding the old `yourgamename.ts` file, you should look at the structure and comments in the file. These provide great documentation for how the typescript project works.
 
 ## Usage
 
