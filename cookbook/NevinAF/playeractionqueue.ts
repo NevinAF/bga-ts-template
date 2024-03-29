@@ -188,7 +188,7 @@ GameguiCookbook.prototype.filterActionQueue = function(this: GameguiCookbook, fi
 
 	const count = this.actionQueue.length;
 
-	for (let i = 0; i < count; i++)
+	for (let i = count - 1; i >= 0; i--)
 	{
 		const item = this.actionQueue[i];
 		if (item.state === 'inProgress') continue;
@@ -196,7 +196,6 @@ GameguiCookbook.prototype.filterActionQueue = function(this: GameguiCookbook, fi
 
 		item.callback?.(true, 'Action was filtered out', this.actionErrorCodes.FILTERED_OUT);
 		this.actionQueue.splice(i, 1);
-		i--;
 	}
 
 	return count !== this.actionQueue.length
@@ -240,7 +239,6 @@ GameguiCookbook.prototype.asyncPostActions = function (this: GameguiCookbook)
 			item.dependencies?.every((dep) => dep.state === 'complete')
 		) {
 			item.state = 'inProgress';
-
 			this.ajaxcall(
 				`/${this.game_name}/${this.game_name}/${item.action}.html`,
 				// @ts-ignore - Prevents error when no PlayerActions are defined and stating that 'lock' might not be defined.
@@ -249,23 +247,11 @@ GameguiCookbook.prototype.asyncPostActions = function (this: GameguiCookbook)
 				() => { },
 				(error: boolean, errorMessage?: string, errorCode?: number) =>
 				{
+					// Filter this item AND all 'null' dependencies if this item failed.
+					this.actionQueue = this.actionQueue?.filter((a) => a !== item || (a.dependencies === null && error));
+
 					item.state = error ? 'failed' : 'complete';
 					item.callback?.(error, errorMessage, errorCode);
-
-					// Filter this item AND all 'null' dependencies if this item failed.
-					this.actionQueue = this.actionQueue?.filter(x =>
-					{
-						// Make all queued actions with all dependencies (i.e. null) fail and remove them.
-						if (x.state === 'queued' && x.dependencies === null && error) {
-							x.state = 'failed';
-							x.callback?.(true, 'Dependency failed', this.actionErrorCodes.DEPENDENCY_FAILED);
-							return false;
-						}
-
-						// Also remove this item.
-						return x !== item;
-					});
-
 					this.asyncPostActions();
 				}
 			);
