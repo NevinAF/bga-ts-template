@@ -185,7 +185,7 @@ class KiriaiTheDuel extends GameguiCookbook
 		this.setupHandles?.forEach(h => dojo.disconnect(h));
 		delete this.setupHandles;
 
-		let index = 0;
+		let index = 1;
 		while (true) {
 			const element = $('samurai_field_position_' + index);
 			if (element) element.classList.remove('highlight');
@@ -238,7 +238,6 @@ class KiriaiTheDuel extends GameguiCookbook
 
 				this.addActionButton('confirmBattlefieldButton', _('Confirm'), e => {
 					console.log('Confirming selection', e);
-					this.lockTitleWithStatus(_('Sending moves to server...')); // This makes sure that this action button is removed from the queue.
 					this.ajaxAction('confirmedStanceAndPosition', {
 							isHeavenStance: (this.isRedPlayer() ? this.redStance() : this.blueStance()) == 0,
 							position: (this.isRedPlayer() ? this.redPosition() : this.bluePosition())
@@ -263,7 +262,7 @@ class KiriaiTheDuel extends GameguiCookbook
 							return;
 						}
 					}
-					// This makes sure that this action button is removed from the queue.
+					// This makes sure that this action button is removed.
 					this.lockTitleWithStatus(_('Sending moves to server...')); 
 					this.enqueueAjaxAction({
 						action: 'confirmedCards',
@@ -396,23 +395,27 @@ class KiriaiTheDuel extends GameguiCookbook
 		else $('blueHand_5').parentElement.classList.remove('discarded');
 
 		// Set the positions and stance
+		const placeSamurai = (stance: number, position: number, isRed: boolean) => {
+			let rot = stance == 0 ? -45 : 135;
+			let posElement = $('samurai_field_position_' + position);
+			let transform: string;
 
-		let redRot = this.redStance() == 0 ? 'rotate(-45deg)' : 'rotate(135deg)';
-		let blueRot = this.blueStance() == 0 ? 'rotate(-45deg)' : 'rotate(135deg)';
+			if (posElement) {
+				this.placeOnObject((isRed ? 'red' : 'blue') + '_samurai_offset', posElement);
+				if (!this.isRedPlayer())
+					transform = isRed ? 'translate(-95%, -11.5%) ' : 'translate(95%, 11.5%) ';
+				else transform = isRed ? 'translate(95%, 11.5%) scale(-1, -1) ' : 'translate(-95%, -11.5%) scale(-1, -1) ';
+			}
+			else {
+				rot += 45;
+				transform = 'translate(45%, ' + ((this.isRedPlayer() ? isRed : !isRed) ? "" : "-") + '75%) ';
+			}
 
-		if (!this.isRedPlayer()) {
-			$('red_samurai').style.transform = 'translate(-95%, -11.5%) ' + redRot;
-			$('blue_samurai').style.transform = 'translate(95%, 11.5%) ' + blueRot;
-		} else {
-			$('red_samurai').style.transform = 'translate(95%, 11.5%) scale(-1, -1) ' + redRot;
-			$('blue_samurai').style.transform = 'translate(-95%, -11.5%) scale(-1, -1) ' + blueRot;
+			$((isRed ? 'red' : 'blue') + '_samurai').style.transform = transform + 'rotate(' + rot + 'deg)';
 		}
 
-		if ($('red_samurai_field_position_' + this.redPosition()))
-			this.placeOnObject('red_samurai_offset', 'red_samurai_field_position_' + this.redPosition());
-		if ($('blue_samurai_field_position_' + this.bluePosition()))
-			this.placeOnObject('blue_samurai_offset', 'blue_samurai_field_position_' + this.bluePosition());
-
+		placeSamurai(this.redStance(), this.redPosition(), true);
+		placeSamurai(this.blueStance(), this.bluePosition(), false);
 
 		let redSprite = !this.redHit() ? 0 : 2;
 		let blueSprite = !this.blueHit() ? 1 : 3;
@@ -479,6 +482,12 @@ class KiriaiTheDuel extends GameguiCookbook
 	onHandCardClick = ( evt: MouseEvent, index: number ) =>
 	{
 		evt.preventDefault();
+
+		// This should be good enough to check all actions.
+		if (!this.checkAction('pickedFirst', true)) {
+			console.log('Not your turn!');
+			return;
+		}
 
 		if (this.actionQueue?.some(a => a.action === 'confirmedCards' && a.state === 'inProgress')) {
 			console.log('Already confirmed cards! There is no backing out now!');
