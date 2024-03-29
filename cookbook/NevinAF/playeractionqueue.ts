@@ -239,6 +239,7 @@ GameguiCookbook.prototype.asyncPostActions = function (this: GameguiCookbook)
 			item.dependencies?.every((dep) => dep.state === 'complete')
 		) {
 			item.state = 'inProgress';
+
 			this.ajaxcall(
 				`/${this.game_name}/${this.game_name}/${item.action}.html`,
 				// @ts-ignore - Prevents error when no PlayerActions are defined and stating that 'lock' might not be defined.
@@ -247,11 +248,23 @@ GameguiCookbook.prototype.asyncPostActions = function (this: GameguiCookbook)
 				() => { },
 				(error: boolean, errorMessage?: string, errorCode?: number) =>
 				{
-					// Filter this item AND all 'null' dependencies if this item failed.
-					this.actionQueue = this.actionQueue?.filter((a) => a !== item || (a.dependencies === null && error));
-
 					item.state = error ? 'failed' : 'complete';
 					item.callback?.(error, errorMessage, errorCode);
+
+					// Filter this item AND all 'null' dependencies if this item failed.
+					this.actionQueue = this.actionQueue?.filter(x =>
+					{
+						// Make all queued actions with all dependencies (i.e. null) fail and remove them.
+						if (x.state === 'queued' && x.dependencies === null && error) {
+							x.state = 'failed';
+							x.callback?.(true, 'Dependency failed', this.actionErrorCodes.DEPENDENCY_FAILED);
+							return false;
+						}
+
+						// Also remove this
+						return x !== item;
+					});
+
 					this.asyncPostActions();
 				}
 			);
