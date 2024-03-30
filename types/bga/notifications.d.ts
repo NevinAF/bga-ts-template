@@ -72,7 +72,7 @@ interface NotifTypes
 	"chat": ChatNotifArgs;
 	"groupchat": ChatNotifArgs & { gamesession?: string; gamesessionadmin?: string, group_id: number };
 	"chatmessage": ChatNotifArgs;
-	"tablecaht": ChatNotifArgs;
+	"tablechat": ChatNotifArgs;
 	"privatechat": ChatNotifArgs & { target_id: number };
 	"stopWriting": ChatNotifArgs;
 	"startWriting": ChatNotifArgs;
@@ -80,7 +80,12 @@ interface NotifTypes
 	"history_history": { is_new?: boolean, mread?: boolean | null };
 }
 
-type AnyNotifArgs = AnyOf<Omit<NotifTypes[keyof NotifTypes], 'id'>> & { id?: number | string };
+/**
+ * A loosely typed structure that represents all possible arguments for a notification. This is an intersection of all possible arguments, which prevents the need to cast the args to a specific type. Use {@link NotifAs} or {@link NotifFrom} to represent a specific notification type(s).
+ * 
+ * Because this is one big intersection, it can suffer from a {@link https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-9.html#intersections-reduced-by-discriminant-properties | intersections reduced by discriminant properties} issue. If this is the case, you should either change argument properties so they don't share names with differing types (T1 & T2 == never), or add them here as an omitted type, and manually intersect like with 'id' below.
+ */
+type AnyNotifArgs = AnyOf<Omit<NotifTypes[keyof NotifTypes], 'id'>> & { id: number | string };
 
 /** A loosely typed structure that represents the data of a network message. This is used to represent any notification type, where the args is an intersection of all possible args. */
 interface Notif
@@ -110,9 +115,9 @@ interface Notif
 	/** Unknown. Probably something to do with synchronizing notifications. */
 	synchro: number;
 
-	/** ID of the move associated with the notification. */
+	/** ID of the move associated with the notification, if any. */
 	move_id?: string;
-	/** ID of the table (comes as string). */
+	/** ID of the table (comes as string), if any. */
 	table_id?: string;
 }
 
@@ -145,14 +150,13 @@ interface Notif
  * // Notif example where .args = { } and .type = 'ex0', 'ex1', or 'ex2'
  * type JoinNotif = Notif<{ card: number } | 'ex2'>;
  */
-type CompileError<Msg extends string> = never & { [K in Msg]: never };
-
 type NotifFrom<T extends NotifTypes[NotNullableKeys<NotifTypes>] | keyof NotifTypes> = (
 	T extends null ? { type: NullableKeys<NotifTypes>, args: null } :
 	T extends NotNullableKeys<NotifTypes> ? { type: KeysWithType<ExcludeNull<NotifTypes>, NotifTypes[T]>, args: NotifTypes[T] } :
 	T extends keyof NotifTypes ? { type: NullableKeys<NotifTypes>, args: null } :
 	{ type: KeysWithType<ExcludeNull<NotifTypes>, T>, args: T }
 ) & Omit<Notif, 'args' | 'type'>;
+
 /**
  * A typed Notif. This is used to represent a set of specific notification types.
  * 
@@ -174,20 +178,33 @@ type NotifFrom<T extends NotifTypes[NotNullableKeys<NotifTypes>] | keyof NotifTy
  * // Notif example where .args = { message: string } and .type = 'ex2'
  * type MessageNotif = NotifAs<'ex2'>;
  * 
- * // Notif examples where .args = { card: number } and .type = 'ex0' | 'ex1'
+ * // Notif examples where .args = { card: number } and .type = never
  * type CardNotif = NotifAs<'ex0' | 'ex1'>;
+ * 
+ * // Notif examples where .args = { card: number, color: number } and .type = 'ex0' | 'ex1'
+ * type CardNotif = NotifAs<'ex0'> & NotifAs<'ex1'>;
  */
 type NotifAs<T extends keyof NotifTypes> = {
-	type: T;
+	type: AnyOf<T>;
 	args: NotifTypes[T];
 } & Omit<Notif, 'args' | 'type'>;
 
-interface Notifs
+/**
+ * Internal. A group of notifications which are sent to the client. This is almost always a network message of several notifications.
+ * 
+ * Partial: This has been partially typed based on a subset of the BGA source code.
+ */
+interface NotifsPacket
 {
+	/** The type of the packet which is used for determining how these notif should be dispatched (mainly timing). */
 	packet_type: 'single' | 'sequence' | 'resend' | 'history';
+	/** The notifications that are sent to the client. */
 	data: Notif[];
-	channel: `/${'table' | 'player' | 'chat'}/${string}`;
+	/** The channel that this notification targets. */
+	channel: `/${'table' | 'player' | 'chat' | 'general' | 'group'}/${string}`;
 
+	/** The unique id of the move that these notifications represent. Note that when receiving a new notifs packet, this is immediately copied to each notif entry in {@link data}. */
 	move_id?: string;
+	/** The unique id of the table that these notifications represent. Note that when receiving a new notifs packet, this is immediately copied to each notif entry in {@link data}. */
 	table_id?: string;
 }

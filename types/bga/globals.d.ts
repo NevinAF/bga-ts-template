@@ -49,3 +49,8 @@ declare const g_tutorialwritten: {
  * }
  */
 declare const g_gamethemeurl: string;
+
+/**
+ * The main site object that is currently running. This is the same as the current {@link Gamegui} object when on a game page.
+ */
+declare const g_sitecore: Sitecore;
