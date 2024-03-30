@@ -7,7 +7,6 @@
  * /// <reference path="yourgamename_actions.d.ts" />
 */
 /// <reference path="yourgamename.d.ts" />
-
 /**
  * Creates an alias for your game name. Not necessary but helps for clarity.
  * In addition, this lets you create a pseudo partial class using interfaces and prototype overriding. See below or {@link GameguiCookbook} for more information.
@@ -194,14 +193,13 @@ class YourGameName
 	Example:
 	
 	// The argument here should be one of there things:
-	// - `AnyNotif`: A notification with all possible arguments defined by the NotifTypes interface. See {@link AnyNotif}.
-	// - `Notif<NotifTypes['cardPlayed']>`: A notification with the arguments defined by the 'cardPlayed' notification type. See {@link Notif}.
-	// - `Notif<{ arg1: any, arg2: any... }>`: A notification with explicit arguments, which should match one of the argument types defined in the NotifTypes interface. See {@link Notif}.
-	notif_cardPlayed( notif: AnyNotif )
+	// - `Notif`: A notification with all possible arguments defined by the NotifTypes interface. See {@link Notif}.
+	// - `NotifFrom<'cardPlayed'>`: A notification matching any other notification with the same arguments as 'cardPlayed' (A type can be used here instead). See {@link NotifFrom}.
+	// - `NotifAs<'cardPlayed'>`: A notification that is explicitly a 'cardPlayed' Notif. See {@link NotifAs}.
+	notif_cardPlayed( notif: NotifFrom<'cardPlayed'> )
 	{
 		console.log( 'notif_cardPlayed', notif );
 		// Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
 	}
-	
 	*/
 }

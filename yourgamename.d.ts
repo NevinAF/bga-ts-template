@@ -11,15 +11,15 @@ interface GameStates {
 
 /** @gameSpecific Add game specific player actions / arguments here. See {@link PlayerActions} for more information. */
 interface PlayerActions {
-	// [action: string]: object; // Uncomment to remove type safety on player action names and arguments
+	// [action: string]: Record<keyof any, any>; // Uncomment to remove type safety on player action names and arguments
 }
 
 /** @gameSpecific Add game specific notifications / arguments here. See {@link NotifTypes} for more information. */
 interface NotifTypes {
-	// [name: string]: object; // Uncomment to remove type safety on notification names and arguments
+	// [name: string]: any; // Uncomment to remove type safety on notification names and arguments
 }
 
 /** @gameSpecific Add game specific gamedatas arguments here. See {@link Gamedatas} for more information. */
 interface Gamedatas {
-	// [key: string | number]: object; // Uncomment to remove type safety on game state arguments
+	// [key: string | number]: Record<keyof any, any>; // Uncomment to remove type safety on game state arguments
 }

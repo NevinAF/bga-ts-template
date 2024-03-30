@@ -39,7 +39,7 @@ interface GameguiCookbook
 	 * // With defined argument type
 	 * notif_cardPlayed(notif: Notif<NotifTypes['cardPlayed']>) { ... }
 	 */
-	subscribeNotif<T extends keyof NotifTypes>(event: T, callback: (notif: Notif<NotifTypes[T]>) => any): dojo.Handle;
+	subscribeNotif<T extends keyof NotifTypes>(event: T, callback: (notif: NotifFrom<NotifTypes[T]>) => any): dojo.Handle;
 
 	/**
 	 * This method can be used instead of addActionButton, to add a button which is an image (i.e. resource). Can be useful when player
@@ -147,7 +147,7 @@ GameguiCookbook.prototype.ajaxAction = function<T extends keyof PlayerActions>(t
 	return true;
 }
 
-GameguiCookbook.prototype.subscribeNotif = function<T extends keyof NotifTypes>(this: GameguiCookbook, event: T, callback: (notif: Notif<NotifTypes[T]>) => any): dojo.Handle
+GameguiCookbook.prototype.subscribeNotif = function<T extends keyof NotifTypes>(event: T, callback: (notif: NotifFrom<NotifTypes[T]>) => any): dojo.Handle
 {
 	return dojo.subscribe(event, this, callback);
 }

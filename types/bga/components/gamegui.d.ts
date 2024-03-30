@@ -36,6 +36,9 @@ interface Gamegui {
 	/** The name of the game currently being played. */
 	game_name: string;
 
+	/** The id for the current games table. */
+	table_id: string;
+
 	/** The component used for modifying how notifications are synchronized/sequenced or if they should be filtered/ignored. */
 	notifqueue: GameNotif;
 
@@ -139,7 +142,9 @@ interface Gamegui {
 	onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
 
 	/**
-	 * This method associates notifications with notification handlers. For each game notification, you can trigger a javascript method to handle it and update the game interface. This method should be manually invoked during the `setup` function. This method technically should not be included on the base class as it should never be called outside of the game class.
+	 * This method associates notifications with notification handlers. For each game notification, you can trigger a javascript method to handle it and update the game interface. This method should be manually invoked during the `setup` function.
+	 * 
+	 * This method is overridden as need by the framework to prevent oddities in specific situation, like when viewing the game in {@link g_archive_mode}.
 	 * @example
 	 * setupNotifications()
 	 * {
