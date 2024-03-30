@@ -59,9 +59,7 @@ interface GameNotif {
 
 	/** Internal. Contains all notifications received that have not yet been dispatched, excluding all player moves which are held until a table move with the same move id is sent. */
 	queue: [];
-	/** Internal. Counter representing the id of the next log statement. This is used to create a unique DOM id for callback events when expanding log statements. */
-	next_log_id: number;
-	/** Internal. The reference to the game that manages this. Usually this is for validation, filtering (like players), or checking if the game is in {@link Gamegui.instantaneousMode}. */
+	/** Internal. The reference to the game that manages this. Usually this is for validation, filtering (like players), or checking if the game is in {@link BGACore.instantaneousMode}. */
 	game: Gamegui;
 	/** Internal. Ordered list of hex uids for notifications that have been dispatched. This is automatically truncated to the last 50 dispatched notifications. */
 	dispatchedNotificationUids: string[];
@@ -83,6 +81,8 @@ interface GameNotif {
 	onPlaceLogOnChannel: (chatnotif: NotifFrom<ChatNotifArgs | 'newRTCMode'>) => void;
 	/** Internal. The last time that {@link addToLog} was called with valid parameters. */
 	lastMsgTime: number;
+	/** Internal. */
+	cometd_service: any | null;
 
 	/** Internal. Handles getting a new packet of notifications. */
 	onNotification: (notifs_or_json: NotifsPacket | string) => void;

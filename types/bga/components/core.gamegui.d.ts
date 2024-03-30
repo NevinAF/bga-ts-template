@@ -31,16 +31,102 @@
  * 	this.myGlobalValue = 0;
  * }
  */
-interface Gamegui {
+interface Gamegui extends Sitecore {
 
-	/** The name of the game currently being played. */
+	/** The name of the game currently being played. This will always be the lowercase and spaceless version: 'yourgamename'. */
 	game_name: string;
+	/** The human readable name which should be displayed to the user. (Looks like it is already translated, but could wrong) */
+	game_name_displayed: string;
 
-	/** The id for the current games table. */
-	table_id: string;
+	/**
+	 * The data from the server that is used to initialize the game client. This is the same as `gamedatas` in the `setup` method and is untouched after the `setup` method is called.
+	 * 
+	 * This is null only when accessing from within the constructor.
+	 * @example
+	 * for (var player_id in this.gamedatas.players) { 
+	 * 	var playerInfo = this.gamedatas.players [player_id];
+	 * 	var c = playerInfo.color;
+	 * 	var name = playerInfo.name;
+	 * 	// do something 
+	 * }
+	 */
+	gamedatas: Gamedatas /* | null */;
+	/** The channel for this game's table. This will always match `table/t${table_id}` where number is the id of the table. This is null only when accessing from within the constructor. */
+	channel: `table/t${number}` /* | null */;
+	/** The channel for the current player. This will always match `player/p${private_channel_id}`. This is null only when accessing from within the constructor. */
+	privatechannel: `/player/p${number}` /* | null */;
+	/** The channel for this game's table spectators. This will always match `table/ts${table_id}` where number is the id of the table. This is null only when accessing from within the constructor. */
+	tablechannelSpectators: `table/ts${number}` /* | null */;
+	/**
+	 * The id of the player using the current client. The player may not be playing the game, but instead a spectator! This is null only when accessing from within the constructor.
+	 * @example if (notif.args.player_id == this.player_id) { ... }
+	 */
+	player_id: number /* | null */;
+	/** The id for the current game's table. This is null only when accessing from within the constructor. */
+	table_id: number /* | null */;
+	/** The name of this player using this game client. */
+	current_player_name: string;
 
-	/** The component used for modifying how notifications are synchronized/sequenced or if they should be filtered/ignored. */
-	notifqueue: GameNotif;
+	/** Unmodified clone of the gamedatas gamestate. See {@link restoreServerGameState} for more information. This is null only when accessing from within the constructor. */
+	last_server_state: CurrentStateArgs /* | null */;
+	/** Boolean indicating that the current game state is a client state, i.e. we have called {@link setClientState} and have not yet sent anything to the server. */
+	on_client_state: boolean;
+	/**
+	 * If the current player is a spectator. Note: If you want to hide an element from spectators, you should use CSS 'spectatorMode' class.
+	 * @example
+	 * if (this.isSpectator) {
+	 * 	this.player_color = 'ffffff';
+	 * } else {
+	 * 	this.player_color = gamedatas.players[this.player_id].color;
+	 * }
+	 */
+	isSpectator: boolean;
+	/** How the log is currently layed out within the DOM. */
+	log_mode: 'normal' | '2cols';
+	/** The current status, almost entirely used for managing the interface lock. */
+	interface_status: 'updated' | 'outgoing' | 'recorded' | 'queued' | 'dispatched';
+	/** If the interface lock should lock the table or the player. */
+	interface_locking_type: null | 'table' | 'player';
+	/** True if an element with the id 'notifwindow_beacon' exits. Used for game setup. */
+	isNotifWindow: boolean;
+	/** When not null, this is a counter used to blink the current active player based on the 'wouldlikethink_button'. */
+	lastWouldLikeThinkBlinking: number | null;
+	/** Buy Link Id. The url for the buy link. */
+	blinkid: string;
+	/** The human readable target for the {@link blinkid}. */
+	blinkdomain: string;
+	/** Boolean for if this game is currently in developermode. This is the game as checking if element id 'debug_output' exists. */
+	developermode: boolean;
+	/** If true, this is a sandbox game. Sandbox games are mostly non-scripted and act like a table top simulator rather than a traditional BGA game. */
+	is_sandbox: boolean;
+
+	/** The base id for all game preferences. */
+	GAMEPREFERENCE_DISPLAYTOOLTIPS: 200;
+
+	/**
+	 * A record of {@link Counter} objects which show on the built-in player cards. The record key is the player id. This is initialized by the framework but manually needs to be updated when a player's score changes.
+	 * 
+	 * These counters will always have the id `player_score_` + player_id.
+	 * @example
+	 * // Increase a player score (with a positive or negative number).
+	 * this.scoreCtrl[ player_id ].incValue( score_delta );
+	 * @example
+	 * // Set a player score to a specific value:
+	 * this.scoreCtrl[ player_id ].setValue( new_score );
+	 * @example
+	 * // Set a player score to a specific value with animation:
+	 * this.scoreCtrl[ player_id ].toValue( new_score );
+	 * @example
+	 * // Typical usage would be (that will process 'score' notification):
+	 * setupNotifications : function() {
+	 * 	...
+	 * 	dojo.subscribe('score', this, "notif_score");
+	 * },
+	 * notif_score: function(notif) {
+	 * 	this.scoreCtrl[notif.args.player_id].setValue(notif.args.player_score);
+	 * },
+	 */
+	scoreCtrl: { [player_id: number]: Counter };
 
 	//#region Core Functions
 
@@ -163,35 +249,6 @@ interface Gamegui {
 	//#endregion
 
 	//#region Player Information
-
-	/**
-	 * The id of the player using the current client. The player may not be playing the game, but instead a spectator!
-	 * @example if (notif.args.player_id == this.player_id) { ... }
-	 */
-	player_id: number;
-
-	/**
-	 * If the current player is a spectator. Note: If you want to hide an element from spectators, you should use CSS 'spectatorMode' class.
-	 * @example
-	 * if (this.isSpectator) {
-	 * 	this.player_color = 'ffffff';
-	 * } else {
-	 * 	this.player_color = gamedatas.players[this.player_id].color;
-	 * }
-	 */
-	isSpectator: boolean;
-
-	/**
-	 * The data from the server that is used to initialize the game client. This is the same as `gamedatas` in the `setup` method and is untouched after the `setup` method is called.
-	 * @example
-	 * for (var player_id in this.gamedatas.players) { 
-	 * 	var playerInfo = this.gamedatas.players [player_id];
-	 * 	var c = playerInfo.color;
-	 * 	var name = playerInfo.name;
-	 * 	// do something 
-	 * }
-	 */
-	gamedatas: Gamedatas;
 
 	/**
 	 * Returns true if the player on whose browser the code is running is currently active (it's his turn to play). Note: see remarks above about usage of this function inside onEnteringState method.
@@ -385,27 +442,7 @@ interface Gamegui {
 
 	//#region Player Actions
 
-	/**
-	 * Sends a client side notification to the server in the form of a player action. This should be used only in reaction to a user action in the interface to prevent race conditions or breaking replay game and tutorial features.
-	 * @param actionURL The relative URL of the action to perform. Usually, it must be: "/<mygame>/<mygame>/myAction.html"
-	 * @param args An array of parameter to send to the game server. Note that `lock` must always be specified and be truthy when calling player actions. Player actions must always be accompanied by a uuid lock parameter else the server will respond with a lock error. NOTE: If you are seeing an error here, it is likely that you are using a reserved args property (e.g. action/module/class). Make sure no player action arguments have these properties.
-	 * @param source (non-optional) The object that triggered the action. This is usually `this`.
-	 * @param onSuccess (non-optional but rarely used) A function to trigger when the server returns result and everything went fine (not used, as all data handling is done via notifications).
-	 * @param callback (optional) A function to trigger when the server returns ok OR error. If no error this function is called with parameter value false. If an error occurred, the first parameter will be set to true, the second will contain the error message sent by the PHP back-end, and the third will contain an error code.
-	 * @param ajax_method (optional and rarely used) If you need to send large amounts of data (over 2048 bytes), you can set this parameter to 'post' (all lower-case) to send a POST request as opposed to the default GET. This works, but was not officially documented, so only use if you really need to.
-	 * @example
-	 * this.ajaxcall( '/mygame/mygame/myaction.html', { lock: true,
-	 * 	arg1: myarg1,
-	 * 	arg2: myarg2
-	 * }, this, (result) => {} );
-	 */
-	ajaxcall: <T extends keyof PlayerActions>(
-		actionURL: string,
-		args: PlayerActions[T] & { lock: boolean | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined },
-		source: Gamegui,
-		onSuccess?: Function,
-		callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any,
-		ajax_method?: 'post' | 'get' | 'iframe') => void;
+	
 
 	/**
 	 * Checks if the player can do the specified action by taking into account:
@@ -685,29 +722,6 @@ interface Gamegui {
 	//#region Player Panel and Score Counters
 
 	/**
-	 * A dictionary of {@link Counter} objects which show on the built-in player cards. The dictionary key is the player id. This is initialized by the framework but manually needs to be updated when a player's score changes.
-	 * @example
-	 * // Increase a player score (with a positive or negative number).
-	 * this.scoreCtrl[ player_id ].incValue( score_delta );
-	 * @example
-	 * // Set a player score to a specific value:
-	 * this.scoreCtrl[ player_id ].setValue( new_score );
-	 * @example
-	 * // Set a player score to a specific value with animation:
-	 * this.scoreCtrl[ player_id ].toValue( new_score );
-	 * @example
-	 * // Typical usage would be (that will process 'score' notification):
-	 * setupNotifications : function() {
-	 * 	...
-	 * 	dojo.subscribe('score', this, "notif_score");
-	 * },
-	 * notif_score: function(notif) {
-	 * 	this.scoreCtrl[notif.args.player_id].setValue(notif.args.player_score);
-	 * },
-	 */
-	scoreCtrl: { [key: number]: Counter };
-
-	/**
 	 * Disables the player panel for a given player. Usually, this is used to signal that this player passes, or will be inactive during a while. Note that the only effect of this is visual. There are no consequences on the behaviour of the panel itself.
 	 * @param player_id The id of the player to disable the panel for.
 	 */
@@ -812,9 +826,6 @@ interface Gamegui {
 	/** If you are in client state it will restore the current server state (cheap undo). */
 	restoreServerGameState: () => void;
 
-	/** Boolean indicating that we are in client state, i.e. we have called {@link setClientState} and have not yet sent anything to the server. */
-	on_client_state: boolean;
-
 	//#endregion
 
 	//#region Environment State and Callbacks
@@ -825,9 +836,6 @@ interface Gamegui {
 	/** True if the game is in realtime. Note that having a distinct behavior in realtime and turn-based should be exceptional. */
 	bRealtime: boolean;
 
-	/** True during replay/archive mode if animations should be skipped. Only needed if you are doing custom animations. (The BGA-provided animation functions like this.slideToObject() automatically handle instantaneous mode.) */
-	instantaneousMode: boolean;
-
 	/** Returns "studio" for studio and "prod" for production environment (i.e. where games current runs). Only useful for debbugging hooks. Note: alpha server is also "prod" */
 	getBgaEnvironment: () => 'studio' | 'prod';
 
@@ -836,6 +844,137 @@ interface Gamegui {
 
 	/** Not officially documented! Gets the html element for the replay log. */
 	getReplayLogNode: () => HTMLElement | null;
+
+	//#endregion
+
+	//#region Internal
+
+	/** Internal. @deprecated Use {@link CurrentStateArgs.reflexion | this.gamedatas.gamestate.reflexion} */
+	currentPlayerReflexionTime: { positive: boolean, mn: number, s: number };
+	/** Internal. @deprecated Use {@link CurrentStateArgs.reflexion | this.gamedatas.gamestate.reflexion} */
+	activePlayerReflexionTime: { positive: boolean, mn: number, s: number };
+	/** Internal. The `setTimeout` used for updating the reflexion time. This is called every 100ms whenever a timer is running. */
+	clock_timeout: number | null;
+	/** Internal. @deprecated This has been joined with {@link clock_timeout}. */
+	clock_opponent_timeout: null;
+	/** Internal. Timout for automatically calling {@link sendWakeUpSignal}. See {@link sendWakeupInTenSeconds} for more information. */
+	wakeup_timeout: number | null;
+	/** Internal. @deprecated This is not used within the main code file anymore. */
+	wakupchek_timeout: null;
+	/** Internal. This is the user id that is appended as a ajax argument to replay from messages. */
+	forceTestUser: number | null;
+	/** Internal. When about to switch to a private game state, this will be populated with the arguments for that state. Next time the game state is changed, this will be consumed. */
+	next_private_args: any | null;
+	/** Internal. Counter for the index of archived log messages. Used to populating notifications that have passed any don't need to be processed like normal. */
+	next_archive_index: number;
+	/** Internal. When in archive mode, this is used to manage the state of the archive playback. */
+	archive_playmode: 'stop' | 'goto' | 'nextlog' | 'nextturn' | 'play' | 'nextcomment';
+	/** Internal. The move id that should be used when starting archive playback. */
+	archive_gotomove: number;
+	/** Internal. The previous active player, use for updating the archive playback correctly. */
+	archive_previous_player: number /* | null */;
+	/** Internal. Special UID counter used for archive messages. */
+	archive_uuid: number;
+	/** Internal. Used to manage archive comments. */
+	archiveCommentNew: dijit.TooltipDialog | null;
+	/** Internal. Used to manage archive comments. */
+	archiveCommentNewAnchor: string | "archivecontrol_editmode_centercomment" | "page-title"
+	/** Internal. Used to manage archive comments. */
+	archiveCommentNo: number;
+	/** Internal. Used to manage archive comments. */
+	archiveCommentNbrFromStart: number;
+	/** Internal. Used to manage archive comments. */
+	archiveCommentLastDisplayedNo: number;
+	/** Internal. Used to manage archive comments. */
+	archiveCommentLastDisplayedId: number;
+	/** Internal. Used to manage archive comments. */
+	archiveCommentMobile: { id: number, anchor: string | "archivecontrol_editmode_centercomment" | "page-title", bCenter: boolean, lastX: number, lastY: number };
+	/** Internal. Used to manage archive comments. */
+	archiveCommentPosition: ["below", "above", "after", "before"];
+	/** Internal. Used to manage archive comments. */
+	bJumpToNextArchiveOnUnlock: boolean;
+	/** Internal. Used to manage archive comments. */
+	archiveCommentAlreadyDisplayed: Record<string, boolean>;
+	/** Internal. Used to manage tutorial elements. */
+	tuto_pointers_types_nbr: 20;
+	/** Internal. Used to manage tutorial elements. */
+	tuto_textarea_maxlength: 400;
+	/** Internal. The chat component for the table. */
+	tablechat: ChatInput /* | null */;
+	/** Internal. Represents if a video/audio chat is in progress */
+	mediaChatRating?: boolean;
+	/** Internal. Used to pass video/audio chat between links. */
+	mediaRatingParams: string;
+	/** Internal. @deprecated This is not used within the main code file anymore. */
+	quitDlg: null;
+	/** Internal. Random like number representing the index of the inactiveplayermessage. This may be deprecated? */
+	nextPubbanner: null | number;
+	/** Internal. If not null, then the interface is locked and this represent the id of the lock. The interface can only be unlocked by this same id. See {@link isInterfaceLocked}, {@link isInterfaceUnlocked}, {@link unlockInterface}, {@link lockInterface}. */
+	interface_locked_by_id: number | null;
+	/** Internal. @deprecated This is not used within the main code file anymore. I believe this was replaced by ajax calls and the newer way to check preferences. */
+	gamepreferences_control: {};
+	/** Internal. The last notification containing the spectator list. This is used when re-updating the list. */
+	last_visitorlist: NotifTypes['updateSpectatorList'] | null;
+	/** Internal. The js template for player tooltips. Note that this is left as a string literal for convenience but may have been changed. */
+	jstpl_player_tooltip: '<div class="active_player_iconinfos"><div class="emblemwrap_xxl"><img class="emblem" src="${avatarurl}"></img></div><div class="active_player_small_infos_block"><p><div class="bga-flag" data-country="${flag}" id="flag_${player_id}"></div> ${country} ${city}</p><p><div class="fa fa-comment-o languages_spoken" id="ttspeak_${player_id}"></div> <span id="speak_${player_id}">${languages}</span></p><p><div class="fa ${genderclass}" id="gender_${player_id}"></div></p> </div><div id="reputationbar_${player_id}" class="progressbar progressbar_reputation reputation_${karma_class}" style="display:${progressbardisplay}"><div class="progressbar_label"><span class="symbol">☯</span><span class="value">${karma}%</span></div><div class="progressbar_bar"><span class="progressbar_valuename">${karma_label}</span><div class="progressbar_content" style="width:${karma}%"><span class="progressbar_valuename">${karma_label}</span></div></div></div></div>';
+	/** Internal. This is not set anywhere in the source code, but looks like it should be a playerlocation component. */
+	playerlocation: null;
+	/** Internal. A record for looking up replay points. When the user click on a replay button, this is used to find the id to replay from. */
+	log_to_move_id: Record<string, number>;
+	/** Internal. A record of tutorial dialogs. This is used for managing dialogs by id rather than reference. */
+	tutorialItem: Record<string, dijit.Dialog>;
+	/** Internal. True if this was previously the current active player. Updated whenever a notification packet is successfully dispatched. */
+	current_player_was_active: boolean;
+	/** Internal. Represents if this game client is *visually* the active player. This is only updated after {@link updateActivePlayerAnimation}. */
+	current_player_is_active: boolean;
+	/** Internal. Used for managing the opponent mouse state when we should show their cursor. */
+	showOpponentCursorMouveOver: dojo.Handle | null;
+	/** Internal. Used for managing the opponent mouse state when we should show their cursor. */
+	showOpponentCursorClickHook: dojo.Handle | null;
+	/** Internal. Used for managing the opponent mouse state when we should show their cursor. */
+	showOpponentCursorClickCounter: number;
+	/** Internal. Used for managing the opponent mouse state when we should show their cursor. */
+	showOpponentCursorClickCooldown: number;
+	/** Internal. Used for managing the opponent mouse state when we should show their cursor. */
+	showOpponentCursorClickNumberSinceCooldown: number;
+	/** Internal. Used for managing the opponent mouse state when we should show their cursor. */
+	showOpponentCursorTimeout: number | null;
+	/** Internal. Used purely for {@link registerEbgControl} and {@link destroyAllEbgControls}. */
+	ebgControls: { destroy?: () => any }[];
+	/** Internal. @deprecated This is not used within the main code file anymore. */
+	bThisGameSupportFastReplay: boolean;
+	/** Internal. Record for the loading status for an image url, where false is not loaded and true is loaded. */
+	images_loading_status: Record<string, boolean>;
+	/** Internal. Used for presentation when resynchronizing notifications (re-downloading). */
+	log_history_loading_status: { downloaded: number, total: number, loaded: number };
+	/** Internal. The js template for player ranking. Note that this is left as a string literal for convenience but may have been changed. */
+	jstpl_player_ranking: '<div class="player_in_list player_in_list_withbaseline player_in_list_fullwidth player_in_list_rank ${add_class}">                    <div class="rank">${rank}</div>                    <div class="emblemwrap ${premium}">                        <img class="pl_avatar emblem" src="${avatar}"/>                        <div class="emblempremium"></div>                        <i class="fa fa-${device} playerstatus status_${status}"></i>                    </div>                    <a href="/player?id=${id}" class="playername">${name}</a>                    <div class="player_baseline"><div class="bga-flag" data-country="${flag}" id="flag_${id}" style="display:${flagdisplay}"></div></div>                    <div class="ranking ${additional_ranking}">${ranking}</div>                </div>';
+	/** Internal. The js template for a hotseat player. Note that this is left as a string literal for convenience but may have been changed. */
+	jstpl_hotseat_interface: '<iframe src="${url}" frameborder="0"  class="hotseat_iframe" id="hotseat_iframe_${player_id}"></iframe>';
+	/** Internal. Automatic zoom factor applied to displays. This is usually used to scale down elements on smaller displays, like mobile. 1 == 100% normal scale. */
+	gameinterface_zoomFactor: number;
+	/** Internal. When the 3d view is enabled, this represents the camera state. See {@link control3dmode3d} and {@link init3d}. */
+	control3dxaxis: number;
+	/** Internal. When the 3d view is enabled, this represents the camera state. See {@link control3dmode3d} and {@link init3d}. */
+	control3dzaxis: number;
+	/** Internal. When the 3d view is enabled, this represents the camera state. See {@link control3dmode3d} and {@link init3d}. */
+	control3dxpos: number;
+	/** Internal. When the 3d view is enabled, this represents the camera state. See {@link control3dmode3d} and {@link init3d}. */
+	control3dypos: number
+	/** Internal. When the 3d view is enabled, this represents the camera state. See {@link control3dmode3d} and {@link init3d}. */
+	control3dscale: number;
+	/** Internal. If 3d controls are enabled. See {@link init3d}. */
+	control3dmode3d: boolean;
+	/** Internal. The cometd_service to be used with the gamenotif. See {@link GameNotif.cometd_service} for more information. */
+	cometd_service: any | null;
+	/** Internal. The socket used for this game. This looks like a Socket.IO type, but not work npm this type that will never be used in a game. */
+	socket: { on: (event: string, callback: Function) => void };
+	/** Internal. This looks like a Socket.IO type, but not work npm this type that will never be used in a game. */
+	gs_socket: { on: (event: string, callback: Function) => void };
+	/** Internal. */
+	gs_socketio_url: string;
+	/** Internal. */
+	gs_socketio_path: string;
 
 	//#endregion
 }

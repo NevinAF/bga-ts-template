@@ -15,7 +15,7 @@ interface DeckItem {
 	type_arg: number;
 }
 
-/** TODO */
+/** Partial: This has been partially typed based on a subset of the BGA source code. */
 interface PlayerMetadata {
 	is_premium: boolean;
 	/** 0 = Female, 1 == Male, other = neutral. */
@@ -31,11 +31,12 @@ interface PlayerMetadata {
 	city: string;
 }
 
-/** TODO */
+/** Partial: This has been partially typed based on a subset of the BGA source code. */
 interface LanguageMetadata {
 	level: 0 | 1;
 }
 
+/** Partial: This has been partially typed based on a subset of the BGA source code. */
 interface ChatNotifArgs {
 	/** The text for this chat message. This is null if the chat message type does not log an actual message (like 'startWriting'). */
 	text: string | null;
@@ -48,4 +49,17 @@ interface ChatNotifArgs {
 	message?: string;
 	/** Populated after receiving notif, represents if message has been read. */
 	mread?: boolean | null;
+}
+
+/** Partial: This has been partially typed based on a subset of the BGA source code. */
+interface ChatWindowMetadata {
+	status: '';
+	title: string;
+	input: ChatInput;
+	subscription: null;
+	notifymethod: 'nurmal';
+	autoShowOnKeyPress: boolean;
+	lastMsgTime: number;
+	lastMsgAuthor: number;
+	is_writing_now: {};
 }

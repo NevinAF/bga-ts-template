@@ -28,4 +28,19 @@ declare namespace ebg {
 
 	/** Creates a new {@link Zone}. */
 	const zone: new () => Zone;
+
+	/** Creates a new {@link ChatInput}. */
+	const chatinput: new () => ChatInput;
+
+	/** Creates a new {@link PaymentButtons}. */
+	const paymentbuttons: new () => PaymentButtons;
+
+	/** Creates a new {@link PageHeader}. */
+	const pageheader: new () => PageHeader;
+
+	/** Creates a new {@link Thumb}. */
+	const thumb: new () => Thumb;
+
+	/** Creates a new {@link TableResults}. */
+	const tableresults: new () => TableResults;
 }
