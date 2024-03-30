@@ -745,7 +745,7 @@ class KiriaiTheDuel extends GameguiCookbook
 		this.notifqueue.setSynchronous( 'player(s) hit', 1000 );
 	}
 
-	notif_instantMatch = (notif: Notif<GameStateData & { redScore?: number, blueScore?: number }>) =>
+	notif_instantMatch = (notif: NotifFrom<GameStateData & { redScore?: number, blueScore?: number }>) =>
 	{
 		console.log('notif_placeAllCards', notif);
 		if (this.gamedatas.gamestate.name !== 'setupBattlefield' || notif.type !== 'battlefield setup')
