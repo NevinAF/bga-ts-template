@@ -36,6 +36,9 @@ interface Gamegui {
 	/** The name of the game currently being played. */
 	game_name: string;
 
+	/** The id for the current games table. */
+	table_id: string;
+
 	/** The component used for modifying how notifications are synchronized/sequenced or if they should be filtered/ignored. */
 	notifqueue: GameNotif;
 
@@ -139,7 +142,9 @@ interface Gamegui {
 	onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
 
 	/**
-	 * This method associates notifications with notification handlers. For each game notification, you can trigger a javascript method to handle it and update the game interface. This method should be manually invoked during the `setup` function. This method technically should not be included on the base class as it should never be called outside of the game class.
+	 * This method associates notifications with notification handlers. For each game notification, you can trigger a javascript method to handle it and update the game interface. This method should be manually invoked during the `setup` function.
+	 * 
+	 * This method is overridden as need by the framework to prevent oddities in specific situation, like when viewing the game in {@link g_archive_mode}.
 	 * @example
 	 * setupNotifications()
 	 * {
@@ -452,22 +457,22 @@ interface Gamegui {
 
 	/**
 	 * Adds a tooltip to the DOM element. This is a simple text tooltip to display some information about "what is this game element?" and "what happens when I click on this element?". You must specify both of the strings. You can only use one and specify an empty string for the other one. When you pass text directly function _() must be used for the text to be marked for translation! Except for empty string. Parameter "delay" is optional. It is primarily used to specify a zero delay for some game element when the tooltip gives really important information for the game - but remember: no essential information must be placed in tooltips as they won't be displayed in some browsers (see Guidelines).
-	 * @param target The DOM element to add the tooltip to.
+	 * @param target The id of the DOM element to add the tooltip to. This id is used for a dictionary lookup and using an id that already has a tooltip will overwrite the previous tooltip.
 	 * @param helpStringTranslated The information about "what is this game element?".
 	 * @param actionStringTranslated The information about "what happens when I click on this element?".
 	 * @param delay (optional) The delay in milliseconds to wait before showing the tooltip. The default is 500 milliseconds.
 	 * @example this.addTooltip( 'cardcount', _('Number of cards in hand'), '' );
 	 */
-	addTooltip: (target: string | HTMLElement, helpStringTranslated: string, actionStringTranslated: string, delay?: number) => void;
+	addTooltip: (target: string, helpStringTranslated: string, actionStringTranslated: string, delay?: number) => void;
 
 	/**
 	 * Adds an HTML tooltip to the DOM element. This is for more elaborate content such as presenting a bigger version of a card.
-	 * @param target The DOM element to add the tooltip to.
+	 * @param target The id of the DOM element to add the tooltip to. This id is used for a dictionary lookup and using an id that already has a tooltip will overwrite the previous tooltip.
 	 * @param html The HTML content of the tooltip.
 	 * @param delay (optional) The delay in milliseconds to wait before showing the tooltip. The default is 500 milliseconds.
 	 * @example this.addTooltipHtml( 'cardcount', '<div>Number of cards in hand</div>' );
 	 */
-	addTooltipHtml: (target: string | HTMLElement, html: string, delay?: number) => void;
+	addTooltipHtml: (target: string, html: string, delay?: number) => void;
 
 	/**
 	 * Adds a simple text tooltip to all the DOM elements set with the specified css class. This is for more elaborate content such as presenting a bigger version of a card.

@@ -14,3 +14,38 @@ interface DeckItem {
 	/** The type argument of the deck item. The meaning of this is game specific. int(11) NOT NULL. */
 	type_arg: number;
 }
+
+/** TODO */
+interface PlayerMetadata {
+	is_premium: boolean;
+	/** 0 = Female, 1 == Male, other = neutral. */
+	gender: '0' | '1' | 'other';
+	is_beginner: boolean;
+	languages: Record<string, LanguageMetadata>;
+	user_id: number;
+	karma: number;
+	country_infos: {
+		code: string;
+		name: string;
+	};
+	city: string;
+}
+
+/** TODO */
+interface LanguageMetadata {
+	level: 0 | 1;
+}
+
+interface ChatNotifArgs {
+	/** The text for this chat message. This is null if the chat message type does not log an actual message (like 'startWriting'). */
+	text: string | null;
+	player_id: number;
+	player_name?: string;
+
+	/** Populated after receiving notif, represents the unique identifier for this message, used for linking html events and getting message elements. */
+	id?: number;
+	/** Populated after receiving notif, represents the html version of text? */
+	message?: string;
+	/** Populated after receiving notif, represents if message has been read. */
+	mread?: boolean | null;
+}
