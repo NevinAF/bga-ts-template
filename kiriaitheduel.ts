@@ -307,7 +307,7 @@ class KiriaiTheDuel extends GameguiCookbook
 		}
 	}
 
-	tooltips: { title: string, type: 'move' | 'attack' | 'special', desc: string }[] =
+	card_tooltips: { title: string, type: 'move' | 'attack' | 'special', desc: string }[] =
 	[{
 		title: 'Approach/Retreat',
 		type: 'move',
@@ -344,7 +344,7 @@ class KiriaiTheDuel extends GameguiCookbook
 
 	createTooltip(x: number, play_flavor: boolean)
 	{
-		const tooltip = this.tooltips[x];
+		const tooltip = this.card_tooltips[x];
 		return this.format_block('jstpl_tooltip', {
 			title: _(tooltip.title),
 			type: tooltip.type,
