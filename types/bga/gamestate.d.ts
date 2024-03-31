@@ -146,6 +146,15 @@ interface Gamedatas {
 	players: { [playerId: number]: Player };
 	/** Not documented. */
 	tablespeed: number;
+
+	/** The custom counters that are currently added to the game in the html by using the following format:
+	 * ```html
+	 * <div class="counter" id="bread"></div>
+	 * <div class="counter" id="coin"></div>
+	 * ```
+	 * The keys of this record are the id of the element, and the value is the current state of the counter.
+	  */
+	counters: Record<string, { counter_value: number, counter_name: string }>;
 }
 
 /**

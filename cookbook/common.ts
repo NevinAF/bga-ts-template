@@ -82,20 +82,9 @@ interface GameguiCookbook
 	 * @param description The string to set the main title to.
 	 */
 	setDescriptionOnMyTurn(description: string): void;
-
-	/**
-	 * Creates a dialog with the message and title, and a single button that says "Ok". The dialog can only be closed by clicking the "Ok" button and will call the callback if it is provided.
-	 * @param message The message to display in the dialog.
-	 * @param title The title of the dialog.
-	 * @param callback The callback to call when the "Ok" button is clicked.
-	 * @returns The dialog that was created.
-	 * @example
-	 * this.infoDialog("You need to reload the page because the game is out of sync.", "Out of Sync", () => window.location.reload());
-	 */
-	infoDialog(message: string, title: string, callback?: () => any): PopInDialog
 }
 
-GameguiCookbook.prototype.attachToNewParentNoDestroy = function(this: GameguiCookbook, mobile_in: string | HTMLElement, new_parent_in: string | HTMLElement, relation?: string | number, place_position?: string): dojo.DomGeometryBox
+GameguiCookbook.prototype.attachToNewParentNoDestroy = function(this: GameguiCookbook, mobile_in: string | HTMLElement, new_parent_in: string | HTMLElement, relation?: dojo.PosString | number, place_position?: string): dojo.DomGeometryBox
 {
 	const mobile = $(mobile_in);
 	const new_parent = $(new_parent_in);
@@ -235,35 +224,4 @@ GameguiCookbook.prototype.setDescriptionOnMyTurn = function(this: GameguiCookboo
 
 	const title = this.format_string_recursive(description, tpl);
 	this.setMainTitle(title ?? '');
-}
-
-GameguiCookbook.prototype.infoDialog = function(this: GameguiCookbook, message: string, title: string, callback?: (evt: any) => any): PopInDialog
-{
-	// Create the new dialog over the play zone. You should store the handler in a member variable to access it later
-	const myDlg = new ebg.popindialog();
-	console.log(myDlg);
-	myDlg.create( 'myDialogUniqueId' );
-	myDlg.setTitle( _(title) );
-	myDlg.setMaxWidth( 500 ); // Optional
-	
-	// Create the HTML of my dialog. 
-	// The best practice here is to use Javascript templates
-	var html = '<div>' + message + '</div><a href="#" id="info_dialog_button" class="bgabutton bgabutton_blue"><span>Ok</span></a>';
-	
-	// Show the dialog
-	myDlg.setContent( html ); // Must be set before calling show() so that the size of the content is defined before positioning the dialog
-	myDlg.show(!1);
-
-	// Removes the default close icon
-	myDlg.hideCloseIcon();
-
-	// Add a callback to the button
-	dojo.connect($('info_dialog_button'), 'onclick', this, (event) =>
-	{
-		event.preventDefault();
-		callback?.(event);
-		myDlg.destroy();
-	});
-
-	return myDlg;
 }

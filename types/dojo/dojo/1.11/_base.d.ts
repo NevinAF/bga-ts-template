@@ -1080,13 +1080,13 @@ declare namespace dojo {
 			 * Attempt to insert node into the DOM, choosing from various positioning options.
 			 * Returns the first argument resolved to a DOM node.
 			 */
-			place(node: NodeFragmentOrString, refNode: NodeOrString, position?: string /* PosString */ | number): HTMLElement;
+			place(node: NodeFragmentOrString, refNode: NodeOrString, position?: PosString | number): HTMLElement;
 
 			/**
 			 * Create an element, allowing for optional attribute decoration
 			 * and placement.
 			 */
-			create(tag: NodeOrString, attrs?: GenericObject, refNode?: NodeOrString, pos?: string /* PosString */ | number): HTMLElement;
+			create(tag: NodeOrString, attrs?: GenericObject, refNode?: NodeOrString, pos?: PosString | number): HTMLElement;
 
 			/**
 			 * safely removes all children of the node.

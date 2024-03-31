@@ -96,7 +96,7 @@ declare namespace dojo {
 		 * places elements of this node list relative to the first element matched
 		 * by queryOrNode. Returns the original NodeList. See: `dojo/dom-construct.place`
 		 */
-		place(queryOrNode: NodeOrString, position?: string /* PosString */ | number): this;
+		place(queryOrNode: NodeOrString, position?:  PosString | number): this;
 
 		/**
 		 * removes elements in this list that match the filter
@@ -109,7 +109,7 @@ declare namespace dojo {
 		 * position relative to the first element in this list.
 		 * Returns a dojo/NodeList of the adopted elements.
 		 */
-		adopt<Q extends Node>(queryOrListOrNode: string | Node | NodeList<Node>, position?: string /* PosString */ | number): NodeList<Q>;
+		adopt<Q extends Node>(queryOrListOrNode: string | Node | NodeList<Node>, position?: PosString | number): NodeList<Q>;
 
 		/**
 		 * Returns a new list whose members match the passed query,
@@ -136,7 +136,7 @@ declare namespace dojo {
 		 * add a node, NodeList or some HTML as a string to every item in the
 		 * list.  Returns the original list.
 		 */
-		addContent(content: string | number | Node | ArrayLike<Node> | NormalizeObject, position?: string /* PosString */ | number): this;
+		addContent(content: string | number | Node | ArrayLike<Node> | NormalizeObject, position?: PosString | number): this;
 	}
 }
 

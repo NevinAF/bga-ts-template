@@ -9,7 +9,7 @@ declare namespace dojo {
 		 * at different positions. Differs from NodeList.place because it will clone
 		 * the nodes in this NodeList if the query matches more than one element.
 		 */
-		_placeMultiple(query: string | Node | ArrayLike<Node>, position?: string /* PosString */ | number): this;
+		_placeMultiple(query: string | Node | ArrayLike<Node>, position?: PosString | number): this;
 
 		/**
 		 * allows setting the innerHTML of each node in the NodeList,
