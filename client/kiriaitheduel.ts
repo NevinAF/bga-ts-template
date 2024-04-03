@@ -627,7 +627,7 @@ class KiriaiTheDuel extends GameguiCookbook
 		else if (index == 6)
 			index = 8;
 
-		let action: keyof PlayerActions;
+		let action: "pickedFirst" | "pickedSecond";
 		let indexOffset: number;
 		if (this.isRedPlayer()) {
 			if (this.redPlayed0() == 0) {
@@ -658,7 +658,7 @@ class KiriaiTheDuel extends GameguiCookbook
 		this.filterActionQueue('confirmedCards'); // If this is waiting to be sent, we don't want it to be sent.
 		this.enqueueAjaxAction({
 			action,
-			args: { card: index },
+			args: { card_id: index },
 			callback
 		});
 	}
