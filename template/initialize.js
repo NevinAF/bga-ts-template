@@ -42,8 +42,6 @@ if (!fs.existsSync(config["bga-project-folder"])) {
 // The folder relative to the bga-project-folder where the source files are located.
 config["source-folder"] = path.relative(config["bga-project-folder"], path.resolve(__dirname, '../')).replace(/\\/g, '/');
 
-console.log("Configuration: ", config["source-folder"], path.resolve(__dirname, '../..'), config["bga-project-folder"]);
-
 //#endregion
 
 const replacemap = {
@@ -172,11 +170,12 @@ if (config["generate-vscode-files"] === true)
 	}
 
 	// Copy files and replace keys in the content.
+	console.log("Copying files...");
 	for (const [source, target] of replacequeue)
 	{
 		try {
 			if (fs.existsSync(target)) {
-				console.log(target + " already exists. Skipping...");
+				console.log("\t" + target + ": already exists (skipped).");
 				continue;
 			}
 
@@ -202,6 +201,7 @@ if (config["generate-vscode-files"] === true)
 			}
 
 			fs.writeFileSync(target, content);
+			console.log("\t" + target + ": DONE!.");
 		}
 		catch (e) { console.error(source + " -> " + target, e); }
 	}
