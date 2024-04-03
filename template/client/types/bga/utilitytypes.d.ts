@@ -47,3 +47,12 @@ type NotNullableKeys<T> = {
  * KeysWithType<ExcludeNull<ExampleInterface>, { c: number }> // 1
  */
 type ExcludeNull<T> = Omit<T, NullableKeys<T>>;
+
+/**
+ * Utility type that returns the indices of a tuple type. This is similar to the `keyof` operator for objects, but tuples would normally return all other keys on an array type like `length`, `push`, `pop`, etc.
+ * @example
+ * type Tuple = [string, number, boolean];
+ * type TupleIndices = TupleIndices<Tuple>; // 0 | 1 | 2
+ */
+type TupleIndices<T extends readonly any[]> =
+	Extract<keyof T, `${number}`> extends `${infer N extends number}` ? N : never;

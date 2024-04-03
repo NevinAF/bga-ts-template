@@ -66,7 +66,7 @@ interface BGACore {
 	 * var player = gamedatas.players[this.player_id];
 	 * var div = this.format_block('jstpl_player_board', player ); // var jstpl_player_board = ... is defined in .tpl file 
 	 */
-	format_block: (var_template: string, args: Record<string, string>) => string;
+	format_block: (var_template: string, args: Record<string, any>) => string;
 
 	/**
 	 * Formats the string with the values from `args` using ${key} syntax. This is a simple templating system that is generally used to format HTML blocks. The `format` is a string that contains ${key} placeholders, and `args` is an object that contains the values to replace the placeholders with. The method returns the formatted string. Note: result is trimmed.
@@ -76,7 +76,7 @@ interface BGACore {
 	 * @returns The formatted string.
 	 * @example var div = this.format_string('<div color="${player_color}"></div>', {player_color: '#ff0000'} );
 	 */
-	format_string: (format: string, args: Record<string, string>) => string;
+	format_string: (format: string, args: Record<string, any>) => string;
 
 	/**
 	 * Same as `format_string` but recursively formats until no more placeholders are found. This is useful for nested templates, like with server notifications.
@@ -84,7 +84,7 @@ interface BGACore {
 	 * @param args The values to replace the placeholders with.
 	 * @returns The formatted string.
 	 */
-	format_string_recursive: (format: string, args: Record<string, string>) => string;
+	format_string_recursive: (format: string, args: Record<string, any>) => string;
 
 	/**
 	 * Translates a string. This is a simple function that tries to use the current page translations, {@link _}, and if that fails, it uses the global translations, {@link __}.
@@ -103,7 +103,7 @@ interface BGACore {
 	 * @param args The translation keys to translate. The key is the element id, and the value is the translation key.
 	 * @param translationFrom The translation source to use. This will use the game translations if not specified.
 	 */
-	translate_client_targets: (args: Record<string, string>, translationFrom?: string) => void;
+	translate_client_targets: (args: Record<string, any>, translationFrom?: string) => void;
 
 	/** Registers a dojo.Handle to this object, under the {@link subscriptions} array. This will unsubscribe this listener when using the {@link unsubscribe_all} function. */
 	register_subs: (handle: dojo.Handle) => void;

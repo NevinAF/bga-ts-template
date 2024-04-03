@@ -271,9 +271,7 @@ if (fs.existsSync('shared/gamestates.jsonc'))
 				if (state.type !== 'game' && state.type !== 'manager') {
 					exitWithError(`State ${key} ("${state.name}") is not of type 'game' nor 'manager' and does not have a descriptionmyturn. If this is intended, set the descriptionmyturn to an empty string.`);
 				}
-				state.descriptionmyturn = '';
 			}
-			else state.descriptionmyturn = state.descriptionmyturn.toString();
 		}
 
 		// Validate that all transitions are unique and have a valid target state id
@@ -450,6 +448,23 @@ if (fs.existsSync('shared/gamestates.jsonc'))
 			d_ts_stream.write(writer.fileSignature + 'interface GameStates ');
 			writer.write(d_ts_stream, statesJSON, false);
 
+			d_ts_stream.write(`
+
+type PullActionArgs<T extends readonly any[]> = AnyOf<{
+	[arg in TupleIndices<T>]: {
+		[argName in T[arg]['name']]: T[arg]['typescriptType']
+	}
+}[TupleIndices<T>]>;
+
+interface PlayerActions extends AnyOf<{
+	[K in keyof GameStates]:
+		GameStates[K] extends { possibleactions: { [key: string]: any[] } } ?
+		{
+			[action in keyof GameStates[K]['possibleactions']]:
+				PullActionArgs<GameStates[K]['possibleactions'][action]>
+		} : {}
+}[keyof GameStates]> {}`);
+
 			for (const key in statesJSON) {
 				if (statesJSON[key].possibleactions) {
 					statesJSON[key].possibleactions = Object.keys(statesJSON[key].possibleactions);
@@ -607,7 +622,7 @@ if (fs.existsSync('./shared/gameinfos.jsonc'))
 
 if (fs.existsSync('./client/tsconfig.json'))
 {
-	builder.watchCommand("Typescript Definitions: client/build/index.d.ts => client/build/index.d.ts", './client/build/index.d.ts', () => {
+	builder.commands.push("Create Typescript Build Index: client/build/index.d.ts", () => {
 		const stream = fs.createWriteStream('client/build/index.d.ts');
 		stream.write(writer.fileSignature + dtsBuildFiles.map(file => `/// <reference path="${file}" />`).join('\n'));
 		stream.close();
