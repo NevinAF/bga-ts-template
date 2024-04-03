@@ -1,0 +1,104 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Game Statistics",
+	"type": "object",
+	"description": "The definitions for all custom game statistics. These statistics are updated on the server side and automatically displayed in a list on the game page based on the options listed bellow.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/stats.schema.json"
+		},
+		"table": {
+			"type": "object",
+			"description": "Any statistic not associated with a specific player.",
+			"patternProperties": {
+				"^[a-zA-Z0-9_]+$": {
+					"type": "object",
+					"description": "The statistic properties for this statistic identifier. This identifier is used in the game.php file to access and update the statistic.",
+					"properties": {
+						"id": {
+							"type": "number",
+							"minimum": 10,
+							"maximum": 99,
+							"description": "The ID of the statistics. This is the index which the value is stored in the database."
+						},
+						"name": {
+							"type": "string",
+							"minLength": 1,
+							"maxLength": 50,
+							"description": "The name of the statistics, in English."
+						},
+						"type": {
+							"type": "string",
+							"enum": ["int", "float", "boolean"],
+							"description": "The type of the statistics."
+						},
+						"display": {
+							"type": "string",
+							"enum": [ "limited" ],
+							"description": "The display type of the statistics. Use 'limited' to make statistic only accessible to game developer, publisher and admins."
+						}
+					},
+					"required": ["id", "name", "type"],
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		},
+		"player": {
+			"type": "object",
+			"description": "Any statistic associated with a specific player.",
+			"patternProperties": {
+				"^[a-zA-Z0-9_]+$": {
+					"type": "object",
+					"description": "The statistic properties for this statistic identifier. This identifier is used in the game.php file to access and update the statistic.",
+					"properties": {
+						"id": {
+							"type": "number",
+							"minimum": 10,
+							"maximum": 99,
+							"description": "The ID of the statistics. This is the index which the value is stored in the database."
+						},
+						"name": {
+							"type": "string",
+							"minLength": 1,
+							"maxLength": 50,
+							"description": "The name of the statistics, in English."
+						},
+						"type": {
+							"type": "string",
+							"enum": ["int", "float", "boolean"],
+							"description": "The type of the statistics."
+						},
+						"display": {
+							"type": "string",
+							"enum": [ "limited" ],
+							"description": "The display type of the statistics. Use 'limited' to make statistic only accessible to game developer, publisher and admins."
+						}
+					},
+					"required": ["id", "name", "type"],
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		},
+		"value_labels": {
+			"type": "object",
+			"patternProperties": {
+				"^[0-9_]+$": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1,
+						"description": "The label of the value matching this index."
+					},
+					"minItems": 1,
+					"description": "The labels for this statistic id."
+				}
+			},
+			"description": "The labels for any integer statistic. The index of the array is the value of the statistic, and the item at that index is the displayed label."
+		}
+	},
+	"additionalProperties": false
+}

@@ -1,0 +1,70 @@
+{
+	"Single player state": {
+		"prefix": [
+			"state",
+			"playerstate"
+		],
+		"body": [
+			"$LINE_COMMENT playerTurn${1:something}",
+			"${1/(.*)/STATE_PLAYER_TURN_${1:/upcase}/} => [",
+			"'name' => 'playerTurn${1:something}',",
+			"'description' => clienttranslate('\\${actplayer} must ${1:something}'),",
+			"'descriptionmyturn' => clienttranslate('\\${you} must ${1:something}'),",
+			"'type' => 'activeplayer',",
+			"'args'=>'arg_playerTurn${1:something}',",
+			"'action'=>'st_playerTurn${1:something}',",
+			"'possibleactions' => [ 'playCard', 'pass' ],",
+			"'transitions' => [",
+			"'next' => STATE_GAME_TURN_NEXT_PLAYER,",
+			"'loopback' => ${1/(.*)/STATE_PLAYER_TURN_${1:/upcase}/} ]",
+			"],"
+		],
+		"description": "Create single player state defition, use tab to fill template parameters"
+	},
+	"Multiple player state": {
+		"prefix": [
+			"mstate",
+			"multiplayerstate"
+		],
+		"body": [
+			"$LINE_COMMENT mplayerTurn${1:something}",
+			"${1/(.*)/STATE_MPLAYER_TURN_${1:/upcase}/} => [",
+			"'name' => 'mplayerTurn${1:something}',",
+			"'description' => clienttranslate('Other players must ${1:something}'),",
+			"'descriptionmyturn' => clienttranslate('\\${you} must ${1:something}'),",
+			"'type' => 'multipleactiveplayer',",
+			"'args'=>'arg_mplayerTurn${1:something}',",
+			"'action'=>'stMakeEveryoneActive',",
+			"'possibleactions' => [ 'playCard', 'pass' ],",
+			"'transitions' => [",
+			"'next' => STATE_GAME_TURN_NEXT_MPLAYER,",
+			"'loopback' => ${1/(.*)/STATE_MPLAYER_TURN_${1:/upcase}/} ]",
+			"],"
+		],
+		"description": "Create multi player state defition, use tab to fill template parameters"
+	},
+	"Action in action.php": {
+		"prefix": [
+			"action"
+		],
+		"body": [
+			"public function ${1:actionName}() {",
+			"\tself::setAjaxMode();",
+			"\t\\$${2:arg} = self::getArg('${2:arg}', AT_posint, false, 0);",
+			"\t\\$this->game->action_${1:actionName}(\\$${2:arg});",
+			"\tself::ajaxResponse();",
+			"}"
+		]
+	},
+	"Player loop in game.php": {
+		"prefix": [
+			"players"
+		],
+		"body": [
+			"\\$players = \\$this->loadPlayersBasicInfos();",
+			"foreach (\\$players as \\$player_id => \\$player_info) {",
+			"${1}",
+			"}"
+		]
+	}
+}

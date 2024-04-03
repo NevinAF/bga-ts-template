@@ -1,0 +1,165 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Game Options",
+	"type": "object",
+	"description": "This file contains the game options for the game. The game options are used to configure the game and are displayed to the table creator in the lobby. These are automatically formatted and displayed to the table creator.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/gameoptions.schema.json"
+		}
+	},
+	"patternProperties": {
+		"^1[0-9][0-9]$": {
+			"type": "object",
+			"description": "An option for the game. The key is the option id and directly maps to the index within the .game.php 'gamestate->table_globals' array.",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "The name of the option visible for the table creator."
+				},
+				"values": {
+					"type": "object",
+					"description": "The array (map) of values with additional parameters per value. This acts like an enum where the key is the value and the 'name' is the value name.",
+					"patternProperties": {
+						"^[0-9]+$": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string",
+									"default": "Option X",
+									"examples": [ "On", "Off", "Yes", "No", "Enabled", "Disabled" ],
+									"description": "The name of this option index."
+								},
+								"description": {
+									"type": "string",
+									"default": "Description...",
+									"description": "String description of this value to use when the name of the option is not self-explanatory. Displayed at the table under the option when this value is selected. Note: if there is no description, this should be omitted."
+								},
+								"tmdisplay": {
+									"type": "string",
+									"default": "",
+									"description": "String representation of the option visible in the table description in the lobby. Usually if a variant values are On and Off (default), the tmdisplay would be same as description name when On, and nothing (empty string) when Off. (Warning: due to some caching, a change in tmdisplay may not be effective immediately in the studio, even after forcing a reload of gameoptions.inc.php.) Pro Tip: You can use this as a pre-game communication by adding fake options that just do nothing in the game but make it easier to find other player wanted the same game configuration (see the crew deep sea for example)."
+								},
+								"nobeginner": {
+									"type": "boolean",
+									"default": false,
+									"description": "Set to true if not recommended for beginners."
+								},
+								"firstgameonly": {
+									"type": "boolean",
+									"default": false,
+									"description": "Set to true if this option is recommended only for the first game (discovery option)."
+								},
+								"beta": {
+									"type": "boolean",
+									"default": false,
+									"description": "Set to true to indicate that this option is in \"beta\" development stage (there will be a warning for players starting the game)"
+								},
+								"alpha": {
+									"type": "boolean",
+									"default": false,
+									"description": "Set to true to indicate that this option is in \"alpha\" development stage (there will be a warning, and starting the game will be allowed only in training mode except for the developer)"
+								},
+								"premium": {
+									"type": "boolean",
+									"default": false,
+									"description": "Set to true to indicate that this option is only available to premium members."
+								}
+							},
+							"required": ["name"],
+							"additionalProperties": false
+						}
+					},
+					"minProperties": 1,
+					"additionalProperties": false
+				},
+				"default": {
+					"type": "number",
+					"default": 1,
+					"description": "Indicates the default value to use for this option (optional, if not present the first value listed is the default)"
+				},
+				"displaycondition": {
+					"type": "array",
+					"description": "Checks the conditions before displaying the option for selection. If 'displayconditionoperand' is 'and' (default), all conditions must be met. If 'displayconditionoperand' is 'or', at least one condition must be met.",
+					"items": {
+						"type": "object",
+						"properties": {
+							"type": {
+								"type": "string",
+								"enum": ["minplayers", "maxplayers", "otheroption", "otheroptionisnot"],
+								"description": "Checks the conditions before displaying the option for selection. All conditions must be true for the option to display. Supported condition types: `minplayers` condition ensures at least this many players (Note: if your game works with a disjoint interval of player counts, you can supply an array of valid counts instead of a single value). `maxplayers` conditions ensure at most this many players. `otheroption` condition ensures another option is set to this given values.. `otheroptionisnot` conditions ensure another option is NOT set to this given values."
+							},
+							"value": {
+								"type": ["number", "array"],
+								"minimum": 0,
+								"description": "The value to compare against. If the `type` of this condition is `minplayers` or `maxplayers` this is a number signifying the minimum or maximum number of players, or an array of valid player counts. If the `type` of this condition is `otheroption` or `otheroptionisnot` this is the valid/invalid value key(s) of the other option (using or logic for valid, and and logic for invalid)."
+							},
+							"id": {
+								"type": "number",
+								"minimum": 100,
+								"maximum": 299,
+								"description": "Only valid if the `type` of this condition is `otheroption` or `otheroptionisnot`. The id of the other option to compare against."
+							}
+						},
+						"required": ["type", "value"],
+						"additionalProperties": false
+					}
+				},
+				"startcondition": {
+					"type": "object",
+					"description": "A dictionary of option values and conditions. Checks the conditions (on options VALUES) before starting the game. All conditions must be true for the game to start, otherwise players will get a red error message when attempting to begin the game. Supported condition types",
+					"patternProperties": {
+						"^[0-9]+$": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"enum": ["minplayers", "maxplayers", "otheroption", "otheroptionisnot"],
+										"description": "Checks the conditions before displaying the option for selection. All conditions must be true for the option to display. Supported condition types: `minplayers` condition ensures at least this many players (Note: if your game works with a disjoint interval of player counts, you can supply an array of valid counts instead of a single value). `maxplayers` conditions ensure at most this many players. `otheroption` condition ensures another option is set to this given values.. `otheroptionisnot` conditions ensure another option is NOT set to this given values."
+									},
+									"value": {
+										"type": ["number", "array"],
+										"minimum": 0,
+										"description": "The value to compare against. If the `type` of this condition is `minplayers` or `maxplayers` this is a number signifying the minimum or maximum number of players, or an array of valid player counts. If the `type` of this condition is `otheroption` or `otheroptionisnot` this is the valid/invalid value key(s) of the other option (using or logic for valid, and and logic for invalid)."
+									},
+									"id": {
+										"type": "number",
+										"minimum": 100,
+										"maximum": 299,
+										"description": "Only valid if the `type` of this condition is `otheroption` or `otheroptionisnot`. The id of the other option to compare against."
+									},
+									"message": {
+										"type": "string",
+										"default": "",
+										"description": "Message to display when the condition is not met."
+									}
+								},
+								"required": ["type", "value"],
+								"additionalProperties": false
+							}
+						}
+					},
+					"additionalProperties": false
+				},
+				"notdisplayedmessage": {
+					"type": "string",
+					"default": "",
+					"description": "Message to display when the option is not displayed due to displaycondition."
+				},
+				"level": {
+					"type": "string",
+					"enum": ["base", "major", "additional"],
+					"default": "base",
+					"description": "The level of the option. Major options are displayed at the top and have special UI treatment. Additional options are displayed at the bottom in an expandable section (hidden by default). Only one option can ever be marked as 'major'."
+				}
+			},
+			"required": ["name", "values"],
+			"additionalProperties": false
+		}
+	},
+	"additionalProperties": false
+}

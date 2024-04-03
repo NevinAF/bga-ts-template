@@ -1,0 +1,219 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Game Infos",
+	"type": "object",
+	"description": "The file defines the constant information for the game like player colors, number of player, etc.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/gameinfos.schema.json"
+		},
+		"game_name": {
+			"type": "string",
+			"description": "Name of the game in English (will serve as the basis for translation)",
+			"minLength": 1,
+			"default": "My Great Game"
+		},
+		"publisher": {
+			"type": "string",
+			"description": "Game publisher (use empty string if there is no publisher)",
+			"minLength": 0,
+			"default": "My Publishing Company"
+		},
+		"publisher_website": {
+			"type": "string",
+			"description": "URL of the publisher's website (use empty string if there is no website)",
+			"minLength": 0,
+			"default": "http://www.mypublishingcompany.com/"
+		},
+		"publisher_bgg_id": {
+			"type": "integer",
+			"description": "BoardGameGeek ID of the publisher (use 0 if there is no publisher). When going to https://boardgamegeek.com/boardgamepublisher/<publisher_bgg_id>, you should be redirected to the publisher's page.",
+			"minimum": 0,
+			"default": 12345
+		},
+		"bgg_id": {
+			"type": "integer",
+			"description": "BoardGameGeek ID of the game. When going to https://boardgamegeek.com/boardgame/<bgg_id>, you should be redirected to the game's page.",
+			"minimum": 0,
+			"default": 12345
+		},
+		"players": {
+			"type": "array",
+			"description": "Number of players for the game, listing all possible player counts.",
+			"items": {
+				"type": "integer",
+				"minimum": 1
+			},
+			"minItems": 1,
+			"uniqueItems": true,
+			"default": [ 2, 3, 4 ]
+		},
+		"suggest_player_number": {
+			"description": "Suggest players to play with this number of players. Must be null if there is no such advice, or if there is only one possible player configuration. NB: the automatic lobby will try first the lowest number of players if this is not specified. So you _have to_ specify this parameter if the lowest player number is not compatible with the default options.",
+			"oneOf": [
+				{
+					"type": "null"
+				},
+				{
+					"type": "integer",
+					"minimum": 1
+				}
+			],
+			"default": null
+		},
+		"not_recommend_player_number": {
+			"description": "Discourage players to play with these numbers of players. Must be null if there is no such advice. Example: [ 2, 3 ] => this game is not recommended to play with 2 or 3 players",
+			"oneOf": [
+				{
+					"type": "null"
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "integer",
+						"minimum": 1
+					},
+					"minItems": 1,
+					"uniqueItems": true
+				}
+			],
+			"default": null
+		},
+		"estimated_duration": {
+			"type": "integer",
+			"description": "Estimated game duration, in minutes (used only for the launch, afterward the real duration is computed)",
+			"minimum": 1,
+			"default": 30
+		},
+		"fast_additional_time": {
+			"type": "integer",
+			"description": "Time in second add to a player when \"giveExtraTime\" is called (speed profile = fast)",
+			"minimum": 0,
+			"default": 30
+		},
+		"medium_additional_time": {
+			"type": "integer",
+			"description": "Time in second add to a player when \"giveExtraTime\" is called (speed profile = medium)",
+			"minimum": 0,
+			"default": 40
+		},
+		"slow_additional_time": {
+			"type": "integer",
+			"description": "Time in second add to a player when \"giveExtraTime\" is called (speed profile = slow)",
+			"minimum": 0,
+			"default": 50
+		},
+		"tie_breaker_description": {
+			"type": "string",
+			"description": "Description of the tie breaker rule (if any). If you are using a tie breaker in your game (using \"player_score_aux\"), you must describe here the formula used to compute \"player_score_aux\". This description will be usa tooltip to explain the tie breaker to the players. Note: if you are NOT using any tie breaker, leave the empty string. Example: \"tie_breaker_description\": \"Number of remaining cards in hand\"",
+			"minLength": 0,
+			"default": ""
+		},
+		"losers_not_ranked": {
+			"type": "boolean",
+			"description": "If in the game, all losers are equal (no score to rank them or explicit in the rules that losers are not ranked between them), set this to true  The game end result will display 'Winner' for the 1st player and 'Loser' for all other players. Your can view core.core getRankString() (BGACore) for more information.",
+			"default": false
+		},
+		"solo_mode_ranked": {
+			"type": "boolean",
+			"description": "Allow to rank solo games for games where it's the only available mode (ex: Thermopyles). Should be left to false for games where solo mode exists in addition to multiple players mode.",
+			"default": false
+		},
+		"is_beta": {
+			"type": "integer",
+			"description": "Game is 'beta'. A game MUST set is_beta=1 when published on BGA for the first time, and must remains like this until all bugs are fixed.",
+			"default": 1
+		},
+		"is_coop": {
+			"type": "integer",
+			"description": "Is this game cooperative (all players wins together or loose together)",
+			"default": 0
+		},
+		"language_dependency": {
+			"description": "Language dependency. If false or not set, there is no language dependency. If true, all players at the table must speak the same language. If an array of shortcode languages such as array( 1: 'en', 2: 'fr', 3: 'it' ) then all players at the table must speak the same language, and this language must be one of the listed languages. NB: the default will be the first language in this list spoken by the player, so you should list them by popularity/preference.",
+			"oneOf": [
+				{
+					"type": "boolean"
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 2,
+						"maxLength": 2,
+						"default": [ "en", "fr", "de", "it", "es" ]
+					},
+					"minItems": 1,
+					"uniqueItems": true
+				}
+			],
+			"default": false
+		},
+		"player_colors": {
+			"type": "array",
+			"description": "List of player colors. Colors attributed to players.",
+			"items": {
+				"type": "string",
+				"minLength": 1,
+				"pattern": "^[0-9a-fA-F]{6}$",
+				"description": "Color in hexadecimal format (RRGGBB). Not all contexts of using this color need to be in hex, but some errors may occur if it is not."
+			},
+			"minItems": 1,
+			"uniqueItems": true,
+			"default": [ "ff0000", "008000", "0000ff", "ffa500", "773300" ]
+		},
+		"favorite_colors_support": {
+			"type": "boolean",
+			"description": "Favorite colors support : if set to true, support attribution of favorite colors based on player's preferences (see reattributeColorsBasedOnPreferences PHP method). NB: this parameter is used only to flag games supporting this feature; you must use (or not use) reattributeColorsBasedOnPreferences PHP method to actually enable or disable the feature.",
+			"default": true
+		},
+		"disable_player_order_swap_on_rematch": {
+			"type": "boolean",
+			"description": "When doing a rematch, the player order is swapped using a 'rotation' so the starting player is not the same. If you want to disable this, set this to true.",
+			"default": false
+		},
+		"game_interface_width": {
+			"type": "object",
+			"description": "Game interface width range (pixels). Note: game interface = space on the left side, without the column on the right",
+			"properties": {
+				"min": {
+					"type": "integer",
+					"description": "The minimum width in pixels for the game interface. A value of 740 should fit a 1024px screen. 320px is  the width for a small mobile device (if supported).",
+					"minimum": 320,
+					"maximum": 740,
+					"default": 740
+				},
+				"max": {
+					"description": "Maximum width in pixels. There is no maximum for this value, but you can use 'null' to specify that your are also setting no limit.",
+					"oneOf": [
+						{
+							"type": "integer",
+							"description": "Maximum width in pixels",
+							"minimum": 740
+						},
+						{
+							"type": "null"
+						}
+					]
+				}
+			},
+			"required": [ "min", "max" ],
+			"additionalProperties": false
+		},
+		"is_sandbox": {
+			"type": "boolean",
+			"description": "Is this game a sandbox game? Sandbox games are simulator games that are not scripted, used for rapid prototyping and testing games using all other BGA features.",
+			"default": false
+		},
+		"turnControl": {
+			"type": "string",
+			"description": "If and only if this is a sandbox game, this determines how the player order is determined. simple : A plays, B plays, C plays, A plays, B plays, ... | circuit : A plays and choose the next player C, C plays and choose the next player D, ... | complex : A+B+C plays and says that the next player is A+B",
+			"enum": [ "simple", "circuit", "complex" ],
+			"default": "simple"
+		}
+	},
+	"required": [ "game_name", "publisher", "publisher_website", "publisher_bgg_id", "bgg_id", "players", "estimated_duration", "fast_additional_time", "medium_additional_time", "slow_additional_time", "tie_breaker_description", "losers_not_ranked", "solo_mode_ranked", "is_beta", "is_coop", "language_dependency", "player_colors", "favorite_colors_support", "disable_player_order_swap_on_rematch", "game_interface_width", "is_sandbox", "turnControl" ],
+	"additionalProperties": false
+}

@@ -1,0 +1,140 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Game Stats",
+	"type": "object",
+	"description": "This file is an alternative to defining 'states.inc.php'. Using this file will provide error checking and type completion, making it much easier to define and use states correctly the first time.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/gamestates.schema.json"
+		}
+	},
+	"patternProperties": {
+		"^[0-9_]*$": {
+			"type": "object",
+			"description": "A game state that is defined within the statemachine.",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "The name of the state used as an identifier in game logic. This should be unique, although this is not enforced.",
+					"minLength": 1
+				},
+				"type": {
+					"type": "string",
+					"description": "The type of the game state. This is used to determine where/how the game state is evaluated. 'activeplayer': One player is active and must play any of the 'possibleactions'. 'multipleactiveplayer': There are multiple players which can preform any of the 'possibleactions'. 'private': Must be transitioned into by a 'multipleactiveplayer' game state, and is used to preform complex actions for players in parallel without reveling state information of other players. 'game': There are no active players and usually the game state will be transitioned immediately after evaluating the 'action'. 'manager': Used for the game setup and game end states.",
+					"enum": [ "activeplayer", "multipleactiveplayer", "private", "game", "manager" ]
+				},
+				"description": {
+					"type": "string",
+					"description": "A description of the game state which is displayed on all non-active players. Use ${actplayer} to refer to the active player, ${other} to refer to the other players, and ${<arg>} to refer to any stringlike argument that is defined in 'argsTypes'. This MUST be defined if 'type' is 'activeplayer' or 'multipleactiveplayer' (an empty string can be used if this is intended)."
+				},
+				"descriptionmyturn": {
+					"type": "string",
+					"description": "A description of the game state which is displayed on the active player. Use ${you} to refer to the specific client, and ${<arg>} to refer to any stringlike argument that is defined in 'argsTypes'. This MUST be defined if 'type' is 'activeplayer' or 'multipleactiveplayer' (an empty string can be used if this is intended)."
+				},
+				"action": {
+					"type": "string",
+					"description": "The action that is evaluated when the game state is transitioned into. This is a function that is defined in 'game.php'. It is usually a good idea to name this 'st<state name>' for clarity.",
+					"minLength": 1,
+					"default": "st_<state name>"
+				},
+				"transitions": {
+					"type": "object",
+					"description": "This is a record of transition names and target game states. The transition names are purely for code clarity and is always used in a lookup to determine the target game state. This is always required on all states other than the final game end state.",
+					"minProperties": 1,
+					"patternProperties": {
+						"^[a-zA-Z0-9_-]*$": {
+							"type": "integer",
+							"description": "The target game state that is transitioned into when the transition is called. This should be a valid game state id defined in this file (which will be validated by the code generator).",
+							"minLength": 1
+						}
+					},
+					"additionalProperties": false
+				},
+				"possibleactions": {
+					"type": "object",
+					"description": "This is a list of possible actions that can be taken by the active player. The key of each property is used to generate the possible actions array in the states.inc.php, and the values represent the arguments that can be passed with the action, used for generating the action.php file.",
+					"patternProperties": {
+						"^[a-zA-Z0-9_]*$": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "The name of the argument. This is the name of the property that is passed to the ajax call, and the identifier to pull the argument in the action.php file.",
+										"minLength": 1
+									},
+									"type": {
+										"type": "string",
+										"description": "The type of the argument. This is used to determine how the argument is displayed and validated in the client. 'int': A number. 'string': A string. 'enum': A string that must be one of the values defined in 'values'.",
+										"enum": [ "AT_int", "AT_posint", "AT_float", "AT_email", "AT_url", "AT_bool", "AT_enum", "AT_alphanum", "AT_username", "AT_login", "AT_numberlist", "AT_uuid", "AT_version", "AT_cityname", "AT_filename", "AT_groupname", "AT_timezone", "AT_mediawikipage", "AT_html_id", "AT_alphanum_dash", "AT_date", "AT_num", "AT_alpha_strict", "AT_namewithaccent", "AT_json", "AT_base64" ]
+									},
+									"typescriptType": {
+										"$ref": "ts-type.schema.json"
+									},
+									"mandatory": {
+										"type": "boolean",
+										"description": "If this is true, the argument must be passed with the action. If this is false, the argument is optional and will be set to a default value if not passed.",
+										"default": true
+									},
+									"default": {
+										"description": "The default value of the argument if it is not passed with the action. This is only used if 'mandatory' is false.",
+										"anyOf": [
+											{ "type": "string" },
+											{ "type": "integer" },
+											{ "type": "number" },
+											{ "type": "boolean" },
+											{ "type": "null" }
+										],
+										"default": null
+									},
+									"argTypeDetails": {
+										"type": "array",
+										"default": "If the type is 'enum', this is a list of possible values that the argument can be. This is used to validate the argument in the client and server. If the type is not 'enum', this is ignored.",
+										"items": {
+											"type": "string"
+										}
+									},
+									"bCanFail": {
+										"type": "boolean",
+										"description": "If true, specify that it may be possible that the argument won't be of the type specified by argType (and then do not log this as a fatal error in the system, and return a standard exception to the player).",
+										"default": true
+									}
+								},
+								"additionalProperties": false,
+								"required": [ "name", "type" ]
+							}
+						},
+						"additionalProperties": false
+					}
+				},
+				"args": {
+					"type": "string",
+					"description": "The function which is called after the 'action' function is evaluated. This function returns an record of arguments to be passed to the client.",
+					"minLength": 1,
+					"default": "arg<state name>"
+				},
+				"argsType": {
+					"$ref": "ts-type.schema.json",
+					"description": "This is a list of arguments that are passed to the client for the given game state. This only enforces the Typescript type."
+				},
+				"updateGameProgression": {
+					"type": "boolean",
+					"description": "If true, the 'getGameProgression' function within the game.php file will be called at the beginning of this state and be used to populate the game progression variable in the state arguments.",
+					"default": false
+				},
+				"initialprivate": {
+					"type": "integer",
+					"description": "If this is a 'multipleactiveplayer' state which should lead into parallel private states, this is the id of the state that should be transitioned into for each player.",
+					"minimum": 1
+				}
+			},
+			"additionalProperties": false,
+			"required": [ "name", "type" ]
+		}
+	},
+	"additionalProperties": false,
+	"required": [ "1" ]
+}

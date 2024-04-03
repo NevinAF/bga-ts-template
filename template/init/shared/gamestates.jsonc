@@ -1,0 +1,75 @@
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * ___YourGameName___ implementation : © ___developer-names___ ___developer-emails___
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ */
+/*
+ * This file is enforced by schema file located at 'bga-ts-template/template/schema'. If you are using VS Code, this schema file will be linked to this file automatically if 'generate-vscode-files' is set to true in 'template.config.jsonc. Hover over any fields for more information.
+ *
+ * Game state machine is a tool used to facilitate game development. Please check the BGA Studio presentation about game state to understand this, and associated documentation.
+ *
+ * !! It is not a good idea to modify this file when a game is running !!
+ */
+{
+	// "$schema": "../template/schema/gamestates.schema.json",
+
+	// The initial state. Please do not modify.
+	"1": {
+		"name": "gameSetup",
+		"description": "",
+		"type": "manager",
+		"action": "stGameSetup",
+		"transitions": { "": 2 }
+	},
+
+	// Note: ID=2: your first state
+	"2": {
+		"name": "playerTurn",
+		"description": "${actplayer} must play a card or pass",
+		"descriptionmyturn": "${you} must play a card or pass",
+		"type": "activeplayer",
+		"possibleactions": {
+			"playCard": [{ "name": "card_id", "type": "AT_int" }],
+			"pass": []
+		},
+		"transitions": { "playCard": 2, "pass": 2 }
+	},
+
+/*
+	// Examples:
+	
+	"2": {
+		"name": "nextPlayer",
+		"description": "",
+		"type": "game",
+		"action": "stNextPlayer",
+		"updateGameProgression": true,
+		"transitions": { "endGame": 99, "nextPlayer": 10 }
+	},
+
+	"10": {
+		"name": "playerTurn",
+		"description": "${actplayer} must play a card or pass",
+		"descriptionmyturn": "${you} must play a card or pass",
+		"type": "activeplayer",
+		"possibleactions": [ "playCard", "pass" ],
+		"transitions": { "playCard": 2, "pass": 2 }
+	},
+*/
+
+	// Final state.
+	// Please do not modify (and do not overload action/args methods}.
+	"99": {
+		"name": "gameEnd",
+		"description": "End of game",
+		"type": "manager",
+		"action": "stGameEnd",
+		"args": "argGameEnd",
+		/* TODO: get the arguments that are passed at the end of a game.. */
+		"argsType": "object"
+	}
+}

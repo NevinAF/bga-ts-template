@@ -1,0 +1,236 @@
+This is reference for public method defined in Table and its ancestors, this information obtained by using php reflection
+
+== Class hierarchy ==
+
+* APP_Object
+** APP_DbObject
+***  APP_GameClass
+****    Table
+****    [[Deck]]
+
+
+== Methods in the Table class ==
+
+Table::getGameName
+Table::_
+Table::Table
+Table::setTable
+Table::initTable
+Table::getAllTableDatas
+Table::getAllDatas
+Table::setupNewGameTable
+Table::gameVersionToDbVersion
+Table::setupNewGame
+Table::getTableOptionsForGame
+Table::getTableOptions
+Table::getTablePreferencesForGame
+Table::getTablePreferences
+Table::getGameInfosForGame
+Table::getGameOptionsInfos
+Table::start
+Table::loadPlayersBasicInfos
+Table::reloadPlayersBasicInfos
+Table::reattributeColorsBasedOnPreferences
+Table::getBestColorFromColorPrefs
+Table::initSetupPlayersInfos
+Table::getPlayersNumber
+Table::checkAction
+Table::checkGameStart
+Table::color_to_color_back
+Table::initGameStateLabels
+Table::setGameStateInitialValue
+Table::getGameStateValue
+Table::setGameStateValue
+Table::incGameStateValue
+Table::is_testmode
+Table::testmodedatas
+Table::applyTestModeDbFixture
+Table::getActivePlayerId
+Table::getActivePlayerName
+Table::getCurrentPlayerId
+Table::getCurrentPlayerName
+Table::getCurrentPlayerColor
+Table::isCurrentPlayerZombie
+Table::getPlayerCount
+Table::createNextPlayerTable
+Table::getNextPlayerTable
+Table::createPrevPlayerTable
+Table::getPrevPlayerTable
+Table::getPlayerAfter
+Table::getPlayerBefore
+Table::activeNextPlayer
+Table::activePrevPlayer
+Table::forceEndOfGame
+Table::giveExtraTime
+Table::checkZombieTurn
+Table::skipPlayersOutOfTime
+Table::onPlayerHasBeenZombified
+Table::forceAbandon
+Table::zombieBack
+Table::aiPlayer
+Table::aiNotPlaying
+Table::aiError
+Table::say
+Table::getGameProgression
+Table::getStatTypesForGame
+Table::getStatTypes
+Table::stat_type_id_to_name
+Table::initStat
+Table::getStat
+Table::setStat
+Table::setStatForAllPlayers
+Table::incStat
+Table::getStatFromResult
+Table::setStatOnResult
+Table::setStatOnResultForPlayer
+Table::getStandardGameResultObject
+Table::getGameRankInfos
+Table::argGameEnd
+Table::stGameEnd
+Table::stTutorialStart
+Table::isSoloGame
+Table::notifyAllPlayers
+Table::notifyPlayer
+Table::onEndAjaxAction
+Table::checkReturnState
+Table::sendNotifications
+Table::sendNotificationPacket
+Table::getCurrentNotificationNextNo
+Table::getNotificationHistory
+Table::debugChat
+Table::timeout
+Table::eliminatePlayer
+Table::isAsync
+Table::getTimeLimits
+Table::getAsyncTimeLimits
+Table::checkAsyncActivePlayersChange
+Table::upgradeTableDb
+Table::getReplayPoints
+Table::saveReplayPoint
+Table::undoAndReplayInit
+Table::removeAutoIncrementFromTable
+Table::getFieldsListOfTable
+Table::undoInit
+Table::undoSavepoint
+Table::doUndoSavePoint
+Table::undoRestorePoint
+Table::showTutorial
+Table::seenTutorial
+Table::activeTutorial
+Table::forceGameTournamendEnd
+Table::showCursor
+Deck::Deck
+Deck::init
+Deck::createCards
+Deck::getExtremePosition
+Deck::shuffle
+Deck::pickCard
+Deck::pickCards
+Deck::pickCardForLocation
+Deck::pickCardsForLocation
+Deck::getCardOnTop
+Deck::getCardsOnTop
+Deck::reformDeckFromDiscard
+Deck::moveCard
+Deck::moveCards
+Deck::insertCard
+Deck::insertCardOnExtremePosition
+Deck::moveAllCardsInLocation
+Deck::moveAllCardsInLocationKeepOrder
+Deck::getCardsInLocation
+Deck::getPlayerHand
+Deck::getCard
+Deck::getCards
+Deck::getCardsFromLocation
+Deck::getCardsOfType
+Deck::getCardsOfTypeInLocation
+Deck::playCard
+Deck::countCardInLocation
+Deck::countCardsInLocation
+Deck::countCardsInLocations
+Deck::countCardsByLocationArgs
+APP_GameClass::getNewUnique
+APP_GameClass::getNew
+APP_GameClass::notifyNow
+APP_DbObject::ConnectDb
+APP_DbObject::DbQuery
+APP_DbObject::DbTraceTimeBefore
+APP_DbObject::DbTraceTimeAfter
+APP_DbObject::DbGetLastId
+APP_DbObject::DbDumpQueryHistory
+APP_DbObject::DbAffectedRow
+APP_DbObject::DbStartTransaction
+APP_DbObject::DbCommit
+APP_DbObject::DbRollback
+APP_DbObject::DbRestartTransaction
+APP_DbObject::DbSelect
+APP_DbObject::CommitAllAndRestart
+APP_DbObject::setDeadlockMode
+APP_DbObject::isDeadlockModeRetry
+APP_DbObject::enableMultiQueries
+APP_DbObject::sendMultiQueries
+APP_DbObject::escapeStringForDB
+APP_DbObject::getCollectionFromDB
+APP_DbObject::getNonEmptyCollectionFromDB
+APP_DbObject::getDoubleKeyCollectionFromDB
+APP_DbObject::getUniqueValueFromDB
+APP_DbObject::mysql_fetch_row
+APP_DbObject::mysql_fetch_assoc
+APP_DbObject::mysql_query
+APP_DbObject::getObjectFromDB
+APP_DbObject::getNonEmptyObjectFromDB
+APP_DbObject::getObjectListFromDB
+APP_DbObject::getSelectedDb
+APP_DbObject::sqlParsing
+APP_DbObject::DbUsePrefix
+APP_DbObject::applyPrefix
+APP_DbObject::cache_store
+APP_DbObject::cache_add
+APP_DbObject::cache_exists
+APP_DbObject::cache_fetch
+APP_DbObject::cache_delete
+APP_DbObject::cache_rollback
+APP_DbObject::cache_commit
+APP_DbObject::ensure_enough_time_since_last_action
+APP_DbObject::getMasterNodeDomain
+APP_DbObject::getMasterNodeUrl
+APP_DbObject::masterNodeRequest
+APP_DbObject::gameserverNodeRequest
+APP_DbObject::gameserverNodeRequestNoTable
+APP_DbObject::bgaCallUrl
+APP_Object::watch
+APP_Object::debug
+APP_Object::trace
+APP_Object::warn
+APP_Object::error
+APP_Object::dump
+
+
+
+This is example of player array send to setupNewGame php method
+array(2) { 
+ [2300663]=> array(7) { 
+    ["player_name"]=> string(8) "laskava1" 
+    ["player_canal"]=> string(32) "aa5ceb9e01f1367d4f4a42eaa535b0f0" 
+    ["player_avatar"]=> string(6) "000000" 
+    ["player_is_admin"]=> string(1) "0" 
+    ["player_is_ai"]=> string(1) "0" 
+    ["player_table_order"]=> string(1) "2" 
+    ["beginner"]=> string(1) "1" 
+ } 
+ [2300662]=> array(8) { 
+    ["player_name"]=> string(8) "laskava0" 
+    ["player_canal"]=> string(32) "60d9d1240f012630bb8f6bf07cbf5139" 
+    ["player_avatar"]=> string(10) "bf78772d42" 
+    ["player_is_admin"]=> string(1) "1" 
+    ["player_is_ai"]=> string(1) "0" 
+    ["player_table_order"]=> string(1) "1" 
+    ["player_colorprefs"]=> array(4) { 
+       [0]=> string(6) "ff0000" 
+       [1]=> string(6) "ffa500" 
+       [2]=> string(6) "000000" 
+       [3]=> string(6) "ffffff" 
+    } 
+    ["beginner"]=> string(1) "0" 
+ } 
+ } {"status":1,"data":true}

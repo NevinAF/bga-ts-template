@@ -1,0 +1,64 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "User Preferences",
+	"type": "object",
+	"description": "The list of user preferences that can be set by the user. This is automatically translated and updated by the user.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/gamepreferences.schema.json"
+		}
+	},
+	"patternProperties": {
+		"^[0-9]+$": {
+			"type": "object",
+			"description": "A user preference id, associated with the given settings. The id directly maps to the index within the .game.php 'gamestate->table_globals' array.",
+			"properties": {
+				"name": {
+					"type": "string",
+					"minLength": 1,
+					"description": "The name of the preference, automatically translated."
+				},
+				"needReload": {
+					"type": "boolean",
+					"default": false,
+					"description": "Whether the preference requires a reload to take effect. If true, the interface will auto reload when changed."
+				},
+				"values": {
+					"type": "object",
+					"description": "The array (map) of values with additional parameters per value. This acts like an enum where the key is the value and the 'name' is the value name.",
+					"patternProperties": {
+						"^[0-9]+$": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string",
+									"default": "Option X",
+									"examples": [ "On", "Off", "Yes", "No", "Enabled", "Disabled" ],
+									"description": "The name of this option index."
+								},
+								"cssPref": {
+									"type": "string",
+									"pattern": "^(?:[a-zA-Z0-9_-]+-)*[a-zA-Z0-9_-]+$",
+									"description": "The CSS class to apply to the preference when this value is selected. This is useful for color coding or other visual cues."
+								}
+							},
+							"required": ["name"],
+							"additionalProperties": false
+						}
+					},
+					"minProperties": 1,
+					"additionalProperties": false
+				},
+				"default": {
+					"type": "number",
+					"description": "The default value index to use if the user has not set a preference. The default of this is the first listed value."
+				}
+			},
+			"required": ["name", "values"],
+			"additionalProperties": false
+		}
+	},
+	"additionalProperties": false
+}
