@@ -482,9 +482,9 @@ ${writer.fileSignature}
  * TYPE CHECKING ONLY, this function is never called.
  * If there are any undefined function errors here, you MUST rename the action within the game states file, or create the function in the game class.
  * If the function does not match the parameters correctly, you are either calling an invalid function, or you have incorrectly added parameters to a state function.
- * @param ___yourgamename___ $game
  */
-function validate_state_functions_exist($game) {
+if (false) {
+	/** @var kiriaitheduel $game */
 	${Object.values(statesJSON)
 		.filter(state => state.action !== undefined && state.type !== 'manager')
 		.map(state => `$game->${state.action}();`)
