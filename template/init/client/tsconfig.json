@@ -19,6 +19,6 @@
 			"template/client/types/**",
 			"./node_modules/@types"
 		],
-		"outFile": "___bga-project-folder______yourgamename___.js"
+		"outFile": "../___bga-project-folder______yourgamename___.js"
 	},
 }
