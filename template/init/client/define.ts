@@ -1,8 +1,17 @@
+// @ts-nocheck
 /**
- * @file The entrypoint for the game. This is the only file that should be included in the typescript configuration. All other tiles will be included by the compiler through reference tags. This file should only contain one *.ts reference which should always be the file that defines the the game specific class as all files needed for t
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * ___YourGameName___ implementation : © ___developer-names___ ___developer-emails___
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
  */
-/// <reference path="types/index.d.ts" />
-/// <reference path="yourgamename.ts" />
+/**
+ * @file The entrypoint for the game. This is the only file that should be included in the typescript configuration. All other tiles will be included by the compiler through reference tags. This file should only contain one *.ts reference which should always be the file that defines the the game specific class as all files needed for compilation will be included by reference tags in that file, assuming no compilation errors.
+ */
+/// <reference path="___yourgamename___.ts" />
 
 define([
 	"dojo",
@@ -11,7 +20,7 @@ define([
 	"ebg/counter",
 ],
 function (_dojo, declare) {
-	return declare("bgagame.yourgamename", ebg.core.gamegui, new YourGameName());
+	return declare("bgagame.___yourgamename___", ebg.core.gamegui, new ___YourGameName___());
 });
 
 /**

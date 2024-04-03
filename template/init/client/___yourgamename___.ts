@@ -1,15 +1,31 @@
+// @ts-nocheck
 /**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * ___YourGameName___ implementation : © ___developer-names___ ___developer-emails___
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ */
+
+/**
+ * In this file, you are describing the logic of your user interface, in Typescript language.
+ * 
  * @file Including any *.ts files will import all defined variables and classes (*.d.ts file can only have declared types which are omitted). This will include any game specific files or cookbook modules here.
  * 
  * If you are unsure about what code is being added to the output file, you can always check the output after running the typescript compiler. If you are referencing functions/variables that are not included by reference tags, you will always get a typescript error (so don't worry about missing imports).
  * @example
- * /// <reference path="cookbook/common.ts" />
- * /// <reference path="yourgamename_actions.d.ts" />
+ * /// <reference path="../template/client/cookbook/common.ts" />
+ * /// <reference path="actions/yourgamename_actions.d.ts" />
 */
-/// <reference path="yourgamename.d.ts" />
+/// <reference path="___yourgamename___.d.ts" />
+
 /**
  * Creates an alias for your game name. Not necessary but helps for clarity.
  * In addition, this lets you create a pseudo partial class using interfaces and prototype overriding. See below or {@link GameguiCookbook} for more information.
+ * 
+ * Extend the {@link GameguiCookbook} to have access to several {@link https://en.doc.boardgamearena.com/BGA_Studio_Cookbook: Cookbook} methods.
  * @example
  * // yourgamename_actions.ts
  * interface YourGameName {
@@ -30,28 +46,14 @@
  * 	}
  * }
  */
-interface YourGameName extends Gamegui {}
+interface ___YourGameName___ extends Gamegui {}
 
-/**
- * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * YourGameName implementation : © <Your name here> <Your email address here>
- *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
- * See http://en.boardgamearena.com/#!doc/Studio for more information.
- *
- * yourgamename.js
- *
- * YourGameName user interface script
- * 
- * In this file, you are describing the logic of your user interface, in Typescript language.
- *
- * Extend the {@link GameguiCookbook} to have access to several {@link https://en.doc.boardgamearena.com/BGA_Studio_Cookbook: Cookbook} methods.
- */
-class YourGameName
+/** The root for all of your game code. */
+class ___YourGameName___
 {
 	/** @gameSpecific See {@link Gamegui} for more information. */
 	constructor(){
-		console.log('yourgamename constructor');
+		console.log('___yourgamename___ constructor');
 		// this.myGlobalValue = 0;
 	}
 

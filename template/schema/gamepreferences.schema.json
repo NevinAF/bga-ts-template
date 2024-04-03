@@ -3,6 +3,13 @@
 	"title": "User Preferences",
 	"type": "object",
 	"description": "The list of user preferences that can be set by the user. This is automatically translated and updated by the user.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/gamepreferences.schema.json"
+		}
+	},
 	"patternProperties": {
 		"^[0-9]+$": {
 			"type": "object",

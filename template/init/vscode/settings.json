@@ -1,0 +1,31 @@
+{
+	"intelephense.environment.includePaths": [
+		"___bga-sharedcode___"
+	],
+	"intelephense.environment.phpVersion": "___php-version___",
+	"emmet.syntaxProfiles": {
+		"tpl": "html"
+	},
+	"json.schemas": [
+		{
+			"fileMatch": [ "**/gameoptions.json*" ],
+			"url": "___source-folder___/template/schema/gameoptions.schema.json"
+		},
+		{
+			"fileMatch": [ "**/gamepreferences.json*" ],
+			"url": "___source-folder___/template/schema/gamepreferences.schema.json"
+		},
+		{
+			"fileMatch": [ "**/stats.json*" ],
+			"url": "___source-folder___/template/schema/stats.schema.json"
+		},
+		{
+			"fileMatch": [ "**/gamesates.json*" ],
+			"url": "___source-folder___/template/schema/gamesates.schema.json"
+		},
+		{
+			"fileMatch": [ "**/gameinfos.json*" ],
+			"url": "___source-folder___/template/schema/gameinfos.schema.json"
+		}
+	]
+}

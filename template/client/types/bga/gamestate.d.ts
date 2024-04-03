@@ -32,8 +32,6 @@
  * }
  */
 interface GameStates {
-	1: 'gameSetup';
-	99: { name: 'gameEnd', args: { /* TODO: check what the end game args are */ } };
 }
 
 /**
@@ -230,8 +228,8 @@ type GameStateName = {
  */
 type AnyGameStateArgs = AnyOf<{
 	[K in keyof GameStates]:
+		GameStates[K] extends { argsType: infer T } ? T :
 		GameStates[K] extends string ? {} :
-		GameStates[K] extends { args: infer T } ? T :
 		never;
 }[keyof GameStates]>;
 
@@ -262,11 +260,11 @@ type GameStateNameById<K extends keyof GameStates> =
 type GameStateArgs<N extends keyof GameStates | GameStateName> = 
 	N extends keyof GameStates ?
 		GameStates[N] extends string ? {} :
-		GameStates[N] extends { args: infer T } ? T :
+		GameStates[N] extends { argsType: infer T } ? T :
 		never
 	: {
 		[K in keyof GameStates]:
 			GameStates[K] extends N ? { } :
-			GameStates[K] extends { name: N, args: infer T } ? T :
+			GameStates[K] extends { name: N, argsType: infer T } ? T :
 			never;
 	}[keyof GameStates];

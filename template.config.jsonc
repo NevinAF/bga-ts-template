@@ -1,0 +1,50 @@
+/**
+ * This is linked to a schema file which enforces the structure of this file, and provides hover-able comments in most IDEs.
+ * 
+ * 
+ * All of the below simply create the template files for you. Any of these can be added later and the build will automatically generate anything it needs to. For example:
+ * - Add SASS by adding client/yourgamename.scss 
+ * - Add gamesates.jsonc by creating that file in the shared folder.
+*/
+{
+	"$schema": "template/schema/template-config.schema.json",
+
+	//
+	// Basic Information (Init Only)
+	//
+
+	"yourgamename": "_TODO_",
+	"developer-names": "_TODO_",
+	"developer-emails": "_TODO_",
+	"bga-project-folder": "_TODO_/", // suggested is "../"
+
+	//
+	// Components To Include
+	//
+
+	// If true, typescript files will be generated for the client-side code.
+	"typescript-client": true,
+	"scss-client": true,
+
+	// If true, states.inc.php, action.php, and a ts types will be generated for a jsonc file.
+	"gamestates.jsonc": true, 
+
+	// If true, gameinfos and the following .inc.php / json files will use jsonc (json with comments). These allow for comments, and will have schema files linked to them.
+	"gameinfos.jsonc": true,
+	"gameoptions.jsonc": true,
+	"gamepreferences.jsonc": true,
+	"stats.jsonc": true,
+
+	//
+	// VS Code Settings
+	//
+
+	// If false, no other settings in this section will be used.
+	"generate-vscode-files": true,
+
+	"php-version": "8.2.17", // 8.2 is the newer version.
+	"bga-sharedcode": true,
+
+	// If using SFTP extension by natizyskunk, makes auto generated files upload. ___your-sftp-username___ and ___your-sftp-password___ need to be filled if file does not exist.
+	"sftp-natizyskunk": true
+}

@@ -1,0 +1,117 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Template Configurations",
+	"type": "object",
+	"description": "This file contains configurations for initialization and building of the source for this project.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/template-config.schema.json"
+		},
+		"yourgamename": {
+			"type": "string",
+			"description": "The upper camel case (pascal case) name of the game. This will be used to name your games main client files, the main Gamequi class, the module name and out file for the game, and the remote path for SFTP.",
+			"pattern": "^[a-zA-Z0-9_]*$",
+			"minLength": 1,
+			"default": "YourGameName"
+		},
+		"bga-project-folder": {
+			"type": "string",
+			"description": "The root folder for your bga-project. This is used for getting the correct path for auto generated code files, like yourgamename.js. It is recommended to put source folder (this bga-template folder) inside the bga-project folder. If so, the folder would be '../'.",
+			"pattern": "^.+(?:[\\\/])$",
+			"default": "../"
+		},
+		"developer-names": {
+			"type": "string",
+			"description": "The string that will be inserted into the header of all files. This should be used to identify the developer(s) of the game."
+		},
+		"developer-emails": {
+			"type": "string",
+			"description": "The string that will be inserted into the header of all files. This should be used to identify the developer(s) of the game."
+		},
+		"typescript-client": {
+			"type": "boolean",
+			"description": "If true, a 'client' folder will be created in the root of this project when initializing. As long as this remains true, the tsconfig in this client folder will be built when running 'npm run build'.",
+			"default": true
+		},
+		"scss-client": {
+			"type": "boolean",
+			"description": "If true, a 'client' folder will be created in the root of this project when initializing. As long as this remains true, the yourgamename.scss file will be built when running 'npm run build'.",
+			"default": true
+		},
+		"gameinfos.jsonc": {
+			"type": "boolean",
+			"description": "If true, the 'gameinfos.inc.php' file will be generated using the shared/gameinfos.jsonc file. This is used to add type checking and better intellisense to the gameinfos file.",
+			"default": true
+		},
+		"gamestates.jsonc": {
+			"type": "boolean",
+			"description": "If true, the 'states.inc.php' and 'action.php' file will be generated using the shared/gamestates.jsonc file. This 1) offers type checking and better intellisense for the states file, 2) automatically sets up the action.php to parse player actions. 3) creates type validation for function names used in all states (action+possibleactions), 4) if ts-client, generates the type files for player actions and gamestates for intellisense and quick error correction.",
+			"default": true
+		},
+		"gamepreferences.jsonc": {
+			"type": "boolean",
+			"description": "If true, the 'gamepreferences.json' file will be generated using the shared/gamepreferences.jsonc file. This is used to add type checking and better intellisense to the gamepreferences file, as well as enables comments.",
+			"default": true
+		},
+		"gameoptions.jsonc": {
+			"type": "boolean",
+			"description": "If true, the 'gameoptions.json' file will be generated using the shared/gameoptions.jsonc file. This is used to add type checking and better intellisense to the gameoptions file, as well as enables comments.",
+			"default": true
+		},
+		"stats.jsonc": {
+			"type": "boolean",
+			"description": "If true, the 'stats.json' file will be generated using the shared/stats.jsonc file. This is used to add type checking and better intellisense to the stats file, as well as enables comments.",
+			"default": true
+		},
+		"generate-vscode-files": {
+			"type": "boolean",
+			"description": "If true, the .vscode folder will be generated with the necessary files for intellisense and debugging. ",
+			"default": true
+		},
+		"bga-sharedcode": {
+			"description": "If a string, this is the folder name of the shared code for the BGA project. If this is 'true', the template/server folder will be used as the share code (which provides better typing. If this is 'false', no shared coded path will be included in the settings.",
+			"oneOf": [
+				{
+					"type": "string",
+					"description": "The folder name of the shared code for the BGA project. This should not include the /misc/ folder as described by vs-code setup.",
+					"pattern": "^.+(?:[\\\/])$"
+				},
+				{
+					"type": "boolean"
+				}
+			]
+		},
+		"php-version": {
+			"type": "string",
+			"description": "The version of PHP that the BGA server is running. This is used to determine the correct path for the shared code. See https://en.doc.boardgamearena.com/Studio for software versions info.",
+			"enum": [ "7.4.33", "8.2.17" ],
+			"default": "8.2.17"
+		},
+		"sftp-natizyskunk": {
+			"type": "boolean",
+			"description": "If using SFTP extension by natizyskunk, makes auto generated files upload and creates the initial file as described by BGA documentation. ___your-sftp-username___ and ___your-sftp-password___ need to be filled if file does not exist.",
+			"default": true
+		}
+	},
+	"required": [
+		"yourgamename",
+		"bga-project-folder",
+		"developer-names",
+		"developer-emails",
+		"typescript-client",
+		"scss-client",
+		"gameinfos.jsonc",
+		"gamestates.jsonc",
+		"gamepreferences.jsonc",
+		"gameoptions.jsonc",
+		"stats.jsonc",
+		"generate-vscode-files",
+		"bga-sharedcode",
+		"php-version",
+		"sftp-natizyskunk"
+	],
+	"additionalProperties": false
+
+}

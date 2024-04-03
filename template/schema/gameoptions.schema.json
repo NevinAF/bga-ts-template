@@ -3,6 +3,13 @@
 	"title": "Game Options",
 	"type": "object",
 	"description": "This file contains the game options for the game. The game options are used to configure the game and are displayed to the table creator in the lobby. These are automatically formatted and displayed to the table creator.",
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/gameoptions.schema.json"
+		}
+	},
 	"patternProperties": {
 		"^1[0-9][0-9]$": {
 			"type": "object",

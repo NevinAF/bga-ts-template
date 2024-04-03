@@ -4,6 +4,11 @@
 	"type": "object",
 	"description": "The definitions for all custom game statistics. These statistics are updated on the server side and automatically displayed in a list on the game page based on the options listed bellow.",
 	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The file used to provide in document validation and autofill.",
+			"default": "template/schema/stats.schema.json"
+		},
 		"table": {
 			"type": "object",
 			"description": "Any statistic not associated with a specific player.",
