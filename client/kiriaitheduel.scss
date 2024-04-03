@@ -1,0 +1,191 @@
+/**
+ * -----
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * KiriaiTheDuel implementation : © Nevin Foster nevin.foster2@gamil.com
+ * -----
+ */
+
+/* #region Layout */
+/*
+ - - - - - - - - - <Game Area> - - - - - - - - - 
+ <My Hand Area>  |  <Battlefield>  |  <Play Area>
+ - - - - - - - - - - - - - - - - - - - - - - - - 
+                <Opponent Hand Area>             
+*/
+#game-area {
+	display: flex;
+	align-items: center;
+	width: calc(100% - 10px);
+	justify-content: center;
+	padding: 5px;
+	user-select: none;
+}
+
+#my-hand-area {
+	flex-grow: 3;
+	max-width: 270px;
+	display: grid;
+	grid-template-columns: 185fr 185fr;
+	grid-template-rows: 270fr 270fr 270fr;
+	gap: 0.5em;
+	margin-bottom: 10px;
+}
+
+#battlefield {
+	flex-grow: 6;
+	max-width: 450px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	aspect-ratio: 1/1;
+}
+
+#play-area {
+	flex-grow: 3;
+	max-width: 270px;
+	display: grid;
+	grid-template-columns: 185fr 185fr;
+	grid-template-rows: 270fr 270fr;
+	gap: 0.5em;
+}
+
+#opponent-hand-area {
+	display: flex;
+	align-content: stretch;
+	justify-content: center;
+}
+
+#opponent-hand-area > .cardslot {
+	max-width:120px;
+	flex: 1;
+}
+
+/* #endregion */
+
+/* #region Cards */
+
+.cardslot {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	aspect-ratio: 185/270;
+	background-color: white;
+	pointer-events: all;
+}
+
+.cardslot::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: 100ms;
+}
+
+.cardImg {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.topPicked {
+	transform: rotate(0deg);
+}
+
+.bottomPicked {
+	transform: rotate(180deg);
+}
+
+.played::after {
+	background-color: rgba(60, 148, 191, 0.25);
+}
+
+.discarded::after {
+	background-color: rgba(0, 0, 0, 0.35);
+}
+
+.cardslot:hover::after {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* #endregion */
+
+/* #region Battlefield */
+
+#standard_battlefield {
+	padding: 100px 50px;
+}
+
+.samurai_offset {
+	position: absolute;
+	user-select: none;
+	pointer-events: none;
+}
+
+.field_position {
+	position: relative;
+}
+
+.field_position::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 25px;
+	height: 25px;
+	background-color: black;
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.highlight::after {
+	background-color: slategray;
+	cursor: pointer;
+}
+
+/* #endregion */
+
+/* #region Tooltips */
+
+.tooltip-two-column {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.tooltip-container {
+	padding: .5rem 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.tooltip-tag {
+	color: white;
+	padding: .5rem 1rem;
+	border-radius: 50px;
+}
+
+.tooltip-type-move {
+	background-color: #3c94bf;
+}
+
+.tooltip-type-attack {
+	background-color: #bf3c3c;
+}
+
+.tooltip-type-special {
+	background-color: #bfb63c;
+}
+
+.tooltip-desc {
+	text-align: center;
+}
+
+.tooltip-img {
+	position: relative;
+	overflow: hidden;
+	width: 75px;
+	aspect-ratio: 0.6428571428571429;
+}

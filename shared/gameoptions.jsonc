@@ -1,0 +1,28 @@
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * KiriaiTheDuel implementation : © Nevin Foster nevin.foster@gmail.com
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ */
+/*
+ * This file is enforced by schema file located at 'bga-ts-template/template/schema'. If you are using VS Code, this schema file will be linked to this file automatically if 'generate-vscode-files' is set to true in 'template.config.jsonc. Hover over any fields for more information.
+ */
+{
+	"$schema": "../template/schema/gameoptions.schema.json",
+
+	"100": {
+		"name": "Battlefield",
+		"values": {
+			"1": {
+				"name": "Standard Battlefield"
+			},
+			"2": {
+				"name": "Advanced Battlefield",
+				"nobeginner": true
+			}
+		}
+	}
+}

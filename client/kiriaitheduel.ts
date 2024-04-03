@@ -1,7 +1,7 @@
 /// <reference path="kiriaitheduel.d.ts" />
-/// <reference path="cookbook/common.ts" />
-/// <reference path="cookbook/nevinAF/playeractionqueue.ts" />
-/// <reference path="cookbook/nevinAF/titleLocking.ts" />
+/// <reference path="../template/client/cookbook/common.ts" />
+/// <reference path="../template/client/cookbook/nevinAF/playeractionqueue.ts" />
+/// <reference path="../template/client/cookbook/nevinAF/titleLocking.ts" />
 /**
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena

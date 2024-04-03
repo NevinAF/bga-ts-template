@@ -13,10 +13,10 @@
 	// Basic Information (Init Only)
 	//
 
-	"yourgamename": "_TODO_",
-	"developer-names": "_TODO_",
-	"developer-emails": "_TODO_",
-	"bga-project-folder": "_TODO_/", // suggested is "../"
+	"yourgamename": "KiriaiTheDuel",
+	"developer-names": "Nevin Foster",
+	"developer-emails": "nevin.foster@gmail.com",
+	"bga-project-folder": "../", // suggested is "../"
 
 	//
 	// Components To Include

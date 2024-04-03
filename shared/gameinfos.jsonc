@@ -1,0 +1,57 @@
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * KiriaiTheDuel implementation : © Nevin Foster nevin.foster@gmail.com
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ */
+/*
+ * This file is enforced by schema file located at 'bga-ts-template/template/schema'. If you are using VS Code, this schema file will be linked to this file automatically if 'generate-vscode-files' is set to true in 'template.config.jsonc. Hover over any fields for more information.
+ * Comments in this file are minimized for clarity.
+ */
+{
+	"$schema": "../template/schema/gameinfos.schema.json",
+
+	// Game Externals and basic information
+	"game_name": "Kiri-ai: The Duel",
+	"publisher": "Mugen Gaming",
+	"publisher_website": "https://mugengaming.com/",
+	"publisher_bgg_id": 53904,
+	"bgg_id": 387769,
+
+	// Players
+	"players": [ 2 ],
+	"player_colors": [ "e54025", "5093a3" ],
+	"favorite_colors_support": true,
+	"suggest_player_number": null,
+	"not_recommend_player_number": null,
+	"disable_player_order_swap_on_rematch": false,
+
+	// Game Clock
+	"estimated_duration": 5,
+	"fast_additional_time": 20,
+	"medium_additional_time": 35,
+	"slow_additional_time": 50,
+
+	// Game Rankings
+	"tie_breaker_description": "",
+	"losers_not_ranked": false,
+	"solo_mode_ranked": false,
+	"is_coop": 0,
+
+	// BGA Game Information
+	"is_beta": 1,
+	"language_dependency": false,
+	"game_interface_width":
+	{
+		"min": 740, // >= 320, <= 740
+		"max": null // >= 740. null = no limit
+	},
+
+	//////// BGA SANDBOX ONLY PARAMETERS (DO NOT MODIFY)
+	"is_sandbox": false,
+	"turnControl": "simple"
+	////////
+}

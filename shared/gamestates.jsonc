@@ -1,0 +1,89 @@
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * KiriaiTheDuel implementation : © Nevin Foster nevin.foster@gmail.com
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ */
+/*
+ * This file is enforced by schema file located at "bga-ts-template/template/schema". If you are using VS Code, this schema file will be linked to this file automatically if "generate-vscode-files" is set to true in "template.config.jsonc. Hover over any fields for more information.
+ *
+ * Game state machine is a tool used to facilitate game development. Please check the BGA Studio presentation about game state to understand this, and associated documentation.
+ *
+ * !! It is not a good idea to modify this file when a game is running !!
+ */
+{
+	"$schema": "../template/schema/gamestates.schema.json",
+
+	// The initial state. Please do not modify.
+	"1": {
+		"name": "gameSetup",
+		"description": "",
+		"type": "manager",
+		"action": "stGameSetup",
+		"transitions": { "": 2 }
+	},
+
+	"2": {
+		"name": "setupBattlefield",
+		"type": "multipleactiveplayer",
+		"action": "stSetupBattlefield",
+		"description": "The opponent must choose a stance and position",
+		"descriptionmyturn": "${you} must choose a stance and position",
+		"possibleactions": {
+			"confirmedStanceAndPosition": [
+				{ "name": "isHeavenStance", "type": "AT_bool" },
+				{ "name": "position", "type": "AT_int" }
+			]
+		},
+		"transitions": { "": 3 }
+	},
+
+	/**
+	 * Players pick cards.
+	 * Note that each card pick and undo is shared with the opponent (card is obfuscated). This mimics in-person decision making.
+	 * There is no way to undo confirming cards played.
+	 */
+	"3": {
+		"name": "pickCards",
+		"type": "multipleactiveplayer",
+		"action": "stPickCardsInit",
+		"description": "The opponent must choose two cards to play",
+		"descriptionmyturn": "${you} must choose two cards to play",
+		"possibleactions": {
+			"pickedFirst": [{ "name": "card_id", "type": "AT_int" }],
+			"pickedSecond": [{ "name": "card_id", "type": "AT_int" }],
+			"undoFirst": [],
+			"undoSecond": [],
+			"confirmedCards": []
+		},
+		"transitions": { "": 4 }
+	},
+
+	/**
+	 * Server state to resolve the cards played. All actions taken send a notification used to update ui.
+	 * If a player scores their second point (damages the opponent twice), the game ends, otherwise it goes back to pickCards.
+	 */
+	"4": {
+		"name": "resolveCards",
+		"description": "",
+		"type": "game",
+		"action": "stResolveCards",
+		"updateGameProgression": true,
+		"transitions": { "endGame": 99, "pickCards": 3 }
+	},
+
+	// Final state.
+	// Please do not modify (and do not overload action/args methods}.
+	"99": {
+		"name": "gameEnd",
+		"description": "End of game",
+		"type": "manager",
+		"action": "stGameEnd",
+		"args": "argGameEnd",
+		/* TODO: get the arguments that are passed at the end of a game.. */
+		"argsType": "object"
+	}
+}

@@ -1,0 +1,24 @@
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * KiriaiTheDuel implementation : © Nevin Foster nevin.foster@gmail.com
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ */
+{
+	"include": [ "define.ts" ], // This will include all source that is needed
+	"compilerOptions": {
+		"target": "es5", // NEVER CHANGE THIS
+		"module": "none", // NEVER CHANGE THIS
+		"lib": [ "dom", "esnext" ], // Never should need to change.
+		"removeComments": true, // Preference. Comments are always removed in production.
+		"sourceMap": false, // Preference. Most debugging will be done in the browser, so source maps are not needed. 
+		"typeRoots": [
+			"template/client/types/**",
+			"./node_modules/@types"
+		],
+		"outFile": "../../kiriaitheduel.js"
+	},
+}
