@@ -446,7 +446,7 @@ if (fs.existsSync('shared/gamestates.jsonc'))
 
 			d_ts_stream.write(`
 
-type PullActionArgs<T extends readonly any[]> = AnyOf<{
+type PullActionArgs<T extends readonly any[]> = T extends [] ? {} : AnyOf<{
 	[arg in TupleIndices<T>]: {
 		[argName in T[arg]['name']]: T[arg]['typescriptType']
 	}
