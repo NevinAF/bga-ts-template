@@ -51,14 +51,14 @@ const builder = {
 	execCommand: (message, command) => builder.commands.push({
 		message: message,
 		callback: () => {
-			if (builder.watch) {
-				const proc = exec(command);
-				proc.stdout.pipe(process.stdout);
-				proc.stderr.pipe(process.stderr);
-			}
+			if (builder.watch)
+				exec(command, { stdio: 'inherit' });
 			else {
-				try { execSync(command); }
-				catch (err) { console.error(err.message); }
+				try { execSync(command, { stdio: 'inherit' }); }
+				catch (err) {
+					console.error(err.message);
+					process.exit(1);
+				}
 			}
 		}
 	})
@@ -646,9 +646,6 @@ if (fs.existsSync('./client/___yourgamename___.scss')) {
 console.log('Running build commands:');
 for (const command of builder.commands) {
 	console.log("\t" + command.message);
-}
-
-for (const command of builder.commands) {
 	command.callback();
 }
 
