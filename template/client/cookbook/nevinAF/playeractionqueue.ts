@@ -129,8 +129,8 @@ interface PlayerActionQueueItem extends PlayerActionQueueArgs<keyof PlayerAction
 interface PlayerActionQueueArgs<T extends keyof PlayerActions> {
 	/** The name of the action to enqueue */
 	action: T;
-	/** The arguments for the action. */
-	args: PlayerActions[T];
+	/** The arguments for the action. If action can be multiple types, this will include all possible combinations, but only the correct arguments should really be populated and sent. */
+	args: ExcludeEmpty<PlayerActions[T]> extends never ? {} : ExcludeEmpty<PlayerActions[T]>;
 	/** The callback to call when the action is removed from the action queue, either because of a server response (not necessarily successful), or an action error (see {@link GameguiCookbook.actionErrorCodes}) */
 	callback?: AjaxResponseDelegate;
 	onSent?: () => any;
