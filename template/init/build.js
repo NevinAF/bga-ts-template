@@ -52,13 +52,9 @@ const builder = {
 		message: message,
 		callback: () => {
 			if (builder.watch) {
-				exec(command, (err, stdout, stderr) => {
-					if (err) {
-						console.error(err.message);
-						return;
-					}
-					console.log(stdout);
-				});
+				const proc = exec(command);
+				proc.stdout.pipe(process.stdout);
+				proc.stderr.pipe(process.stderr);
 			}
 			else {
 				try { execSync(command); }
@@ -622,12 +618,14 @@ if (fs.existsSync('./shared/gameinfos.jsonc'))
 
 if (fs.existsSync('./client/tsconfig.json'))
 {
-	builder.commands.push("Create Typescript Build Index: client/build/index.d.ts", () => {
-		const stream = fs.createWriteStream('client/build/index.d.ts');
-		stream.write(writer.fileSignature + dtsBuildFiles.map(file => `/// <reference path="${file}" />`).join('\n'));
-		stream.close();
+	builder.commands.push({
+		message: "Create Typescript Build Index: client/build/index.d.ts",
+		callback: () => {
+			const stream = fs.createWriteStream('client/build/index.d.ts');
+			stream.write(writer.fileSignature + dtsBuildFiles.map(file => `/// <reference path="${file}" />`).join('\n'));
+			stream.close();
+		}
 	});
-
 }
 
 //#region Compilers
@@ -658,7 +656,6 @@ if (!builder.watch)
 	console.log('Build complete.');
 else {
 	setTimeout(() => {
-		console.log('\rWatching for changes...');
-		console.log('Press Ctrl+C to stop watching.');
+		console.log('Press Ctrl+C to stop watching. Watching for changes...');
 	}, 1000);
 }
