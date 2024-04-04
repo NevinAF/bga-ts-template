@@ -28,6 +28,8 @@ A starting template built with type safety in mind, containing:
 
 ## Getting Started
 
+0. Create the BGA project and download all projects files using SFTP. Most SFTP software will deleted extra files when syncing from remote to local, which will destructively interfere with downloading and initializing the ts-template-files.
+
 > `npm` is used in this guide, but `yarn` can be used as well.
 
 1. **Download node.js and npm** [here](https://nodejs.org/en/download/) (if not already installed). BGA does not have typescript compilation for server files; therefore, the typescript must be compiled to a javascript file in order to run any typescript code on game clients. Compiling typescript requires the installation of node.js and npm.
