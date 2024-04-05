@@ -633,7 +633,7 @@ interface BGACore {
 	/** Internal. A counter used to create unique ids for confirmation dialogs that open at the same time (to maintain functionality). If undefined, no confirmation dialogs have been created. See {@link confirmationDialog} for more information. */
 	confirmationDialogUid?: number;
 	/** Internal. The uid for the last dialog that was confirmed, used to prevent double calling functions. If undefined, no confirmation dialogs have been created. See {@link confirmationDialog} for more information. */
-	confirmationDialogUid_called
+	confirmationDialogUid_called?: number;
 	/** Internal. Used to managed the state of bubbles from {@link showBubble} and {@link doShowBubble}. The keys of this record represent all active bubbles, and the value is the timeout that is currently running on that bubble. */
 	discussionTimeout: Record<string, number>;
 	/** A counter representing the number of times {@link showClick} has been called. Used to create custom element id's for maintaining callbacks. */

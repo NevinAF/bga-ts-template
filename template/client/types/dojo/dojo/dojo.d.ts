@@ -1,5 +1,5 @@
 /// <reference path="index.d.ts" />
-/// <reference path="../../doh/1.11/doh.d.ts" />
+/// <reference path="../doh/doh.d.ts" />
 
 declare namespace dojo {
 	/* general implied types */
@@ -1169,6 +1169,10 @@ declare namespace dojo {
 
 	interface Mouse {
 		_eventHandler(type: string, selectHandler?: (evt: MouseEvent, listener: EventListener) => void): MouseEvent;
+
+		LEFT: 1;
+		MIDDLE: 2;
+		RIGHT: 4;
 
 		/**
 		 * This is an extension event for the mouseenter that IE provides, emulating the

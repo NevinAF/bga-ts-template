@@ -162,7 +162,7 @@ declare module 'dojo/currency' {
 }
 
 declare module 'dojo/data/api/Identity' {
-	type Identity<T> = dojo.data.api.Identity<T>;
+	type Identity<T extends dojo.data.api.Item> = dojo.data.api.Identity<T>;
 	const Identity: dojo.data.api.IdentityConstructor;
 	export = Identity;
 }
@@ -174,13 +174,13 @@ declare module 'dojo/data/api/Item' {
 }
 
 declare module 'dojo/data/api/Notification' {
-	type Notification<T> = dojo.data.api.Notification<T>;
+	type Notification<T extends dojo.data.api.Item> = dojo.data.api.Notification<T>;
 	const Notification: dojo.data.api.NotificationConstructor;
 	export = Notification;
 }
 
 declare module 'dojo/data/api/Read' {
-	type Read<T> = dojo.data.api.Read<T>;
+	type Read<T extends dojo.data.api.Item> = dojo.data.api.Read<T>;
 	const Read: dojo.data.api.ReadConstructor;
 	export = Read;
 }
@@ -192,7 +192,7 @@ declare module 'dojo/data/api/Request' {
 }
 
 declare module 'dojo/data/api/Write' {
-	type Write<T> = dojo.data.api.Write<T>;
+	type Write<T extends dojo.data.api.Item> = dojo.data.api.Write<T>;
 	const Write: dojo.data.api.WriteConstructor;
 	export = Write;
 }
@@ -213,19 +213,19 @@ declare module 'dojo/data/util/sorter' {
 }
 
 declare module 'dojo/data/ItemFileReadStore' {
-	type ItemFileReadStore<T> = dojo.data.ItemFileReadStore<T>;
+	type ItemFileReadStore<T extends dojo.data.api.Item> = dojo.data.ItemFileReadStore<T>;
 	const ItemFileReadStore: dojo.data.ItemFileReadStoreConstructor;
 	export = ItemFileReadStore;
 }
 
 declare module 'dojo/data/ItemFileWriteStore' {
-	type ItemFileWriteStore<T> = dojo.data.ItemFileWriteStore<T>;
+	type ItemFileWriteStore<T extends dojo.data.api.Item> = dojo.data.ItemFileWriteStore<T>;
 	const ItemFileWriteStore: dojo.data.ItemFileWriteStoreConstructor;
 	export = ItemFileWriteStore;
 }
 
 declare module 'dojo/data/ObjectStore' {
-	type ObjectStore<T> = dojo.data.ObjectStore<T>;
+	type ObjectStore<T extends dojo.data.api.Item> = dojo.data.ObjectStore<T>;
 	const ObjectStore: dojo.data.ObjectStoreConstructor;
 	export = ObjectStore;
 }
@@ -757,7 +757,7 @@ declare module 'dojo/store/DataStore' {
 }
 
 declare module 'dojo/store/JsonRest' {
-	type JsonRest<T, Q extends dojo.store.api.BaseQueryType, O extends dojo.store.JsonRestQueryOptions> = dojo.store.JsonRest<T, Q, O>;
+	type JsonRest<T extends object, Q extends dojo.store.api.BaseQueryType, O extends dojo.store.JsonRestQueryOptions> = dojo.store.JsonRest<T, Q, O>;
 	const JsonRest: dojo.store.JsonRestConstrcutor;
 	export = JsonRest;
 }

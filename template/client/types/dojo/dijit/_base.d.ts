@@ -171,7 +171,14 @@ declare namespace dijit {
 		/**
 		 * Deprecated, for back-compat, just loads top level module
 		 */
-		interface Typematic { }
+		interface Typematic {
+			addKeyListener: Function;
+			addListener: Function;
+			addMouseListener: Function;
+			stop: Function;
+			trigger: Function;
+			_fireEventAndReload: Function;
+		}
 
 		/* dijit/_base/wai */
 
@@ -237,6 +244,8 @@ declare namespace dijit {
 		/**
 		 * Back compatibility module, new code should use windowUtils directly instead of using this module.
 		 */
-		interface Window { }
+		interface Window {
+			getDocumentWindow: Function;
+		}
 	}
 }

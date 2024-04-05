@@ -277,7 +277,7 @@ declare module 'dijit/form/ComboBox' {
 }
 
 declare module 'dijit/form/ComboBoxMixin' {
-	type ComboBoxMixin<T, U, V> = dijit.form.ComboBoxMixin<T, U, V>;
+	type ComboBoxMixin<T extends object, U extends Function, V extends dojo.store.api.QueryOptions> = dijit.form.ComboBoxMixin<T, U, V>;
 	const ComboBoxMixin: dijit.form.ComboBoxConstructor;
 	export = ComboBoxMixin;
 }
@@ -289,7 +289,7 @@ declare module 'dijit/form/CurrencyTextBox' {
 }
 
 declare module 'dijit/form/DataList' {
-	type DataList<T> = dijit.form.DataList<T>;
+	type DataList<T extends object> = dijit.form.DataList<T>;
 	const DataList: dijit.form.DataListConstructor;
 	export = DataList;
 }
@@ -367,7 +367,7 @@ declare module 'dijit/form/RangeBoundTextBox' {
 }
 
 declare module 'dijit/form/Select' {
-	type Select<T, Q, O, U extends dijit._WidgetBase> = dijit.form.Select<T, Q, O, U>;
+	type Select<T extends object, Q extends Function, O extends dojo.store.api.QueryOptions, U extends dijit._WidgetBase> = dijit.form.Select<T, Q, O, U>;
 	const Select: dijit.form.SelectConstructor;
 	export = Select;
 }

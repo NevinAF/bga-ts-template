@@ -1200,7 +1200,7 @@ declare namespace dijit {
 			buildRendering(): void;
 		}
 
-		interface ComboBoxMixinConstructor<T, U, V> extends _WidgetBaseConstructor<ComboBoxMixin<T, U, V>> { }
+		interface ComboBoxMixinConstructor<T extends object, U extends Function, V extends dojo.store.api.QueryOptions> extends _WidgetBaseConstructor<ComboBoxMixin<T, U, V>> { }
 
 		/* dijit/form/CurrencyTextBox */
 
@@ -1616,7 +1616,7 @@ declare namespace dijit {
 			parse(value: string, constraints: dojo.NumberParseOptions): string;
 			filter(value: number): number;
 			serialize: SerializationFunction;
-			isValid(isFocused: boolean): boolean;
+			isValid(isFocused?: boolean): boolean;
 		}
 
 		interface NumberTextBoxMixinConstructor extends _WidgetBaseConstructor<NumberTextBoxMixin> { }
@@ -1671,7 +1671,7 @@ declare namespace dijit {
 			 */
 			_isDefinitelyOutOfRange(): boolean;
 
-			isValid(isFocused: boolean): boolean;
+			isValid(isFocused?: boolean): boolean;
 			getErrorMessage(isFocused: boolean): string;
 			postMixInProperties(): void;
 		}

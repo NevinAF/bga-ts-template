@@ -113,7 +113,7 @@ declare namespace dojo {
 			 * a creator function, which takes a data item, and returns an object like that:
 			 * {node: newNode, data: usedData, type: arrayOfStrings}
 			 */
-			creator<T>(data?: ContainerItem<T>): { node: Element; data: T; type: string[]; };
+			creator<T extends GenericObject>(data?: ContainerItem<T>): { node: Element; data: T; type: string[]; };
 
 			/**
 			 * don't start the drag operation, if clicked on form elements
@@ -163,17 +163,17 @@ declare namespace dojo {
 			/**
 			 * creator function, dummy at the moment
 			 */
-			creator<T>(data?: ContainerItem<T>): { node: Element; data: T; type: string[]; };
+			creator<T extends GenericObject>(data?: ContainerItem<T>): { node: Element; data: T; type: string[]; };
 
 			/**
 			 * returns a data item by its key (id)
 			 */
-			getItem<T>(key: string): ContainerItem<T>;
+			getItem<T extends GenericObject>(key: string): ContainerItem<T>;
 
 			/**
 			 * associates a data item with its key (id)
 			 */
-			setITem<T>(key: string, data: ContainerItem<T>): void;
+			setITem<T extends GenericObject>(key: string, data: ContainerItem<T>): void;
 
 			/**
 			 * removes a data item from the map by its key (id)
@@ -184,7 +184,7 @@ declare namespace dojo {
 			 * iterates over a data map skipping members that
 			 * are present in the empty object (IE and/or 3rd-party libraries).
 			 */
-			forInItems<T, U>(f: (i: ContainerItem<T>, idx?: number, container?: Container) => void, o?: U): U;
+			forInItems<T extends GenericObject, U>(f: (i: ContainerItem<T>, idx?: number, container?: Container) => void, o?: U): U;
 
 			/**
 			 * removes all data items from the map
@@ -266,7 +266,7 @@ declare namespace dojo {
 			/**
 			 * adds all necessary data to the output of the user-supplied creator function
 			 */
-			_normalizedCreator<T>(item: ContainerItem<T>, hint: string): this;
+			_normalizedCreator<T extends GenericObject>(item: ContainerItem<T>, hint: string): this;
 		}
 
 		interface ContainerConstructor {
@@ -601,7 +601,7 @@ declare namespace dojo {
 			 * iterates over selected items;
 			 * see `dojo/dnd/Container.forInItems()` for details
 			 */
-			forInSelectedItems<T>(f: (i: ContainerItem<T>, idx?: number, container?: Container) => void, o?: GenericObject): void;
+			forInSelectedItems<T extends GenericObject>(f: (i: ContainerItem<T>, idx?: number, container?: Container) => void, o?: GenericObject): void;
 
 			/**
 			 * event processor for onmousemove

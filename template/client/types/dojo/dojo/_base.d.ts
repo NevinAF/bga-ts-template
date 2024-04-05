@@ -1,5 +1,5 @@
-/// <reference path="../../dijit/1.11/index.d.ts" />
-/// <reference path="../../dojox/1.11/index.d.ts" />
+/// <reference path="../dijit/index.d.ts" />
+/// <reference path="../dojox/index.d.ts" />
 
 declare namespace dojo {
 	namespace _base {
@@ -493,6 +493,8 @@ declare namespace dojo {
 			 * Returns a handle which is needed to unsubscribe this listener.
 			 */
 			subscribe(topic: string, context: any, method: EventListener | string): Handle;
+
+			unsubscribe(handle: Handle): void;
 
 			/**
 			 * Invoke all listener method subscribed to topic.
@@ -1040,7 +1042,7 @@ declare namespace dojo {
 			 * Returns whether or not the specified classes are a portion of the
 			 * class list currently applied to the node.
 			 */
-			containsClass(node: NodeOrString, classStr: string): boolean;
+			// containsClass(node: NodeOrString, classStr: string): boolean;
 
 			hasClass(node: NodeOrString, classStr: string): boolean;
 
@@ -1501,7 +1503,7 @@ declare namespace dojo {
 		/* dojo/_base/loader */
 
 		interface Loader {
-			extractLegacyApiApplications(text: string, noCommentText?: string): any;
+			// extractLegacyApiApplications(text: string, noCommentText?: string): any;
 			require(mid: string, require: any, loaded: (...modules: any[]) => void): void;
 			loadInit(mid: string, require: any, loaded: (...modules: any[]) => void): void;
 		}
@@ -1850,12 +1852,12 @@ declare namespace dojo {
 
 		interface ContentHandlers {
 			[type: string]: (xhr: { responseText?: string, responseXML?: string }) => any;
-			'text': (xhr: { responseText: string }) => string;
-			'json': (xhr: { responseText: string }) => GenericObject;
-			'json-comment-filtered': (xhr: { responseText: string }) => GenericObject;
-			'javascript': (xhr: { responseText: string }) => any;
-			'xml': (xhr: { responseXML: string }) => Document;
-			'json-comment-optional': (xhr: { responseText: string }) => GenericObject;
+			'text': (xhr: { responseText?: string }) => string;
+			'json': (xhr: { responseText?: string }) => GenericObject;
+			'json-comment-filtered': (xhr: { responseText?: string }) => GenericObject;
+			'javascript': (xhr: { responseText?: string }) => any;
+			'xml': (xhr: { responseXML?: string }) => Document;
+			'json-comment-optional': (xhr: { responseText?: string }) => GenericObject;
 		}
 
 		interface Xhr {

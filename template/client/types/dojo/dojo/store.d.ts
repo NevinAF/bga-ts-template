@@ -105,7 +105,7 @@ declare namespace dojo {
 				 * Note that this may executed asynchronously. The callback may be called
 				 * after this function returns.
 				 */
-				map<U>(callback: (item: T, id: string | number, results: this) => U, thisObject?: Object): QueryResults<U>;
+				map<U extends object>(callback: (item: T, id: string | number, results: this) => U, thisObject?: Object): QueryResults<U>;
 
 				/**
 				 * This registers a callback for when the query is complete, if the query is asynchronous.
@@ -261,12 +261,12 @@ declare namespace dojo {
 			 * lookup. Normally one would use a memory store for the caching
 			 * store and a server store like JsonRest for the master store.
 			 */
-			<T, Q extends api.BaseQueryType, O extends api.QueryOptions, S extends api.Store<T, Q, O>>(masterStore: S, cacheStore: api.Store<T, Q, O>, options?: CacheOptions): CacheMixin & S;
+			<T extends object, Q extends api.BaseQueryType, O extends api.QueryOptions, S extends api.Store<T, Q, O>>(masterStore: S, cacheStore: api.Store<T, Q, O>, options?: CacheOptions): CacheMixin & S;
 		}
 
 		/* dojo/store/DataStore */
 
-		interface DataStoreOptions<T> {
+		interface DataStoreOptions<T extends object> {
 			idProperty?: string;
 			queryEngine?: api.QueryEngine<T, api.QueryOptions>;
 			store?: data.api.Read<T> | data.api.Write<T> | data.api.Identity<T>;
@@ -287,7 +287,7 @@ declare namespace dojo {
 		}
 
 		interface DataStoreConstructor extends _base.DeclareConstructor<DataStore<Object>> {
-			new <T>(options?: DataStoreOptions<T>): DataStore<T>;
+			new <T extends object>(options?: DataStoreOptions<T>): DataStore<T>;
 		}
 
 		/* dojo/store/JsonRest */
@@ -296,7 +296,7 @@ declare namespace dojo {
 			[header: string]: string;
 		}
 
-		interface JsonRestPutDirectives<T> extends api.PutDirectives<T> {
+		interface JsonRestPutDirectives<T extends object> extends api.PutDirectives<T> {
 			headers?: Headers;
 		}
 
@@ -316,7 +316,7 @@ declare namespace dojo {
 			accepts?: string;
 		}
 
-		interface JsonRest<T, Q extends api.BaseQueryType, O extends JsonRestQueryOptions> {
+		interface JsonRest<T extends object, Q extends api.BaseQueryType, O extends JsonRestQueryOptions> {
 			/**
 			 * Additional headers to pass in all requests to the server. These can be overridden
 			 * by passing additional headers to calls to the store.
@@ -443,7 +443,7 @@ declare namespace dojo {
 
 		/* dojo/store/Observable */
 
-		interface ObservableQueryResults<T> extends api.QueryResults<T> {
+		interface ObservableQueryResults<T extends object> extends api.QueryResults<T> {
 			/**
 			 * Allows observation of results
 			 */
@@ -453,7 +453,7 @@ declare namespace dojo {
 			};
 		}
 
-		interface ObservableMixin<T, Q extends api.BaseQueryType, O extends api.QueryOptions> {
+		interface ObservableMixin<T extends object, Q extends api.BaseQueryType, O extends api.QueryOptions> {
 			notify(object: T, existingId?: string | number): void;
 
 			/**
@@ -464,7 +464,7 @@ declare namespace dojo {
 		}
 
 		interface Observable {
-			new <T, Q extends api.BaseQueryType, O extends api.QueryOptions, S extends api.Store<T, Q, O>>(store: S): ObservableMixin<T, Q, O> & S;
+			new <T extends object, Q extends api.BaseQueryType, O extends api.QueryOptions, S extends api.Store<T, Q, O>>(store: S): ObservableMixin<T, Q, O> & S;
 		}
 
 	}

@@ -358,7 +358,7 @@ declare namespace dojo {
 			}
 
 			interface WriteConstructor {
-				new <T>(): Write<T>;
+				new <T extends Item>(): Write<T>;
 				prototype: Write<any>;
 			}
 		}
@@ -413,7 +413,7 @@ declare namespace dojo {
 				/**
 				 * Helper function to generate the sorting function based off the list of sort attributes.
 				 */
-				createSortFunction<T>(attributes: api.SortArg[], store: api.Read<T>): SortFunction<T>;
+				createSortFunction<T extends api.Item>(attributes: api.SortArg[], store: api.Read<T>): SortFunction<T>;
 			}
 		}
 
