@@ -1,15 +1,30 @@
 {
-	"version": "1.0.0",
-	"description": "This package initializes and builds type safe code using TypeScript and json schema files.",
+	"name": "bga-ts-template",
+	"version": "0.1.0",
+	"description": "Nearly full typing for all BGA and Dojo components, including typing checking templates and cookbook recipes.",
+	"main": "./dist/index.d.ts",
+	"types": "./typescript/types/index.d.ts",
 	"scripts": {
-		"init": "node ./template/initialize.js && npm run build",
-		"build": "node ./template/build.js",
-		"watch": "node ./template/build.js --watch"
+		"test": "tsc -p typescript"
 	},
-	"author": "NevinAF",
-	"license": "MIT",
+	"bin": {
+		"bga-init": "./initialize.js",
+		"bga-build": "./build.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/NevinAF/bga-ts-template.git"
+	},
+	"keywords": [
+		"BGA"
+	],
+	"author": "Nevin Foster",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/NevinAF/bga-ts-template/issues"
+	},
+	"homepage": "https://github.com/NevinAF/bga-ts-template#readme",
 	"devDependencies": {
-		"typescript": "^4.1.3",
-		"sass": "^1.32.8"
+		"typescript": "^4.1.3"
 	}
 }

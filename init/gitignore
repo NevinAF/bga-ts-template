@@ -1,0 +1,15 @@
+# Built files
+___source-folder___client/build/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE files
+.vscode/
+.idea/
+
+# Dependency lock files
+package-lock.json
+yarn.lock
