@@ -1,4 +1,4 @@
-/**
+/*
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
  * ___YourGameName___ implementation : © ___developers___
@@ -8,24 +8,37 @@
  * -----
  */
 {
+	"files": [
+		"___yourgamename___.ts",
+		"___yourgamename___.d.ts",
+		// Add Cookbook files here: ../___source-to-template___/typescript/cookbook/<module>.ts
+		// "../___source-to-template___/typescript/cookbook/common.ts",
+	],
 	"include": [
-		"./**/*.ts",
-		"../___source-to-template___/typescript/types/index.d.ts", // This is the BGA framework's types (+included frameworks)
+		"build/**/*.ts", // Extra auto generated type files based on shared files
 	],
 	"compilerOptions": {
 		/* NEVER CHANGE THESE */
 		"target": "es5", // This is the framework's version
 		"module": "AMD", // This is what allows for imports and automatically creates the define function.
-		
+
 		/* Recommended, should not need to change. */
-		"moduleResolution": "classic",
+		"moduleResolution": "node10",
 		"lib": [ "dom", "esnext" ],
-		
-		/* Preference. */
-		"strict": true, // This will help you catch errors before they happen.
-		"noImplicitReturns": true, // This will help you catch errors before they happen.
-		"noFallthroughCasesInSwitch": true, // This will help you catch errors before they happen.
-		"noUncheckedIndexedAccess": true, // This will help you catch errors before they happen.
+		"typeRoots": [
+			"../___source-to-template___/typescript/types", // NEVER CHANGE. This ensures modules have the correct paths.
+			"../___source-to-project___/node_modules/@types", // Recommended (default when typeRoots not defined)
+		],
+		"paths": {
+			// When cookbook files are added, this lets you import them without the full path.
+			"cookbook/*": [ "../___source-to-template___/typescript/cookbook/*" ]
+		},
+
+		/* Preference. This defaults to the most strict ts rules. */
+		"strict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
 		"removeComments": true, // Comments are always removed from JS in production, so you don't need to remove them when compiling.
 		"sourceMap": false,
 	},

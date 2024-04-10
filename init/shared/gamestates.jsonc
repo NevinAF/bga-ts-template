@@ -1,4 +1,4 @@
-/**
+/*
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
  * ___YourGameName___ implementation : © ___developers___
@@ -15,7 +15,7 @@
  * !! It is not a good idea to modify this file when a game is running !!
  */
 {
-	// "$schema": "../template/schema/gamestates.schema.json",
+	// "$schema": "../___source-to-template___/schema/gamestates.schema.json",
 
 	// The initial state. Please do not modify.
 	"1": {
@@ -28,7 +28,7 @@
 
 	// Note: ID=2: your first state
 	"2": {
-		"name": "playerTurn",
+		"name": "dummmy",
 		"description": "${actplayer} must play a card or pass",
 		"descriptionmyturn": "${you} must play a card or pass",
 		"type": "activeplayer",

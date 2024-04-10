@@ -113,7 +113,7 @@
 		},
 		"losers_not_ranked": {
 			"type": "boolean",
-			"description": "If in the game, all losers are equal (no score to rank them or explicit in the rules that losers are not ranked between them), set this to true  The game end result will display 'Winner' for the 1st player and 'Loser' for all other players. Your can view core.core getRankString() (BGACore) for more information.",
+			"description": "If in the game, all losers are equal (no score to rank them or explicit in the rules that losers are not ranked between them), set this to true  The game end result will display 'Winner' for the 1st player and 'Loser' for all other players. Your can view core.core getRankString() (CoreCore) for more information.",
 			"default": false
 		},
 		"solo_mode_ranked": {

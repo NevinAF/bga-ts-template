@@ -2,7 +2,13 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+let { execSync } = require('child_process');
+
+const _execSync = execSync;
+execSync = (command) => {
+	try { _execSync(command, { stdio: 'inherit' }); }
+	catch (e) { console.error(e.message); process.exit(1); }
+};
 
 const jsoncUtil = {
 	/** Removes comments and trailing commas from the jsonc formatted string. */
@@ -29,7 +35,7 @@ Arguments:
 		Example: "YourGameName", "HeartsTutorial"
 	<developers>: String used to populate the header of all generated files. This should contain names and emails.
 		Example: "John Doe johndoe@gmail.com, Bob Smith thebuilder@cox.net".
-	[source-folder]: The folder where the source files are located relative to the BGA project folder. If not specified, the source folder will be 'src'.
+	[source-folder]: The folder where the source files are located relative to the BGA project folder. If not specified, the source folder will be 'source'.
 	[...options]:
 		--typescript: A 'client' folder will be created in the source folder of this project, populated with 'yourgamename.ts', 'yourgamename.d.ts', and 'tsconfig'. As long as their exists a tsconfig in this client folder, the typescript compiler will be run on build.
 		--scss: A 'client' folder will be created in the source folder of this project, populated with 'yourgamename.scss'. As long as there exists a 'yourgamename.scss' file in this client folder, the sass compiler will be run on build.
@@ -75,8 +81,13 @@ config.developers = process.argv[argc++];
 if (process.argv.length > argc && !process.argv[argc].startsWith("--")) {
 	config.source = process.argv[argc++].replace(/\\/g, '/');
 	if (!config.source.endsWith('/')) config.source += '/';
+
+	if (config.source.includes("/node_modules/")) {
+		console.error("The source folder cannot be in the node_modules folder.", usage);
+		process.exit(1);
+	}
 }
-else config.source = "./src/";
+else config.source = "./source/";
 
 // Parse the options
 
@@ -116,6 +127,7 @@ const replacemap = {
 	"source-folder": config.source,
 	"php-version": config.php8 ? "8.2.17" : "7.4.33",
 	"developers": config.developers,
+	"source-to-project": path.relative(config.source, process.cwd()).replace(/\\/g, '/'),
 	"source-to-template": path.relative(config.source, __dirname).replace(/\\/g, '/'),
 };
 
@@ -258,8 +270,8 @@ if (config.vscode === true)
 				// Remove the default game states if the gamestates should be generated.
 				if (config.gamestates && source.endsWith("___yourgamename___.d.ts"))
 				{
-					let start = content.indexOf("	'-1': 'dummmy';");
-					let end = content.indexOf("\n}", start);
+					let start = content.indexOf("\n		'-1': 'dummmy';");
+					let end = content.indexOf("\n\t}", start);
 					content = content.substring(0, start) + content.substring(end);
 				}
 
@@ -280,7 +292,7 @@ if (config.vscode === true)
 
 const checkCommand = (command) => {
 	try {
-		execSync(command + ' --version');
+		_execSync(command + ' --version');
 		return true;
 	} catch (e) {
 		return false;
@@ -295,24 +307,24 @@ else if (checkCommand('yarn'))
 else
 {
 	console.log("npm and yarn are not installed. Installing npm...");
-	execSync('npm install -g npm', { stdio: 'inherit' });
+	execSync('npm install -g npm');
 }
 
 
 if (config.typescript === true && !checkCommand('tsc'))
 {
 	console.log("Installing typescript...");
-	execSync(packageManager + ' install typescript', { stdio: 'inherit' });
+	execSync(packageManager + ' install typescript');
 }
 
 if (config.scss === true && !checkCommand('sass'))
 {
 	console.log("Installing sass...");
-	execSync(packageManager + ' install sass', { stdio: 'inherit' });
+	execSync(packageManager + ' install sass');
 }
 
 
 // Run the build script
 // npx bga-build
 console.log("Running build script...");
-execSync((packageManager === "npm" ? "npx" : "yarn run") + ' bga-build', { stdio: 'inherit' });
+execSync((packageManager === "npm" ? "npx" : "yarn run") + ' bga-build');

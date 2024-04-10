@@ -1,4 +1,5 @@
 //#region Imports and Utilities
+"use strict";
 
 const fs = require('fs');
 const { exec, execSync } = require('child_process');
@@ -73,7 +74,7 @@ const writer = {
 	indent: 0,
 	inTSProperty: 0,
 	fileSignature:
-`/**
+`/*
  * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
@@ -84,39 +85,44 @@ const writer = {
  * -----
  */
 `,
-	write: (stream, obj, isPHP) => {
+	buffer: null,
+	recursion: 0,
+	stringify: (obj, isPHP) => {
+		if (writer.recursion === 0)
+			writer.buffer = '';
+		writer.recursion++;
 		const type = typeof obj;
 		switch (type) {
 			case 'object':
 				if (obj === null) {
-					stream.write('null');
+					writer.buffer += 'null';
 					break;
 				}
 				// If this is an array:
 				if (Array.isArray(obj)) {
-					stream.write('[');
+					writer.buffer += '[';
 					for (let i = 0; i < obj.length; i++) {
-						writer.write(stream, obj[i], isPHP);
+						writer.stringify(obj[i], isPHP);
 						if (i < obj.length - 1) {
-							stream.write(', ');
+							writer.buffer += ', ';
 						}
 					}
-					stream.write(']');
+					writer.buffer += ']';
 					break;
 				}
 
 				if (Object.entries(obj).length === 0) {
-					stream.write(isPHP ? 'array()' : '{}');
+					writer.buffer += isPHP ? 'array()' : '{}';
 					break;
 				}
 	
-				stream.write(isPHP ? 'array(\n' : '{\n');
+				writer.buffer += isPHP ? 'array(\n' : '{\n';
 				writer.indent++;
 				for (const key in obj) {
 					// if is parsable as int
 					if (writer.php_translated_properties.has(key) && obj[key] !== '' && isPHP) {
-						stream.write('\t'.repeat(writer.indent));
-						stream.write(`'${key}' => ${writer.translateFunc}('${obj[key]}'),\n`);
+						writer.buffer += '\t'.repeat(writer.indent);
+						writer.buffer += `'${key}' => ${writer.translateFunc}('${obj[key]}'),\n`;
 					}
 					else {
 						if (writer.typescript_type_properties.has(key))
@@ -124,15 +130,15 @@ const writer = {
 						
 						if (writer.inTSProperty == 0 || !isPHP)
 						{
-							stream.write('\t'.repeat(writer.indent));
+							writer.buffer += '\t'.repeat(writer.indent);
 							if (!isNaN(parseInt(key))) {
-								stream.write(isPHP ? `${key} => ` : `${key}: `);
+								writer.buffer += isPHP ? `${key} => ` : `${key}: `;
 							} else {
-								stream.write(isPHP ? `'${key}' => ` : `'${key}': `);
+								writer.buffer += isPHP ? `'${key}' => ` : `'${key}': `;
 							}
 							
-							writer.write(stream, obj[key], isPHP);
-							stream.write(',\n');
+							writer.stringify(obj[key], isPHP);
+							writer.buffer += ',\n';
 						}
 	
 						if (writer.typescript_type_properties.has(key))
@@ -140,8 +146,8 @@ const writer = {
 					}
 				}
 				writer.indent--;
-				stream.write('\t'.repeat(writer.indent));
-				stream.write(isPHP ? ')' : '}');
+				writer.buffer += '\t'.repeat(writer.indent);
+				writer.buffer += isPHP ? ')' : '}';
 	
 				break;
 			case 'string':
@@ -149,26 +155,29 @@ const writer = {
 				let jsonString = JSON.stringify(obj);
 				jsonString = jsonString.substring(1, jsonString.length - 1);
 				if (writer.inTSProperty > 0)
-					stream.write(jsonString);
+					writer.buffer += jsonString;
 				else {
-					stream.write(`'${jsonString.replace(/'/g, "\\'").replace(/\\"/g, '"')}'`);
+					writer.buffer += `'${jsonString.replace(/'/g, "\\'").replace(/\\"/g, '"')}'`;
 				}
 				break;
 			case 'number':
-				stream.write(obj.toString());
+				writer.buffer += obj.toString();
 				break;
 			case 'boolean':
-				stream.write(obj ? 'true' : 'false');
+				writer.buffer += obj ? 'true' : 'false';
 				break;
 			case 'undefined':
 				console.error(`Value type of 'undefined' should not be printing to json/php file. This is likely an internal error.`);
-				stream.write('undefined');
+				writer.buffer += 'undefined';
 				break;
 			default:
 				console.error(`Unsupported value type in json/php file: ${type}. Value: ${obj}`);
-				stream.write(obj?.toString() ?? 'null');
+				writer.buffer += obj?.toString() ?? 'null';
 				break;
 		}
+
+		writer.recursion--;
+		return writer.buffer;
 	}
 }
 
@@ -431,16 +440,14 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 
 		// #region Write .d.ts
 
-		if (fs.existsSync('./client/tsconfig.json'))
+		if (fs.existsSync('___source-folder___client/tsconfig.json'))
 		{
-			if (!fs.existsSync("'client/build/"))
-				fs.mkdirSync('client/build/', { recursive: true });
+			if (!fs.existsSync("___source-folder___client/build/"))
+				fs.mkdirSync('___source-folder___client/build/', { recursive: true });
 
-			const d_ts_stream = fs.createWriteStream('client/build/gamestates.d.ts');
-			d_ts_stream.write(writer.fileSignature + 'interface GameStates ');
-			writer.write(d_ts_stream, statesJSON, false);
-
-			d_ts_stream.write(`
+			fs.writeFileSync('___source-folder___client/build/gamestates.d.ts',
+`${writer.fileSignature}
+interface GameStates ${writer.stringify(statesJSON, false)}
 
 type PullActionArgs<T extends readonly any[]> = T extends [] ? {} : AnyOf<{
 	[arg in TupleIndices<T>]: {
@@ -456,21 +463,18 @@ interface PlayerActions extends AnyOf<{
 				PullActionArgs<GameStates[K]['possibleactions'][action]>
 		} : {}
 }[keyof GameStates]> {}`);
-
-			for (const key in statesJSON) {
-				if (statesJSON[key].possibleactions) {
-					statesJSON[key].possibleactions = Object.keys(statesJSON[key].possibleactions);
-				}
-			}
-			d_ts_stream.close();
 		}
 
 		//#endregion
 
 		// #region Write states.inc.php
 
-		const statesphp_stream = fs.createWriteStream('states.inc.php');
-		statesphp_stream.write(
+		for (const key in statesJSON) {
+			if (statesJSON[key].possibleactions) {
+				statesJSON[key].possibleactions = Object.keys(statesJSON[key].possibleactions);
+			}
+		}
+		fs.writeFileSync('states.inc.php',
 `<?php
 declare(strict_types=1);
 ${writer.fileSignature}
@@ -480,7 +484,7 @@ ${writer.fileSignature}
  * If the function does not match the parameters correctly, you are either calling an invalid function, or you have incorrectly added parameters to a state function.
  */
 if (false) {
-	/** @var kiriaitheduel $game */
+	/** @var ___yourgamename___ $game */
 	${Object.values(statesJSON)
 		.filter(state => state.action !== undefined && state.type !== 'manager')
 		.map(state => `$game->${state.action}();`)
@@ -488,17 +492,41 @@ if (false) {
 	}
 }
 
-$machinestates = `
+$machinestates = ${writer.stringify(statesJSON, true)};`
 );
-		writer.write(statesphp_stream, statesJSON, true);
-		statesphp_stream.write(';');
-		statesphp_stream.close();
-
 		// #endregion
 
 		// #region Write .action.php
-		const actionphp_stream = fs.createWriteStream('___yourgamename___.action.php');
-		actionphp_stream.write(
+		const pType = (parameter) => {
+			return parameter.type === 'AT_float' ? 'float' :
+				parameter.type === 'AT_int' ? 'int' :
+				parameter.type === 'AT_posint' ? 'int' :
+				parameter.type === 'AT_bool' ? 'bool' :
+				'string';
+		};
+		const pArgs = (parameter) => {
+			let result = `'${parameter.name}', ${parameter.type}`;
+			
+			if (parameter.mandatory === undefined || parameter.mandatory === true)
+				result += ', true';
+			else if (parameter.argTypeDetails || parameter.bCanFail === true) {
+				result += ', false';
+			}
+
+			if (parameter.argTypeDetails) {
+				result += ', ';
+				writer.stringify(parameter.argTypeDetails, true);
+			}
+			else if (parameter.bCanFail === true) {
+				result += ', array()';
+			}
+
+			if (parameter.bCanFail === true) {
+				result += ', true';
+			}
+			return result;
+		};
+		fs.writeFileSync('___yourgamename___.action.php',
 `<?php
 ${writer.fileSignature}
 class action____yourgamename___ extends APP_GameAction
@@ -516,61 +544,19 @@ class action____yourgamename___ extends APP_GameAction
 			$this->view = "___yourgamename_______yourgamename___";
 			self::trace("Complete reinitialization of board game");
 		}
-	}`);
+	}${Array.from(possibleActions).map(([name, parameters]) => `
 
-		for (const [name, parameters] of possibleActions) {
-			actionphp_stream.write(`
-
-	public function ${name}() {
-		self::setAjaxMode();\n`);
-
-			let callArgs = [];
-			for (const parameter of parameters) {
-				const phpType =
-					parameter.type === 'AT_float' ? 'float' :
-					parameter.type === 'AT_int' ? 'int' :
-					parameter.type === 'AT_posint' ? 'int' :
-					parameter.type === 'AT_bool' ? 'bool' :
-					'string';
-				actionphp_stream.write(`\n\t\t/** @var ${phpType} $${parameter.name} */\n`);
-
-				actionphp_stream.write(`\t\t$${parameter.name} = self::getArg('${parameter.name}', ${parameter.type}`);
-
-				if (parameter.mandatory === undefined || parameter.mandatory === true)
-					actionphp_stream.write(', true');
-				else actionphp_stream.write(', false');
-
-				if (parameter.argTypeDetails) {
-					actionphp_stream.write(', ');
-					writer.write(actionphp_stream, parameter.argTypeDetails, true);
-				}
-				else if (parameter.bCanFail === true) {
-					actionphp_stream.write(', array()');
-				}
-
-				if (parameter.bCanFail === true) {
-					actionphp_stream.write(', true');
-				}
-
-				actionphp_stream.write(`);`);
-
-				callArgs.push("$" + parameter.name);
-			}
-
-			if (parameters.length > 0)
-				actionphp_stream.write('\n');
-
-			actionphp_stream.write(`
-		$this->game->${name}( ${callArgs.join(', ')} );
-
+	public function ${name}()
+	{
+		self::setAjaxMode();
+${parameters.map(parameter => `
+		/** @var ${pType(parameter)} $${parameter.name} */
+		$${parameter.name} = self::getArg(${pArgs(parameter)});`
+).join('')}${parameters.length > 0 ? '\n' : ''}
+		$this->game->${name}( ${parameters.map(x => "$" + x.name).join(', ')} );
 		self::ajaxResponse();
-	}`);
-		}
-
-		actionphp_stream.write(`
+	}`).join('')}
 }`);
-		actionphp_stream.close();
-
 		// #endregion
 	});
 }
@@ -599,13 +585,10 @@ if (fs.existsSync('___source-folder___shared/gameinfos.jsonc'))
 {
 	builder.watchCommand("Game Infos: gameinfos.jsonc => gameinfos.inc.php", '___source-folder___shared/gameinfos.jsonc', () => {
 		const gameinfos = jsoncUtil.readObject('___source-folder___shared/gameinfos.jsonc');
-		const stream = fs.createWriteStream('gameinfos.inc.php');
-
-		writer.translateFunc = "totranslate";
-		stream.write(`<?php\n$gameinfos = `);
-		writer.write(stream, gameinfos, true);
-		stream.write(';');
-		stream.close();
+		fs.writeFileSync('gameinfos.inc.php',
+`<?php
+${writer.fileSignature}
+$gameinfos = ${writer.stringify(gameinfos, true)};`);
 	});
 }
 //#endregion

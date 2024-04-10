@@ -1,4 +1,4 @@
-/**
+/*
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
  * ___YourGameName___ implementation : © ___developers___
@@ -12,7 +12,7 @@
  * Comments in this file are minimized for clarity.
  */
 {
-	// "$schema": "../template/schema/gameinfos.schema.json",
+	// "$schema": "../___source-to-template___/schema/gameinfos.schema.json",
 
 	// Game Externals and basic information
 	"game_name": "My Great Game",

@@ -1,6 +1,5 @@
 // @ts-nocheck
-/// <amd-module name="bgagame/___yourgamename___"/>
-/**
+/*
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
  * ___YourGameName___ implementation : © ___developers___
@@ -9,53 +8,21 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  */
+/// <amd-module name="bgagame/___yourgamename___"/>
+
 import Gamegui = require('ebg/core/gamegui');
-
-/**
- * In this file, you are describing the logic of your user interface, in Typescript language.
- * 
- * @file Including any *.ts files will import all defined variables and classes (*.d.ts file can only have declared types which are omitted). This will include any game specific files or cookbook modules here.
- * 
- * If you are unsure about what code is being added to the output file, you can always check the output after running the typescript compiler. If you are referencing functions/variables that are not included by reference tags, you will always get a typescript error (so don't worry about missing imports).
- * @example
- * /// <reference path="../template/client/cookbook/common.ts" />
- * /// <reference path="actions/yourgamename_actions.d.ts" />
-*/
-
-/**
- * Creates an alias for your game name. Not necessary but helps for clarity.
- * In addition, this lets you create a pseudo partial class using interfaces and prototype overriding. See below or {@link GameguiCookbook} for more information.
- * 
- * Extend the {@link GameguiCookbook} to have access to several {@link https://en.doc.boardgamearena.com/BGA_Studio_Cookbook: Cookbook} methods.
- * @example
- * // yourgamename_actions.ts
- * interface YourGameName {
- * 	exampleAction(evt: any): void;
- * }
- * 
- * YourGameName.prototype.exampleAction = function(this: YourGameName, evt: Event) {
- * 	evt.preventDefault();
- * 	console.log('exampleAction');
- * }
- * 
- * // This file:
- * /// <reference path="yourgamename_actions.d.ts" />
- * 
- * class YourGameName {
- * 	onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
- * 		this.addActionButton( 'button_1_id', _('Example Action'), this.exampleAction);
- * 	}
- * }
- */
-interface ___YourGameName___ extends Gamegui {}
+import "ebg/counter";
 
 /** The root for all of your game code. */
-class ___YourGameName___
+class ___YourGameName___ extends Gamegui
 {
+	// myGlobalValue: number = 0;
+	// myGlobalArray: string[] = [];
+
 	/** @gameSpecific See {@link Gamegui} for more information. */
 	constructor(){
+		super();
 		console.log('___yourgamename___ constructor');
-		// this.myGlobalValue = 0;
 	}
 
 	/** @gameSpecific See {@link Gamegui.setup} for more information. */
@@ -207,4 +174,7 @@ class ___YourGameName___
 	*/
 }
 
-dojo.declare( "bgagame___yourgamename___", Gamegui, new ___YourGameName___() );
+
+// The global 'bgagame.___yourgamename___' class is instantiated when the page is loaded. The following code sets this variable to your game class.
+dojo.setObject( "bgagame.___yourgamename___", ___YourGameName___ );
+// Same as: (window.bgagame ??= {}).___yourgamename___ = ___YourGameName___;
