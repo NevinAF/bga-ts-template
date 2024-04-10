@@ -19,11 +19,11 @@
 	"publisher": "My Publishing Company",
 	"publisher_website": "http://www.mypublishingcompany.com/",
 	"publisher_bgg_id": 1234,
-	"bgg_id": 387769,
+	"bgg_id": 0,
 
 	// Players
-	"players": [ 2,3,4 ],
-	"player_colors": [ "ff0000", "008000", "0000ff", "ffa500", "773300" ],
+	"players": [2, 3, 4],
+	"player_colors": ["ff0000", "008000", "0000ff", "ffa500", "773300"],
 	"favorite_colors_support": true,
 	"suggest_player_number": null,
 	"not_recommend_player_number": null,
@@ -46,8 +46,10 @@
 	"language_dependency": false,
 	"game_interface_width":
 	{
-		"min": 740, // >= 320, <= 740
-		"max": null // >= 740. null = no limit
+		// >= 320, <= 740
+		"min": 740,
+		// >= 740. null = no limit
+		"max": null
 	},
 
 	//////// BGA SANDBOX ONLY PARAMETERS (DO NOT MODIFY)

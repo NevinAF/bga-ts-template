@@ -16,6 +16,8 @@ const jsoncUtil = {
 		result = result.replace(/,(\s*[\]}])/g, '$1');
 		result = result.replace(/"\$schema": ".*",?/g, '');
 		result = result.replace(/^\s*[\r\n]/gm, '');
+		// Special case for empty objects that had inner content removed
+		result = result.replace(/\{\s*\}/g, '{}');
 		return result;
 	},
 	readObject: (file) => {

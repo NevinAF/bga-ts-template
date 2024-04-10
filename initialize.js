@@ -229,6 +229,55 @@ if (config.vscode === true)
 }
 //#endregion
 
+//#region Copy Game Infos
+
+const copyGameInfos = (content) =>
+{
+	function replaceBookendQuotes(str) {
+		if (str[0] === "'" && str[str.length - 1] === "'")
+			return '"' + str.substring(1, str.length - 1) + '"';
+		return str;
+	}
+
+	const original = fs.readFileSync('gameinfos.inc.php', 'utf8');
+	// <start-line><whitespace>'property'<whitespace>=><whitespace><data><whitespace>,<whitespace><end-line>
+	const matches = original.matchAll(/^[ \t]*'([^']+)'[ \t]*=>[ \t]*([^\n]+?),?[ \t]*$/gm);
+	
+	for (const match of matches)
+	{
+		const key = match[1];
+
+		const prop = `"${key}": `;
+		let start = content.indexOf(prop);
+		if (start === -1) continue;
+		start += prop.length;
+
+		let end = content.indexOf('\n', start);
+		if (end === -1) continue;
+		while (content[end - 1] === ',' || content[end - 1] === '\r')
+			end -= 1;
+
+		let value = replaceBookendQuotes(match[2].trim());
+		if (value.startsWith('array('))
+		{
+			if (!value.endsWith(')'))
+				continue;
+			value = "[" + value.substring(6, value.length - 1).split(',').map(x => replaceBookendQuotes(x.trim())).join(', ') + "]";
+		}
+		else if (value.startsWith('['))
+		{
+			if (!value.endsWith(']'))
+				continue;
+			value = "[" + value.substring(1, value.length - 1).split(',').map(x => replaceBookendQuotes(x.trim())).join(', ') + "]";
+		}
+
+		content = content.substring(0, start) + value + content.substring(end);
+	}
+
+	return content;
+}
+//#endregion
+
 // #region Copy with Replacements
 {
 	// Create directories, and recursively get all files from directories added to this queue.
@@ -287,7 +336,16 @@ if (config.vscode === true)
 
 				// Uncomment the schema line in the jsonc files
 				if (source.endsWith(".jsonc"))
+				{
 					content = content.replace('// "$schema": ', '"$schema": ');
+
+					if (source.endsWith("gameinfos.jsonc")) {
+						content = copyGameInfos(content);
+					}
+				}
+				else {
+					// TODO: Copy other jsonc file data...
+				}
 			}
 
 			fs.writeFileSync(target, content);

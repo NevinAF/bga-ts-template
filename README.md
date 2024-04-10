@@ -2,7 +2,7 @@
 
 <table><tr>
 	<td> Author: NevinAF </td>
-	<td> Version: 1.1.1 </td>
+	<td> Version: 1.1.2 </td>
 	<td> Date: March 18, 2024 </td>
 </tr></table>
 
