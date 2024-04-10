@@ -76,7 +76,17 @@ if (config.YourGameName.match(/[^a-zA-Z0-9]/) || config.YourGameName[0] !== conf
 	process.exit(1);
 }
 
+if (config.YourGameName === "YourGameName") {
+	console.error("You must specify the game name.", usage);
+	process.exit(1);
+}
+
 config.developers = process.argv[argc++];
+
+if (config.developers === "developers") {
+	console.error("You must specify the developers.", usage);
+	process.exit(1);
+}
 
 if (process.argv.length > argc && !process.argv[argc].startsWith("--")) {
 	config.source = process.argv[argc++].replace(/\\/g, '/');

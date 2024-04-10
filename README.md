@@ -2,11 +2,12 @@
 
 <table><tr>
 	<td> Author: NevinAF </td>
-	<td> Version: 1.1.0 </td>
+	<td> Version: 1.1.1 </td>
 	<td> Date: March 18, 2024 </td>
 </tr></table>
 
 A starting template built with type safety in mind, containing:
+
 - Typescript with
 	- Nearly full typing for all BGA and Dojo components and heavy documentation.
 	- Detailed yet simple typechecking using expandable types for game states, player actions, notifications, and gamedatas.
@@ -15,7 +16,7 @@ A starting template built with type safety in mind, containing:
 - SCSS support with a one-to-one replacement.
 - Better PHP intellisense and error checking, as well as auto generating files and type enforcement.
 
-*ALL of the above features are optional and can be enabled/disabled in the `template.config.jsonc` file.*
+*ALL of the above features are opt-in! Edit the init parameters to add/remove whatever fits your development needs*
 
 ## Table of Contents
 
@@ -57,32 +58,16 @@ BGA-Project-Folder
 ```json
 {
 	"scripts": {
-		"init": "npm install bga-ts-template && npx bga-init <YourGameName> \"<developers>\" [source-folder] --typescript --scss --vscode-extension-pack --php-8.2 --gameinfos.jsonc --gameoptions.jsonc --gamepreferences.jsonc --stats.jsonc --gamestates.jsonc",
+		"init": "npm install bga-ts-template && npx bga-init YourGameName \"developers\" source --typescript --scss --vscode-extension-pack --php-8.2 --gameinfos.jsonc --gameoptions.jsonc --gamepreferences.jsonc --stats.jsonc --gamestates.jsonc",
 		"build": "npx bga-build",
 		"watch": "npx bga-build --watch"
-	},
+	}
 }
 ```
 
 > For existing projects with a `package.json` file, you can add the `scripts` section to the existing file as long as the package.json file is in the root of the project folder.
 
-This contains three scripts that can be run using `npm run <script-name>`:
-
-- `init`: Used to initialize the project with the template:
-	- `npm install bga-ts-template`: Installs this github repository / npm package as a node_module. This will also create the bga commands.
-	- `&&`: Used to chain commands. This will run the next command after the previous command has finished.
-	- `npx bga-init <...args>`: `npx` is a node command that executes a package command. `bga-init` is a specific command in this package that copies all template files based on the configuration, and installs all node dependencies as needed. The arguments change what components are generated.
-
-	*Init is always additive and only missing files are ever generated.*
-
-- `build`: Used to build the project based on the existing files.
-	- `npx` is a node command that executes a package command. `bga-build` is a specific command in this package looks for existing targets and builds the project down to the bga project files.
-	- This command is always run after `npm run init`. The `build` command has the same behavior as `init` except it does not try to regenerate files from your configurations.
-	- Only existing files are used, not the configuration. For example, if the `<source>/client/tsconfig.json` file exists, typescript will always compile regardless of the `init` arguments.
-
-- `watch`: Used to watch for changes in the source files and automatically rebuild the project.
-	- `npx` is a node command that executes a package command. `bga-build` is a specific command in this package looks for existing targets and builds the project down to the bga project files.
-	- This command is identical to running `npm run build` after every change. Only files/folders that exist when starting the watch command will be watched. If you add a new file like `shared/gameoptions.jsonc`, this file will not be watched until the watch command is restarted.
+This contains scripts that can be run using `npm run <script-name>`. See more information about the [package scripts](#package-scripts) below.
 
 ### 3. Edit the template configuration
 
@@ -95,6 +80,8 @@ Edit your template configuration by modifying the arguments of the `init` script
 - `[source-folder]`: The folder where the source files are located relative to the BGA project folder. If not specified, the source folder will be `./source`. Note that this does not need to be included in the project folder. Example: `../src`.
 
 ALL other configurations can be omitted and  only serve to add better autofill, error correction, and documentation. See [Configurations](#configurations) for more information on the configuration options.
+
+> **Looking for typescript only?** Simply remove all options except `--typescript` from the `init` script. This will generate only the typescript files and configurations (just 3 files!).
 
 > Some options, like most `*.jsonc` options, might seem unneeded/redundant to some developers. Simply remove these options to avoid generating these files.
 
@@ -110,18 +97,52 @@ Run `npm run init` in a terminal on the bga-ts-template directory (same folder w
 
 ### 5. (optional) Add cookbook recipes
 
-If you want to use the cookbook recipes, see the [Cookbook](#cookbook) section for more information.
+As of now, there are only typescript cookbook recipes, which more information can be found in the [Typescript README](./typescript/README.md#cookbook) file.
 
+------------
 
 **Continue to the [Configurations](#configurations) section** for more information on how to use the generated files.
 
 ## Existing Project
+
+### Typescript
+
+The steps to convert the existing project to typescript are **extremely simple**! There are two different options when converting: A. Use `dojo.declare` with an object (matches existing), or B. using typescript classes. Option B is suggested but can require quite a bit of syntax fixing because object templates are declared differently than classes.
+
+See more information in the [Typescript README - Existing Project Conversion](./typescript/README.md#existing-project-conversion) section.
 
 ### SCSS Conversion
 
 SCSS is a direct superset of CSS, so converting the SCSS file to a CSS file is as simple as renaming the file. The SCSS file can be broken up into multiple files, but all files must be imported into the `yourgamename.scss` file.
 
 Follow the setup in the [Getting Started](#getting-started) section with --scss. MAKE SURE TO BACKUP ALL FILES BEFORE RUNNING `npm run init`! Then copy the contents of your existing css file to the `<source>/client/yourgamename.scss` file.
+
+## Package Scripts
+
+### `npm run init`
+
+Used to initialize the project with the template:
+
+- `npm install bga-ts-template`: Installs this github repository / npm package as a node_module. This will also create the bga commands.
+- `&&`: Used to chain commands. This will run the next command after the previous command has finished.
+- `npx bga-init <...args>`: `npx` is a node command that executes a package command. `bga-init` is a specific command in this package that copies all template files based on the configuration, and installs all node dependencies as needed. The arguments change what components are generated.
+
+*Init is always additive and only missing files are ever generated.*
+
+### `npm run build`
+
+Used to build the project based on the existing files.
+
+- `npx` is a node command that executes a package command. `bga-build` is a specific command in this package looks for existing targets and builds the project down to the bga project files.
+- This command is always run after `npm run init`. The `build` command has the same behavior as `init` except it does not try to regenerate files from your configurations.
+- Only existing files are used, not the configuration. For example, if the `<source>/client/tsconfig.json` file exists, typescript will always compile regardless of the `init` arguments.
+
+### `npm run watch`
+
+Used to watch for changes in the source files and automatically rebuild the project.
+
+- `npx` is a node command that executes a package command. `bga-build` is a specific command in this package looks for existing targets and builds the project down to the bga project files.
+- This command is identical to running `npm run build` after every change. Only files/folders that exist when starting the watch command will be watched. If you add a new file like `shared/gameoptions.jsonc`, this file will not be watched until the watch command is restarted.
 
 ## Configurations
 
@@ -141,13 +162,17 @@ The BGA framework expects a single css file without imports. As such, the scss c
 
 ### `--vscode-extension-pack`
 
-Board Game Arena explicitly recommends using Visual Studio Code for development. Given that, there is also an option provides to set up the settings for Visual Studio Code. This will add a `.vscode` folder with a few files based on the configuration options:
+Board Game Arena explicitly recommends using Visual Studio Code for development. In addition, they recommend a set of extensions that help get autocompletion and static compiling. All of these extensions can be installed with one click using the [BGA Extension Pack](https://marketplace.visualstudio.com/items?itemName=NevinFoster.bga-extension-pack).
+
+Based on those extensions, this option automatically generates settings and configs needed to set up ALL intellisense in php, json, and *.tpl (Smarty html).
+
+This will add a `.vscode` folder with a few files based on the configuration options:
 
 - `settings.json`. Settings for the project include:
-	- `intelephense` extension settings for the auto included shared code and php version.
+	- [PHP Intelephense](https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client) extension settings for the auto included shared code and php version.
 	- Enables `emmet` syntax for `*.tpl` files.
 	- `json.schemas` settings for all bga-specific files.
-- `sftp.json`. All settings for the SFTP excluding the username and password. Not that this is set up to upload files that are built unlike the default settings which only upload when a files is saved from within the editor.
+- `sftp.json`. All settings for the [SFTP](https://marketplace.visualstudio.com/items?itemName=Natizyskunk.sftp) extension excluding the username and password. Not that this is set up to upload files that are built unlike the default settings which only upload when a files is saved from within the editor.
 - `php.json`. All snippets recommended by bga for php development.
 
 All settings are constructive and will not override/replace any existing settings. *Comments are not preserved in these files*.

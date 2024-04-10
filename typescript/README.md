@@ -183,6 +183,8 @@ class YourGameName  {
 
 > Note: Recipes (or modules) with the exception of `common` are user defined and may not be fully tested.
 
+A good portion of the cookbook recipes are mixins. See the [Mixin Modules](#mixin-modules) section for more information.
+
 ### The `common` Cookbook Module
 
 Using the common cookbook module is recommended as it contains function that are used in nearly every game, and wrappers for much more concise and type safe code. The two big functions in this module are:
