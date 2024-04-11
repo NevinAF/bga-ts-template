@@ -4,6 +4,10 @@ TS Template: Tutorials
 
 All tutorials are beginner friendly and are designed to help you get started with the BGA Type Safe Template. Each tutorial will link to this page for the first four steps which are shared for any project you are working.
 
+## Tutorial List
+
+1. [Reversi](/docs/tutorials/reversi.md): A two player turn-based, perfect knowledge strategy game. Great starting point, meant for learning the purpose of each file and quickly getting a game up and running. Less good for learning internal components and framework.
+
 ## Step 0 - Development Environment Setup
 
 No matter what you are doing, the first step is to always prepare your development tools. There are many different ways to set up your development environment, and many different tools to choose from.
