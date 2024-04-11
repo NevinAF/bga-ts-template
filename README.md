@@ -18,6 +18,12 @@ A starting template built with type safety in mind, containing:
 
 *ALL of the above features are opt-in! Edit the init parameters to add/remove whatever fits your development needs*
 
+<p align="center">
+<img src="docs/typescript/typescript_autofill.gif" alt="Typescript Autofill"/><br>
+Typescript Autocomplete using BGA Type Safe Template
+</p>
+
+
 ## Table of Contents
 
 - [Getting Started](/README.md#getting-started)
