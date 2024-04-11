@@ -38,11 +38,19 @@ const builder = {
 	watchCommand: (message, watchfile, callback) => builder.commands.push({
 		message: message,
 		callback: () => {
-			callback();
+			try { callback(); }
+			catch (err) {
+				if (builder.watch)
+					console.error(err.message);
+				else throw err;
+			}
 			if (watchfile && builder.watch)
 				builder.watch(watchfile, (eventType, filename) => {
 					console.log(`${watchfile} changed. ` + message + '...');
-					callback();
+					try { callback(); }
+					catch (err) {
+						console.error(err.message);
+					}
 				});
 		}
 	}),
@@ -590,6 +598,7 @@ if (fs.existsSync('___source-folder___shared/gameinfos.jsonc'))
 		fs.writeFileSync('gameinfos.inc.php',
 `<?php
 ${writer.fileSignature}
+/** @var (string|int|null|bool|string[]|int[])[] $gameinfos */
 $gameinfos = ${writer.stringify(gameinfos, true)};`);
 	});
 }
