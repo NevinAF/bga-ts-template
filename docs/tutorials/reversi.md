@@ -968,7 +968,7 @@ Statistics are mostly optional and are a fun way to compare player strategies or
 3. Reload the statistics configuration on the manage game page. See [Step 3.3](/docs/tutorials/index.md#step-3---game-information--metadata) for more information.
 
 	<p align="center">
-	<img src="img/reversi/game_configuration.png" alt="Image of all BGA starting files" width="50%"/>
+	<img src="img/game_configuration.png" alt="Image showing the game manager options" width="50%"/>
 	</p>
 
 4. Play a game and verify that your new statistics are visible at the end of the game:
@@ -1053,7 +1053,7 @@ Game options are a way for users to change game behavior or rules. As an example
 4. Reload the game options from within the game manager page.  See [Step 3.3](/docs/tutorials/index.md#step-3---game-information--metadata) for more information.
 
 	<p align="center">
-	<img src="img/reversi/game_configuration.png" alt="Image of all BGA starting files" width="50%"/>
+	<img src="img/game_configuration.png" alt="Image showing the game manager options" width="50%"/>
 	</p>
 
 <p align="center">
@@ -1115,7 +1115,7 @@ User preferences is something cosmetic about the game interface which you want u
 4. Refresh the game options in the game manager page. See [Step 3.3](/docs/tutorials/index.md#step-3---game-information--metadata) for more information.
 
 	<p align="center">
-	<img src="img/reversi/game_configuration.png" alt="Image of all BGA starting files" width="50%"/>
+	<img src="img/game_configuration.png" alt="Image showing the game manager options" width="50%"/>
 	</p>
 
 5. Reload the game and change the user preference to see the new board and token images:
