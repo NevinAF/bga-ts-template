@@ -3,6 +3,10 @@ BGA Type Safe Template - Typescript
 
 Typescript is by far the biggest reason to use the BGA Type safe template. Typescript is a superset of javascript that adds static typing and other features to the language. This allows for better intellisense, type checking, and overall code quality. The template is set up to be as type safe as possible, but can be configured to be less strict if needed. This document will go over how to use the template, convert an existing project, and how to configure the project to your needs.
 
+<p align="center">
+<img src="typescript_autofill.gif" alt="Typescript Autofill"/>
+</p>
+
 ## Generate Files
 
 The files that are generated on `npm run init` are the following:
