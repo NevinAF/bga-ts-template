@@ -2,7 +2,7 @@
 
 <table><tr>
 	<td> Author: NevinAF </td>
-	<td> Version: 1.1.2 </td>
+	<td> Version: 1.1.3 </td>
 	<td> Date: March 18, 2024 </td>
 </tr></table>
 
@@ -20,15 +20,18 @@ A starting template built with type safety in mind, containing:
 
 ## Table of Contents
 
-- [Getting Started](#getting-started)
-- [Existing Project](#existing-project)
-- [Configurations](#configurations)
+- [Getting Started](/README.md#getting-started)
+- [Existing Project](/README.md#existing-project)
+- [Configurations](/README.md#configurations)
 
 Additional Content:
 
-- [Typescript README](./typescript/README.md)
+- [Tutorials](/docs/tutorials/index.md)
+- [Typescript README](/docs/typescript/index.md)
 
 ## Getting Started
+
+This is a quick start guide. If you are a beginner, take a look at [Tutorials](/docs/tutorials/index.md) instead for a much more guided introduction on setup.
 
 > `npm` is used in this guide, but `yarn` can be used as well.
 
@@ -67,7 +70,7 @@ BGA-Project-Folder
 
 > For existing projects with a `package.json` file, you can add the `scripts` section to the existing file as long as the package.json file is in the root of the project folder.
 
-This contains scripts that can be run using `npm run <script-name>`. See more information about the [package scripts](#package-scripts) below.
+This contains scripts that can be run using `npm run <script-name>`. See more information about the [package scripts](/README.md#package-scripts) below.
 
 ### 3. Edit the template configuration
 
@@ -79,7 +82,7 @@ Edit your template configuration by modifying the arguments of the `init` script
 	Example: "John Doe johndoe@gmail.com, Bob Smith thebuilder@cox.net".
 - `[source-folder]`: The folder where the source files are located relative to the BGA project folder. If not specified, the source folder will be `./source`. Note that this does not need to be included in the project folder. Example: `../src`.
 
-ALL other configurations can be omitted and  only serve to add better autofill, error correction, and documentation. See [Configurations](#configurations) for more information on the configuration options.
+ALL other configurations can be omitted and  only serve to add better autofill, error correction, and documentation. See [Configurations](/README.md#configurations) for more information on the configuration options.
 
 > **Looking for typescript only?** Simply remove all options except `--typescript` from the `init` script. This will generate only the typescript files and configurations (just 3 files!).
 
@@ -97,11 +100,11 @@ Run `npm run init` in a terminal on the bga-ts-template directory (same folder w
 
 ### 5. (optional) Add cookbook recipes
 
-As of now, there are only typescript cookbook recipes, which more information can be found in the [Typescript README](./typescript/README.md#cookbook) file.
+As of now, there are only typescript cookbook recipes, which more information can be found in the [Typescript README](/docs/typescript/index.md#cookbook) file.
 
 ------------
 
-**Continue to the [Configurations](#configurations) section** for more information on how to use the generated files.
+**Continue to the [Configurations](/README.md#configurations) section** for more information on how to use the generated files.
 
 ## Existing Project
 
@@ -109,13 +112,13 @@ As of now, there are only typescript cookbook recipes, which more information ca
 
 The steps to convert the existing project to typescript are **extremely simple**! There are two different options when converting: A. Use `dojo.declare` with an object (matches existing), or B. using typescript classes. Option B is suggested but can require quite a bit of syntax fixing because object templates are declared differently than classes.
 
-See more information in the [Typescript README - Existing Project Conversion](./typescript/README.md#existing-project-conversion) section.
+See more information in the [Typescript README - Existing Project Conversion](/docs/typescript/index.md#existing-project-conversion) section.
 
 ### SCSS Conversion
 
 SCSS is a direct superset of CSS, so converting the SCSS file to a CSS file is as simple as renaming the file. The SCSS file can be broken up into multiple files, but all files must be imported into the `yourgamename.scss` file.
 
-Follow the setup in the [Getting Started](#getting-started) section with --scss. MAKE SURE TO BACKUP ALL FILES BEFORE RUNNING `npm run init`! Then copy the contents of your existing css file to the `<source>/client/yourgamename.scss` file.
+Follow the setup in the [Getting Started](/README.md#getting-started) section with --scss. MAKE SURE TO BACKUP ALL FILES BEFORE RUNNING `npm run init`! Then copy the contents of your existing css file to the `<source>/client/yourgamename.scss` file.
 
 ## Package Scripts
 
@@ -154,7 +157,7 @@ Running `npm run init` will create modifiable files which can be used to create 
 
 A 'client' folder will be created in the source folder of this project, populated with 'yourgamename.ts', 'yourgamename.d.ts', and 'tsconfig'. As long as their exists a tsconfig in this client folder, the typescript compiler will be run on build.
 
-See [Typescript README](./typescript/README.md) for more information on the typescript files.
+See [Typescript README](/docs/typescript/index.md) for more information on the typescript files.
 
 ### `--scss`
 

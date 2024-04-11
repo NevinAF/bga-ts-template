@@ -103,7 +103,7 @@ const CustomMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 export = CustomMixin;
 ```
 
-To use this module, see the following section on [Mixin Modules](#mixin-modules).
+To use this module, see the following section on [Mixin Modules](/docs/typescript/index.md#mixin-modules).
 
 ### Mixin Modules
 
@@ -183,7 +183,7 @@ class YourGameName  {
 
 > Note: Recipes (or modules) with the exception of `common` are user defined and may not be fully tested.
 
-A good portion of the cookbook recipes are mixins. See the [Mixin Modules](#mixin-modules) section for more information.
+A good portion of the cookbook recipes are mixins. See the [Mixin Modules](/docs/typescript/index.md#mixin-modules) section for more information.
 
 ### The `common` Cookbook Module
 
@@ -242,7 +242,7 @@ define("cookbook/common", ["ebg/core/gamegui"], function (Gamegui) {
 
 The steps to convert the existing project to typescript are **extremely simple**! There are two different options when converting: A. Use `dojo.declare` with an object (matches existing), or B. using typescript classes. Option B is suggested but can require quite a bit of syntax fixing because object templates are declared differently than classes.
 
-1. **Follow all of the steps in the [Getting Started](#getting-started) section**. MAKE SURE TO BACKUP ALL FILES BEFORE RUNNING `npm run init`!
+1. **Follow all of the steps in the [Getting Started](/README.md#getting-started) section**. MAKE SURE TO BACKUP ALL FILES BEFORE RUNNING `npm run init`!
 
 	> *Before deleting/overriding the template generated files, like `yourgamename.ts`, you should look at the structure and comments in the file. These provide great documentation for how the typescript project works.*
 
@@ -332,11 +332,11 @@ The steps to convert the existing project to typescript are **extremely simple**
 	dojo.setObject( "bgagame.___yourgamename___", ___YourGameName___ );
 	```
 
-4. **Fix type errors** so the code can compile. See the [Type Safety](#type-safety) section for more information on how to reduce the strictness of typescript.
+4. **Fix type errors** so the code can compile. See the [Type Safety](/docs/typescript/index.md#type-safety) section for more information on how to reduce the strictness of typescript.
 
 5. (optional) Replace the signatures of the five main methods (`setup`, `onEnteringState`, `onLeavingState`, `onUpdateActionButtons`, `setupNotifications`) with the `Gamegui` signatures. This will enable typechecking and intellisense on arguments for these methods.
 
-**Continue to the [Configurations](#configurations) section** for more information on how to use the generated files, and rebuild the project whenever you make any changes.
+**Continue to the [Configurations](/README.md#configurations) section** for more information on how to use the generated files, and rebuild the project whenever you make any changes.
 
 ## Type Safety
 
