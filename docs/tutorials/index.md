@@ -39,11 +39,11 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 5. (optional) **[Git](https://git-scm.com/downloads)**: One of the most populate version control systems. This is used to track changes to your code and collaborate easily with others. Nearly all BGA developers use [GitHub](https://github.com) to share their code, which is built on top of Git.
 
 <table><tr>
-	<td><img src="/docs/tutorials/img/download_vscode.gif" alt="Download VS Code GIF" width="1000"/></td>
-	<td><img src="/docs/tutorials/img/download_nodejs.png" alt="Download Nodejs image" width="1000"/></td>
+	<td><img src="img/download_vscode.gif" alt="Download VS Code GIF" width="1000"/></td>
+	<td><img src="img/download_nodejs.png" alt="Download Nodejs image" width="1000"/></td>
 </tr><tr>
-	<td><img src="/docs/tutorials/img/download_npm.gif" alt="Download npm GIF" width="1000"/></td>
-	<td><img src="/docs/tutorials/img/download_git.png" alt="Download Git Image" width="1000"/></td>
+	<td><img src="img/download_npm.gif" alt="Download npm GIF" width="1000"/></td>
+	<td><img src="img/download_git.png" alt="Download Git Image" width="1000"/></td>
 </tr></table>
 
 ## Step 1 - Create a New Project
@@ -55,7 +55,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 	- Click on the Manage Games button on the left side of the page.
 
 	<p align="center">
-		<img src="/docs/tutorials/img/bga_create_new_project.gif" alt="Manage Games Page + Create New Game" width="50%"/>
+		<img src="img/bga_create_new_project.gif" alt="Manage Games Page + Create New Game" width="50%"/>
 	</p>
 
 2. **Create new project**. You only need to fill out the name of the game, usually something like `<UserName>Tutorial<Game>` for a first project.
@@ -82,15 +82,25 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 		"password": "___yourpassword_hexstring___",
 		"remotePath": "/___lowercaseprojectname___/",
 		"ignore": [
-			".vscode"
+			".vscode",
+			".git",
+			".idea",
+			".gitignore",
+			".DS_Store",
+			"node_modules",
+			"package-lock.json",
+			"yarn.lock",
+			"nmp-debug.log",
+			"yarn-error.log",
+			"source/client/build"
 		]
 	}
 	```
 
 	d. **Run the [SFTP: Sync Remote -> Local](command:sftp.sync.remoteToLocal)** command. This will download all initial files from the BGA server to your local folder.
 
-<p align="center">
-	<img src="/docs/tutorials/img/bga_starting_files.png" alt="Image of all BGA starting files" width="50%"/>
+<p align="center" width="50%">
+	<img src="img/bga_starting_files.png" alt="Image of all BGA starting files" width="248"/>
 </p>
 
 > When viewing files in VS Code, the php files will have errors because the shared codes in not yet linked. This will be resolved in the next step.
@@ -104,9 +114,9 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 	- Click on `Express Start`.
 
 <table><tr><td>
-<img src="/docs/tutorials/img/bga_test_game.gif" alt="Slideshow of navigating to start a game" width="1000"/>
+<img src="img/bga_test_game.gif" alt="Slideshow of navigating to start a game" width="1000"/>
 </td><td>
-<img src="/docs/tutorials/img/bga_open_dev_player.png" alt="Icon for opening player in another page" width="600"/>
+<img src="img/bga_open_dev_player.png" alt="Icon for opening player in another page" width="600"/>
 </td></tr></table>
 
 > You can play as any of the connected developer accounts by clicking on the red `>` next to any of the players' names.
@@ -130,7 +140,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 3. **Run the `init` script**. This can be done using a terminal on the project directory, or in VS Code by hovering over the `scripts: "init"` line in the `package.json` file. You can see more information about the package.json scripts at [BGA Type Safe Template: Package Scripts](/README.md#package-scripts).
 
 <p align="center">
-	<img src="/docs/tutorials/img/package_json_run_script.gif" alt="Gif showing the hover action to run script in VS code." width="600"/>
+	<img src="img/package_json_run_script.gif" alt="Gif showing the hover action to run script in VS code." width="600"/>
 </p>
 
 4. **View your files.** You should now only have a trhee error among all of your files.
@@ -212,7 +222,7 @@ A good portion of this information is optional, but it is always good practice t
 > The manage game page for a game can always be found by going to the `Manage Games` page from [Step 1.1](/docs/tutorials/index.md#step-1---create-a-new-project), then clicking on the game you want to manage.
 
 <p align="center">
-	<img src="/docs/tutorials/img/game_configuration.png" alt="Image of all BGA starting files" width="50%"/>
+	<img src="img/game_configuration.png" alt="Image of all BGA starting files" width="50%"/>
 </p>
 
 4. From the same location in step 3.3, click on `Manage metadata images` to edit all visual/informational metadata of the game. See the [Game Metadata Manager](https://en.doc.boardgamearena.com/Game_metadata_manager) wiki page for more information.
