@@ -2,35 +2,35 @@ TS Template: Tutorials
 ===============================
 [*BGA Type Safe Template*](https://github.com/NevinAF/bga-ts-template?tab=readme-ov-file#board-game-arena-type-safe-template)
 
-All tutorials are beginner friendly and are designed to help you get started with the BGA Type Safe Template. Each tutorial will link to this page for the first four steps which are shared for any project you are working.
+All tutorials are beginner-friendly and designed to help you get started with the BGA Type Safe Template. Each tutorial will link to this page for the first four steps shared for any project you are working on.
 
 ## Tutorial List
 
-1. [Reversi](/docs/tutorials/reversi.md): A two player turn-based, perfect knowledge strategy game. Great starting point, meant for learning the purpose of each file and quickly getting a game up and running. Less good for learning internal components and framework.
+1. [Reversi](/docs/tutorials/reversi.md): A two-player, turn-based, perfect knowledge strategy game. Great starting point, meant for learning the purpose of each file and quickly getting a game up and running. Less good for learning the internal components and framework.
 
 ## Step 0 - Development Environment Setup
 
-No matter what you are doing, the first step is to always prepare your development tools. There are many different ways to set up your development environment, and many different tools to choose from.
+No matter what you are doing, the first step is always to prepare your development tools. There are many different ways to set up your development environment and many tools to choose from.
 
-Board Game Arena requires some sort of [SFTP client](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol), but that's about it. Adding on to that, the Type Safe Template requires [Node.js](https://nodejs.org/en/) to initialize and build the project. Everything else is up to the developer or team.
+Board Game Arena requires any [SFTP client](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol), but that's about it. In addition, the Type Safe Template requires [Node.js](https://nodejs.org/en/) to initialize and build the project. Everything else is up to the developer or team.
 
 > **S**ecure **F**ile **T**ransfer **P**rotocol (SFTP) essentially describes how to upload and download files from a network drive, not that different from Google Drive or Dropbox.
 
-The official BGA team recommends [Visual Studio Code](https://code.visualstudio.com/) and a specific set of extensions for development. Based on this, the following steps are a quick guide for anyone who is starting from scratch or unsure of what to do.
+The official BGA team recommends [Visual Studio Code](https://code.visualstudio.com/) and a specific set of extensions for development. Based on this, the following steps are a quick guide for anyone starting from scratch or unsure what to do.
 
-> This is labeled as step 0 because it only ever needs to be down once. If you already have these tools installed and set up, you can skip this step.
+> Setup is labeled as "Step 0" because it only needs to be done once. When you already have these tools installed and set up, you can skip this step.
 
 ### Recommended Tools
 
-1. **[Visual Studio Code](https://code.visualstudio.com/)**: A code editor with a wide range of extensions and features. Using VS Code will provide automatic code completion, syntax highlighting, and many other features that make development easier. Download [VS Code here.](https://code.visualstudio.com/download)
+1. **[Visual Studio Code](https://code.visualstudio.com/)**: A code editor with many extensions and features. Using VS Code will provide automatic code completion, syntax highlighting, and other features that make development easier. Download [VS Code here.](https://code.visualstudio.com/download)
 
 
 2. **[Node.js](https://nodejs.org/en/download/)**: A JavaScript runtime which is used to initialize and build source files to 
 
 
-> A node version manager is also recommended for managing multiple versions of node.
+> A node version manager is also recommended for managing multiple versions of Node.js.
 
-3. **[Node Package Manager (npm)](https://docs.npmjs.com/about-npm)**: A package manager for JavaScript. This will be used to automatically install and manage the dependencies,including the BGA Type Safe Template.
+3. **[Node Package Manager (npm)](https://docs.npmjs.com/about-npm)**: A package manager for JavaScript. This will automatically install and manage the dependencies, including the BGA Type Safe Template.
 
 	Once you have node.js installed, you can install npm by simply running the following in the terminal:
 
@@ -38,7 +38,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 	npm install -g npm
 	```
 
-4. **[BGA Extension Pack](https://marketplace.visualstudio.com/items?itemName=nevinfoster.bga-extension-pack)**: A collection of VS Code extensions that are useful for BGA development. This includes syntax highlighting for BGA files, a BGA icon theme, and more.
+4. **[BGA Extension Pack](https://marketplace.visualstudio.com/items?itemName=nevinfoster.bga-extension-pack)**: A collection of VS Code extensions useful for BGA development. This includes syntax highlighting for BGA files, a BGA icon theme, and more.
 
 5. (optional) **[Git](https://git-scm.com/downloads)**: One of the most populate version control systems. This is used to track changes to your code and collaborate easily with others. Nearly all BGA developers use [GitHub](https://github.com) to share their code, which is built on top of Git.
 
@@ -56,7 +56,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 
 	- Click on your profile icon on the top right of any page.
 	- Click on the Control Panel button on the top right. This is only visible if you are on a developer account.
-	- Click on the Manage Games button on the left side of the page.
+	- Click on the "Manage Games" button on the left side of the page.
 
 	<p align="center">
 		<img src="img/bga_create_new_project.gif" alt="Manage Games Page + Create New Game" width="50%"/>
@@ -64,11 +64,11 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 
 2. **Create new project**. You only need to fill out the name of the game, usually something like `<UserName>Tutorial<Game>` for a first project.
 
-> This should always be in upper camel case (Pascal Case) with no spaces or special characters. This is because the project name is used in the URL of the game, and the URL is case sensitive.
+> This should always be in upper camel case (Pascal Case) with no spaces or special characters. The Pascal case and a lowercase version will be used to name all URLs, file paths, files, and module names. 
 
 3. **Create a local folder** for the project files. Something like `C:\Users\<UserName>\Documents\BGA\<project-name>` is a good place to start.
 
-4. **Use SFTP client to download the project files** to the folder you just created. If you are using the recommended tools for development, you can do the following:
+4. **Use SFTP client to download the project files** to the folder you created. If you are using the recommended tools for development, you can do the following:
 
 	a. **Open the new folder in VS Code**. You can open VS Code and use the `File > Open Folder` to open the specific folder you created.
 
@@ -107,7 +107,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 	<img src="img/bga_starting_files.png" alt="Image of all BGA starting files" width="248"/>
 </p>
 
-> When viewing files in VS Code, the php files will have errors because the shared codes in not yet linked. This will be resolved in the next step.
+> When viewing files in VS Code, the php files will have errors because the "shared" php code is not yet linked. The JS would show errors for unknown types, but it does not enforce types. This will be resolved in the next step.
 
 5. **Run the game** to make sure everything is working correctly. You can run tests filled with your developer accounts by using `Express Start` when setting up to play a game.
 
@@ -123,7 +123,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 <img src="img/bga_open_dev_player.png" alt="Icon for opening player in another page" width="600"/>
 </td></tr></table>
 
-> You can play as any of the connected developer accounts by clicking on the red `>` next to any of the players' names.
+> You can play as any of the connected developer accounts by clicking on the red `>` next to any players' names.
 
 ## Step 2 - Initialize the BGA Type Safe Template
 
@@ -147,9 +147,9 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 	<img src="img/package_json_run_script.gif" alt="Gif showing the hover action to run script in VS code." width="600"/>
 </p>
 
-4. **View your files.** You should now only have a trhee error among all of your files.
+4. **View your files.** You should now only have a three error among your files.
 
-	- One issue in `yourgamename.game.php` file, usually on line 75, and is a syntax error caused by a minor bug in the starting files.
+	- One issue in the `yourgamename.game.php` file, usually on line 75. It is a syntax error caused by a minor bug in the starting files.
 
 	<table align="center"><tr><td>
 
@@ -167,7 +167,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 
 	</td></tr></table>
 
-	- Two issues in `yourgamename.action.php`, one for each player action. This is a type error stating that your main game code does not have the player action functions defined (which is true!). This will be fixed later when adding player actions.
+	- Two issues in the `yourgamename.action.php`, one for each player action. These are type errors stating that your main game code does not have the player action functions defined (which is true!). This will be fixed later when adding player actions.
 
 	<table align="center"><tr><td>
 
@@ -204,20 +204,20 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 
 6. **Run the game in the BGA studio**. See [step 1.5](/docs/tutorials/index.md#step-1---create-a-new-project) for more information on how to do this.
 
-7. **Hard Refresh the client page**. You should ALWAYS do a hard refresh when making changes, otherwise you will likely be using old cached files.
+7. **Hard Refresh the client page**. You should ALWAYS preform a hard refresh when making changes, otherwise, you will likely be using old cached files.
 
 	- *Windows*: Chrome, Firefox, or Edge => Press `Ctrl+F5` or `Shift+F5` or `Ctrl+Shift+R`.
 	- *Mac*: Chrome or Firefox => Press `Cmd+Shift+R`. Safari => Press `Cmd+Option+E`.
 
-> There are no differences, but running the game makes sure that everything is working correctly.
+> There are no differences, but running the game confirms that any updates are working correctly.
 
 ## Step 3 - Game Information + Metadata
 
 A good portion of this information is optional, but it is always good practice to fill out as much as possible for all projects.
 
-1. **Update `shared/gameinfos.jsonc`**. The [Game Infos](https://en.doc.boardgamearena.com/Game_meta-information:_gameinfos.inc.php) contains all meta-information for the game such as the full name and number of players. Each value in the file has hover-able tooltips for more information and will show error if there are any validation issues.
+1. **Update `shared/gameinfos.jsonc`**. The [Game Infos](https://en.doc.boardgamearena.com/Game_meta-information:_gameinfos.inc.php) contains all meta-information for the game such as the full name and number of players. Each value in the file has hover-able tooltips for more information and will show an error if there are any validation issues.
 
-2. **Run `npm run build`**. This will convert your json to the `gameinfos.inc.php` file which is used by the BGA server. See the [BGA Type Safe Template: Package Scripts](/README.md#package-scripts) for more information.
+2. **Run `npm run build`**. This will convert your JSON to the `gameinfos.inc.php` file which is used by the BGA server. See the [BGA Type Safe Template: Package Scripts](/README.md#package-scripts) for more information.
 
 > You can also run `npm run watch` to automatically build any files whenever they are changed.
 
@@ -231,4 +231,4 @@ A good portion of this information is optional, but it is always good practice t
 
 4. From the same location in step 3.3, click on `Manage metadata images` to edit all visual/informational metadata of the game. See the [Game Metadata Manager](https://en.doc.boardgamearena.com/Game_metadata_manager) wiki page for more information.
 
-After steps 3.3 and 3.4, your can view your game's `game page` verify that you see the corrected information.
+After steps 3.3 and 3.4, you can view your game's `game page` to verify that you see the corrected information.

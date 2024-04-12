@@ -2,11 +2,11 @@ TS Template: Reversi Tutorial
 ===============================
 [*BGA Type Safe Template*](https://github.com/NevinAF/bga-ts-template?tab=readme-ov-file#board-game-arena-type-safe-template)
 
-**Project Files:** [BGA-TS-Template-Reversi]()
+**Project Files:** [BGA-TS-Template-Reversi](https://github.com/NevinAF/bga-ts-template-reversi)
 
-This page is a beginner friendly tutorial which mimics the official [Tutorial Reversi](https://en.doc.boardgamearena.com/Tutorial_reversi) page, but is more approachable and uses the BGA Type Safe Template. If you are not a new Board Game Arena developer, you may want to follow along with the [BGA Type Safe Template: Getting Started](https://github.com/NevinAF/bga-ts-template?tab=readme-ov-file#getting-started) guide for a more concise overview of the template.
+This page is a beginner-friendly tutorial that mimics the official [Tutorial Reversi](https://en.doc.boardgamearena.com/Tutorial_reversi) page, but is more approachable and uses the BGA Type Safe Template. If you are not a new Board Game Arena developer, you may want to follow along with the [BGA Type Safe Template: Getting Started](https://github.com/NevinAF/bga-ts-template?tab=readme-ov-file#getting-started) guide for a more concise overview of the template.
 
-> All steps are recorded as a git branch so you can track the exact changes that were made, and view the project files from any point in the tutorial.
+> All steps are recorded as a git branch so you can track the exact changes made and view the project files from any point in the tutorial.
 
 <p align="center">
 <img src="img/reversi/reversi_steps_branches.gif" alt="Image of the game with all tokens on the board." width="50%"/><br>
@@ -18,14 +18,14 @@ Go to [TS Template: Tutorial](/docs/tutorials/index.md) for the first four steps
 
 ## Step 3.5 - From here on out
 
-At this point, your are ready to start developing your game. You can choose to follow any of the tutorials or guides on the [BGA Studio Documentation](https://en.doc.boardgamearena.com/Main_Page) to continue.
+At this point, your are ready to start developing your game. You can follow any of the tutorials or guides on the [BGA Studio Documentation](https://en.doc.boardgamearena.com/Main_Page) to continue.
 
 From this point in the tutorial and on:
 
 - It will be assumed that files are built and synced before running the game in the BGA studio.
-- It will be assumed that you do a hard refresh of the client page after making changes.
-- It will be assumed that you are using all of the default settings for initializing the typescript template. Adjustments can be made as needed and all sections have links to original file documentation for reference.
-- Most steps will have specific instructions, but you can always adjust at your own discretion.
+- It will be assumed that you perform a hard refresh of the client page after making changes.
+- It will be assumed that you are using the default settings for initializing the typescript template. Adjustments can be made as needed and all sections have links to original file documentation for reference.
+- Most steps will have specific instructions, but you can always adjust at your discretion.
 
 *Make sure the following game information is set for Reversi:*
 ```json
@@ -40,7 +40,7 @@ From this point in the tutorial and on:
 
 ## Step 4 - Game Board
 
-1. Download the following board image for Reversi, and place it in the `img` folder of your project. It should be named `board.jpg` to match the SCSS background-image in the next step.
+1. Download the following board image for Reversi, and place it in the `img` folder in your project. It should be named `board.jpg` to match the SCSS background-image in the next step.
 
 <p align="center">
 	<img src="img/reversi/assets/board.jpg" alt="Image of the reversi board." width="50%"/>
@@ -128,7 +128,7 @@ From this point in the tutorial and on:
 
 ## Step 5 - The Tokens
 
-1. Add the following token image to the `img` folder of your project. It should be named `tokens.png` to match the SCSS background-image in the next step.
+1. Add the following token image to the `img` folder in your project. It should be named `tokens.png` to match the SCSS background-image in the next step.
 
 	<p align="center">
 	<img src="img/reversi/assets/tokens.png" alt="Image of the reversi tokens."/>
@@ -164,7 +164,7 @@ From this point in the tutorial and on:
 	.tokencolor_363636 { background-position: -56px 0px; }
 	```
 
-4. Add a TypeScript function to the `yourgamename.ts` file to place the tokens on the board. You can hover over any function/property in the TypeScript file to see the documentation and usage.
+4. Add a TypeScript function to the `yourgamename.ts` file to place the tokens on the board. You can hover over any function/property in the TypeScript file for its documentation and usage.
 
 	```typescript
 	///////////////////////////////////////////////////
@@ -265,7 +265,7 @@ From this point in the tutorial and on:
 	}
 	```
 
-3. Now we need to send the board information to the client whenever the page is reloaded. In your `yourgamename.game.php` file, add the following code to the `getAllDatas` function:
+3. Now, we need to send the board information to the client whenever the page is reloaded. In your `yourgamename.game.php` file, add the following code to the `getAllDatas` function:
 
 	```php
 	protected function getAllDatas()
@@ -286,7 +286,7 @@ From this point in the tutorial and on:
 	}
 	```
 
-5. Add the following to the `yourgamename.ts` file place the discs at the start of a page load:
+5. Add the following to the `yourgamename.ts` file to place the discs at the start of a page load:
 
 	```typescript
 	setup(gamedatas: Gamedatas): void
@@ -416,18 +416,18 @@ From this point in the tutorial and on:
 	}
 	```
 
-> You should no longer have any type issues in any of your files.
+> You should no longer have any type issues in your files.
 
-When you reload your game (this will cause current games to fail), your should see the banner change to `{actplayer} must play a disc` or `You must play a disc`. This will be the only visible change in the game at this point.
+When you reload your game (this will cause current games to fail), you should see the banner change to `{actplayer} must play a disc` or `You must play a disc`. This will be the only visible change in the game at this point.
 
 <p align="center">
-<img src="img/reversi/step7-3.png" alt="Image of the initial game state with preditions." width="50%"/><br>
+<img src="img/reversi/step7-3.png" alt="Image of the initial game state with corrected banner." width="50%"/><br>
 <i>Reloading the game (with a hard refresh).</i>
 </p>
 
 ## Step 8 - Game Rules and Possible Moves
 
-There are a couple of variations on the rules for Reversi, but the most common is with `outflanking rules`. You can see the official rules at [World Othello](https://www.worldothello.org/about/about-othello/othello-rules/official-rules/). There rules have been implemented with the following utility functions.
+There are a couple of variations on the rules for Reversi, but the most common is with `outflanking rules`. You can see the official rules at [World Othello](https://www.worldothello.org/about/about-othello/othello-rules/official-rules/). The rules have been implemented with the following utility functions.
 
 1. Copy these functions into your `yourgamename.game.php` file:
 
@@ -544,7 +544,7 @@ There are a couple of variations on the rules for Reversi, but the most common i
 	}
 	```
 
-3. Add a css class to represent the possible moves in your `yourgamename.scss` file:
+3. Add a CSS class to represent the possible moves in your `yourgamename.scss` file:
 
 	```scss
 	.possibleMove {
@@ -605,7 +605,7 @@ There are a couple of variations on the rules for Reversi, but the most common i
 	```
 
 	<p align="center">
-	<img src="img/reversi/step8-4.png" alt="Image of the initial game state with preditions." width="50%"/><br>
+	<img src="img/reversi/step8-4.png" alt="Image of the initial game state with predictions." width="50%"/><br>
 	<i>Reloading the game (with a hard refresh).</i>
 	</p>
 
@@ -905,7 +905,7 @@ Notifications are used to inform players when something happens in the game. In 
 	<img src="img/reversi/step10-4.gif" alt="Animation of discs flipping" width="50%"/>
 	</p>
 
-At this point, you now have a fully functional game that can be played on BGA. The following steps are to add flurishes and additional features to the game.
+At this point, you now have a fully functional game that can be played on BGA. The following steps are to add flourishes and additional features to the game.
 
 ## (optional) Step 11 - Statistics
 
@@ -979,7 +979,7 @@ Statistics are mostly optional and are a fun way to compare player strategies or
 
 ## (Optional) Step 12 - Game Options
 
-Game options are a way for users to change game behavior or rules. As an example, we will be adding another rule variant called "Reversi Bombs" that flips all 8 adjacent discs when a disc is played.
+Game options are a way for users to change game behavior or rules. For example, we will add another rule variant called "Reversi Bombs" that flips all 8 adjacent discs when a disc is played.
 
 <p align="center">
 <img src="img/reversi/reversi_bombs_rules.png" alt="Reverse Bombs Rules" width="50%"/>
@@ -1040,7 +1040,7 @@ Game options are a way for users to change game behavior or rules. As an example
 	}
 	```
 
-3. Fix the `playDisc` function to flip all turned disc instead of setting them to the active player:
+3. Fix the `playDisc` function to flip all turned discs instead of setting them to the active player:
 
 	```php
 	// Let's place a disc at x,y and return all "$returned" discs to the active player
@@ -1062,7 +1062,9 @@ Game options are a way for users to change game behavior or rules. As an example
 
 ## User Preferences
 
-User preferences is something cosmetic about the game interface which you want users to be able to controll. Reversi has a classic athstetic, but in this example, we will add a user preference to change the color of the board. This is not a great use case for user preferences, but it is a simple example.
+User preferences are something cosmetic about the game interface that you want users to be able to control.
+
+Reversi has a classic aesthetic, but in this example, we will add a user preference to change the style of the board. This is not a great use case for user preferences, but it is a simple example.
 
 1. Replace the contents of `shared/gamepreferences.jsonc` with the following:
 
@@ -1112,7 +1114,7 @@ User preferences is something cosmetic about the game interface which you want u
 	}
 	```
 
-4. Refresh the game options in the game manager page. See [Step 3.3](/docs/tutorials/index.md#step-3---game-information--metadata) for more information.
+4. Refresh the game options on the game manager page. See [Step 3.3](/docs/tutorials/index.md#step-3---game-information--metadata) for more information.
 
 	<p align="center">
 	<img src="img/game_configuration.png" alt="Image showing the game manager options" width="50%"/>
@@ -1121,5 +1123,5 @@ User preferences is something cosmetic about the game interface which you want u
 5. Reload the game and change the user preference to see the new board and token images:
 
 	<p align="center">
-	<img src="img/reversi/step13-5.gif" alt="Sitching preferences and showing new wooden board." width="50%"/>
+	<img src="img/reversi/step13-5.gif" alt="Gif showing preference settings and new wooden board." width="50%"/>
 	</p>
