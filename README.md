@@ -6,6 +6,8 @@
 	<td> Date: March 18, 2024 </td>
 </tr></table>
 
+[![npm version](https://badge.fury.io/js/bga-ts-template.svg)](https://badge.fury.io/js/bga-ts-template)
+
 A starting template built with type safety in mind, containing:
 
 - Typescript with
@@ -23,11 +25,13 @@ A starting template built with type safety in mind, containing:
 Typescript Autocomplete using BGA Type Safe Template
 </p>
 
+This project is an npm package that runs an initializer and builds scripts to assist with the development process. In addition, this prevents needing to mangle shared files with your project source keeping your project extremely small but powerful.
 
 ## Table of Contents
 
 - [Getting Started](/README.md#getting-started)
 - [Existing Project](/README.md#existing-project)
+- [Package Scripts](/README.md#package-scripts)
 - [Configurations](/README.md#configurations)
 
 Additional Content:
@@ -37,21 +41,27 @@ Additional Content:
 
 ## Getting Started
 
-This is a quick start guide. If you are a beginner, take a look at [Tutorials](/docs/tutorials/index.md) instead for a much more guided introduction on setup.
-
-> `npm` is used in this guide, but `yarn` can be used as well.
+This is a quick start guide. If you are a beginner, look at [Tutorials](/docs/tutorials/index.md) instead for a much more guided introduction to setup.
 
 ### 0. Create the BGA Project
 
-Create the BGA project and download all projects files using SFTP. Most SFTP software will deleted extra files when syncing from remote to local, which will destructively interfere with downloading and initializing the ts-template-files.
+Create the BGA project using the BGA Studio portal like you would for any game. Then, download all of the generated source files using any SFTP software.
+
+If you need help with this section, use [Tutorials](/docs/tutorials/index.md) instead for more details.
+
+*WIP: have SFTP setup using this package. Current issues with deleting new files when syncing generated files.*
+
+> This step is NOT REQUIRED. The following steps can be performed on an empty folder without any issues, you will only need to copy generated files to the BGA project.
 
 ### 1. Download node.js and npm
 
-Download node.js and npm [here](https://nodejs.org/en/download/) (if not already installed). BGA does not have typescript compilation for server files; therefore, the typescript must be compiled to a javascript file in order to run any typescript code on game clients. Compiling typescript requires the installation of node.js and npm.
+Download node.js and npm [here](https://nodejs.org/en/download/) (if not already installed). Again, if you need help with this section, use [Tutorials](/docs/tutorials/index.md) instead for more details.
+
+> The node.js and npm are required for Typescript compilation, even without the type safe template. BGA does not have typescript compilation for server files and everything needs to be compiled down to javascript.
 
 ### 2. Create the `package.json` file
 
-Create a `package.json` file in the root bga project folder. Fill the file with the following content:
+Create a `package.json` file in the root bga project folder:
 
 ```
 BGA-Project-Folder
@@ -64,6 +74,9 @@ BGA-Project-Folder
 │   states.inc.php
 │   ...
 ```
+
+Fill the file with the following content:
+
 ```json
 {
 	"scripts": {
@@ -80,17 +93,17 @@ This contains scripts that can be run using `npm run <script-name>`. See more in
 
 ### 3. Edit the template configuration
 
-Edit your template configuration by modifying the arguments of the `init` script. You must replace `<YourGameName>`, `<developers>`, and `[source-folder]` with the appropriate values:
+Edit your template configuration by modifying the arguments of the `init` script. You must replace `YourGameName` and `developers`. You can also change the `source` folder if needed.
 
-- `<YourGameName>`: The upper camel case (pascal case) name of the game. This should exactly match what you used to create the game on BGA studio.
+- `YourGameName`: The upper camel case (pascal case) name of the game. This should exactly match what you used to create the game on BGA studio.
 	Example: "YourGameName", "HeartsTutorial"
-- `<developers>`: String used to populate the header of all generated files. This should contain names and emails.
+- `developers`: String used to populate the header of all generated files. This should contain names and emails.
 	Example: "John Doe johndoe@gmail.com, Bob Smith thebuilder@cox.net".
-- `[source-folder]`: The folder where the source files are located relative to the BGA project folder. If not specified, the source folder will be `./source`. Note that this does not need to be included in the project folder. Example: `../src`.
+- *(optional)* `source`: The folder where the source files are located relative to the BGA project folder. If not specified, the source folder will be `./source`. Note that this does not need to be included in the project folder. Example: `../src`.
 
 ALL other configurations can be omitted and  only serve to add better autofill, error correction, and documentation. See [Configurations](/README.md#configurations) for more information on the configuration options.
 
-> **Looking for typescript only?** Simply remove all options except `--typescript` from the `init` script. This will generate only the typescript files and configurations (just 3 files!).
+> **Looking for typescript only?** Simply remove all options except `--typescript` from the `init` script. This will generate only the typescript files and configurations (just 3 files!). *Use `./` for the source folder if you don't want the client folder to be nested like `<source>/client`*
 
 > Some options, like most `*.jsonc` options, might seem unneeded/redundant to some developers. Simply remove these options to avoid generating these files.
 
@@ -114,7 +127,7 @@ As of now, there are only typescript cookbook recipes, which more information ca
 
 ## Existing Project
 
-### Typescript
+### Typescript Conversion
 
 The steps to convert the existing project to typescript are **extremely simple**! There are two different options when converting: A. Use `dojo.declare` with an object (matches existing), or B. using typescript classes. Option B is suggested but can require quite a bit of syntax fixing because object templates are declared differently than classes.
 
@@ -127,6 +140,12 @@ SCSS is a direct superset of CSS, so converting the SCSS file to a CSS file is a
 Follow the setup in the [Getting Started](/README.md#getting-started) section with --scss. MAKE SURE TO BACKUP ALL FILES BEFORE RUNNING `npm run init`! Then copy the contents of your existing css file to the `<source>/client/yourgamename.scss` file.
 
 ## Package Scripts
+
+Package scripts are commands that can be run using `npm run <script-name>`. Several IDEs, like Visual Studio Code, will also include in file prompts to run these scripts:
+
+<p align="center">
+	<img src="docs/tutorials/img/package_json_run_script.gif" alt="Gif showing the hover action to run script in VS code." width="600"/>
+</p>
 
 ### `npm run init`
 
@@ -158,6 +177,14 @@ Used to watch for changes in the source files and automatically rebuild the proj
 Running `npm run init` will create modifiable files which can be used to create game specific code. Depending on what arguments are included, different files will be generated. The following is a list of all possible command line arguments.
 
 > On its own (including the required arguments), `npm run init` will not generate any files. All configuration are opt-in.
+
+The following, in order, should always be the first arguments listed:
+
+- `YourGameName`: The upper camel case (pascal case) name of the game. This should exactly match what you used to create the game on BGA studio.
+	Example: "YourGameName", "HeartsTutorial"
+- `developers`: String used to populate the header of all generated files. This should contain names and emails.
+	Example: "John Doe johndoe@gmail.com, Bob Smith thebuilder@cox.net".
+- *(optional)* `source`: The folder where the source files are located relative to the BGA project folder. If not specified, the source folder will be `./source`. Note that this does not need to be included in the project folder. Example: `../src`.
 
 ### `--typescript`
 
