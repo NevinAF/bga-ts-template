@@ -82,7 +82,7 @@ declare class GameNotif {
 	debugnotif_i: number;
 	/** Internal. */
 	currentNotifCallback: keyof NotifTypes | null;
-	/** Internal. */
+	/** Internal. This is a reference to the {@link SiteCore.onPlaceLogOnChannel} method. */
 	onPlaceLogOnChannel: (chatnotif: NotifFrom<ChatNotifArgs | 'newRTCMode'>) => void;
 	/** Internal. The last time that {@link addToLog} was called with valid parameters. */
 	lastMsgTime: number;

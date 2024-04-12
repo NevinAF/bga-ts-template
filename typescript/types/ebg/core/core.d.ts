@@ -72,13 +72,13 @@ declare class CoreCore {
 	 * 	arg2: myarg2
 	 * }, this, (result) => {} );
 	 */
-	ajaxcall: (
+	ajaxcall(
 		url: string,
 		args: (PlayerActions[keyof PlayerActions] | Record<keyof any, any>) & { lock: boolean | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined, noerrortracking?: boolean },
 		source: CoreCore,
-		onSuccess?: Function,
+		onSuccess?: Function | string,
 		callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any,
-		ajax_method?: 'post' | 'get' | 'iframe') => void;
+		ajax_method?: 'post' | 'get' | 'iframe'): void;
 
 	/**
 	 * Formats the global string variable named `var_template` with the values from `args` using ${key} syntax. This is a simple templating system that is generally used to format HTML blocks. The `var_template` is a string that contains ${key} placeholders, and `args` is an object that contains the values to replace the placeholders with. The method returns the formatted string. Note: result is trimmed.

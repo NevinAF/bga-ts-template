@@ -12,19 +12,6 @@ import ChatInput = require("ebg/chatinput");
 import "ebg/thumb";
 
 /** Partial: This has been partially typed based on a subset of the BGA source code. */
-interface ChatWindowMetadata {
-	status: '';
-	title: string;
-	input: ChatInput;
-	subscription: null;
-	notifymethod: 'nurmal';
-	autoShowOnKeyPress: boolean;
-	lastMsgTime: number;
-	lastMsgAuthor: number;
-	is_writing_now: {};
-}
-
-/** Partial: This has been partially typed based on a subset of the BGA source code. */
 declare class SiteCore extends CoreCore
 {
 	/** The component used for modifying how notifications are synchronized/sequenced or if they should be filtered/ignored. */
@@ -84,7 +71,7 @@ declare class SiteCore extends CoreCore
 	/** Internal. Counter representing the id of the next log statement. This is used to create a unique DOM id for callback events when expanding log statements. */
 	next_log_id: number;
 	/** Internal. A record of the chat bar windows, stored by their element id. */
-	chatbarWindows: Record<string, ChatWindowMetadata>;
+	chatbarWindows: Record<ChannelInfos['window_id'], ChatWindowMetadata>;
 	/** Internal. The js template for a chatwindow. Note that this is left as a string literal for convenience but may have been changed. */
 	jstpl_chatwindow: '<div id="chatwindow_${id}" class="chatwindow chatwindowtype_${type}"><div id="chatwindowexpanded_${id}" class="chatwindowexpanded"><div class="dropshadow"></div><div id="chatbarinput_${id}" class="chatbarinput"></div><div id="chatbarbelowinput_${id}" class="chatbarbelowinput"><div id="chatbarinput_stopnotif_${id}" class="chatbarinput_stopnotif"><input type="checkbox" checked="checked" id="chatbarinput_stopnotif_box_${id}" /><span id="chatbarinput_stopnotif_label_${id}">${stop_notif_label}</span></div><div id="chatbarinput_startaudiochat_${id}" class="chatwindow_startaudiochat chatbarbelowinput_item audiovideo_inactive"><i class="fa fa-microphone"></i></div><div id="chatbarinput_startvideochat_${id}" class="chatwindow_startvideochat chatbarbelowinput_item audiovideo_inactive"><i class="fa fa-video-camera"></i></div><div id="chatbarinput_predefined_${id}" class="chatbarbelowinput_item"><div class="chatbarinput_predefined icon20 icon20_meeple_wb"></div></div><div id="chatbarinput_showcursor_${id}" class="chatbarbelowinput_item chatbarbelowinput_item_showcursor"><i class="fa fa-hand-pointer-o"></i></div><div id="chatbar_startchat_${id}" class="chatbar_startchat"><a class="bgabutton bgabutton_blue" id="startchat_accept_${id}">${start_chat}</a><br /><a class="bgabutton bgabutton_red" id="startchat_block_${id}">${block_chat}</a></div></div><div id="chatwindowlogs_${id}" class="chatwindowlogs"><div id="chatwindowlogstitlebar_${id}" class="chatwindowlogstitlebar"><div class="chatwindowlogstitle" id="chatwindowlogstitle_${id}"><span id="is_writing_now_title_${id}" class="is_writing_now"><i class="fa fa-pencil fa-blink"></i>&nbsp;<span id="is_writing_now_expl_title_${id}" class="is_writing_now_expl"></span></span><span id="chatwindowlogstitle_content_${id}">${title}</span></div><div id="chatwindowicon_${id}" class="chatwindowicon"><div class="avatarwrap emblemwrap">${avatar}</div></div><div id="chatwindowcollapse_${id}" class="chatwindowcollapse icon20 icon20_collapse_white"></div><div id="chatwindowremove_${id}" class="chatwindowremove icon20 icon20_remove_white"></div></div><div id="chatwindowlogs_zone_${id}" class="chatwindowlogs_zone"><div id="chatwindowlogs_endzone_${id}" class="chatwindowlogs_endzone"></div></div><div id="chatwindowmorelogs_${id}" class="chatwindowmorelogs roundedbox"><a class="bga-link" id="chatwindowmorelogslink_${id}" href="#">${more_logs_label}</a></div></div></div><div id="chatwindowpreview_${id}" class="chatwindowpreview"></div><div id="chatwindowcollapsed_${id}" class="chatwindowcollapsed"><div class="chatwindowcollapsedtitle"><span id="chatwindownewmsgcount_${id}" class="chatwindownewmsgcount"></span><span id="is_writing_now_${id}" class="is_writing_now"><i class="fa fa-pencil fa-blink"></i>&nbsp;<span id="is_writing_now_expl_${id}" class="is_writing_now_expl"></span></span><span id="chatwindowtitlenolink_${id}">${titlenolink}</span></div><div id="chatwindowremovc_${id}" class="chatwindowremovec icon20 icon20_remove"></div><div class="chatwindowavatar"><div class="avatarwrap emblemwrap emblemwrap_l">${avatar}</div><div id="chatMindownewmsgcount_${id}" class="chatwindownewmsgcount chatMindownewmsgcount"></div><i class="bubblecaret fa fa-caret-up"></i></div></div></div>';
 
@@ -137,8 +124,22 @@ declare class SiteCore extends CoreCore
 	bgaUniversalModals: any;
 	/** Internal. Partial: This has been partially typed based on a subset of the BGA source code. */
 	bgaToastHolder: any;
-	/** If 'show', scripting errors passed to {@link onScriptError} will be displayed in a red message on the top part of the bage for 6 seconds. */
+	/** Internal. If 'show', scripting errors passed to {@link onScriptError} will be displayed in a red message on the top part of the bage for 6 seconds. */
 	reportJsError?: boolean | 'show';
+	/** Internal. WIP */
+	discussblock: boolean;
+	/** Internal. WIP */
+	autoChatWhilePressingKey: boolean;
+	/** Internal. WIP */
+	groupList: (1 | null)[];
+	/** Internal. WIP */
+	allGroupList: any;
+	/** Internal. WIP */
+	allLanguagesList: any;
+	/** Internal. WIP */
+	pma: any;
+	/** Internal. WIP */
+	rtc_room: any;
 
 	/** Internal. Initializes functionality and fields related to {@link SiteCore}, such as volume listeners and inactivity timers. This should be called manually by subclasses during there initializer functions (i.e, {@link MainSite.create} and {@link Gamegui.completesetup}). */
 	init_core: () => void;
@@ -182,8 +183,245 @@ declare class SiteCore extends CoreCore
 	/** Internal. Assuming the pase is not currently unloading, this will print the error, url, and line of a script error to the console and show a message in red on the page labeled `Javascript error: ...`. This is directly hooked into the window.onerror property and called manually within a few catch statements. */
 	onScriptError: (error: ErrorEvent | string, url: string, line: number) => void;
 
-	/** Internal. Initializes the docked chat. */
+	/** Internal. Initializes the docked chat. This uses {@link jstpl_chatwindow} to create the visible DOM element. */
 	initChatDockedSystem: () => void;
+
+	/** Internal. Returns a {@link ChannelInfos} object containting channel information of a {@link Notif}. Expects a {@link NotifFrom}<{@link ChatNotifArgs}>, and will return null if the {@link Notif.channelorig} does not match as {@link ChannelInfos.channel} */
+	extractChannelInfosFromNotif: (notif: Notif) => ChannelInfos | null;
+
+	/** Internal. Returns a {@link ChatNotifArgs} with extra information about creating a chat message window. */
+	getChatInputArgs: (channel: ChannelInfos) => ChatInputArgs;
+
+	/** Internal. Passed to the {@link notifqueue}'s {@link GameNotif.onPlaceLogOnChannel}, used for logging messages onto a channel (chat window + extra). */
+	onPlaceLogOnChannel: (chatnotif: NotifFrom<ChatNotifArgs | 'newRTCMode'>) => void;
+
+	/** Internal. Updates the writing bubble status on the given chat window. */
+	onUpdateIsWritingStatus: (window_id: ChannelInfos['window_id']) => void;
+
+	/**
+	 * Internal. If the {@link dockedChatInitialized} is false or the window matching the channel infos exists, this will return false. Otherwise, the DOM element matching the channel infos will be created.
+	 * @param channel The channel information to create the chat bar window for.
+	 * @param subscribe Overrides the {@link ChannelInfos.subscribe} value.
+	 * @returns True if the chat bar window was created, false otherwise.
+	 */
+	createChatBarWindow: (channel: ChannelInfos, subscribe?: boolean) => boolean;
+
+	/** Internal. Button Event. Removes the 'startchat_toconfirm' class from the chat window corresponding to the id of the current target. */
+	onStartChatAccept: (event: Event) => void;
+
+	/** Internal. Button Event. Blocks and closes the chat window corresponding to the id of the current target. */
+	onStartChatBlock: (event: Event) => void;
+
+	/** Internal. Toggle Button Event. Updates preference for if the general notifications should be ignored (hidden + no notifications). */
+	onChangeStopNotifGeneralBox: (event: Event) => void;
+
+	/** Internal. Button Event. Toggles preference for if the general notifications should be ignored. Directly calls {@link onChangeStopNotifGeneralBox} after changing. */
+	onChangeStopNotifGeneralLabel: (event: Event) => void;
+
+	/** Internal. Checks if launching audio/video is currently on a cooldown (max 120s) due to entering and leaving a chat. This uses {@link sessionStorage} to store the state of this cooldown (timeToWaitNextAV, AVAttemptNumber, lastAVAttemptTimestamp). @see setAVFrequencyLimitation */
+	checkAVFrequencyLimitation: () => boolean;
+
+	/** Internal. Increments the attempt account and resets the timeout based on attempts (10s per attempt, max 60s). This uses {@link sessionStorage} to store the state of this cooldown (timeToWaitNextAV, AVAttemptNumber, lastAVAttemptTimestamp). @see checkAVFrequencyLimitation */
+	setAVFrequencyLimitation: () => void;;
+
+	/** Internal. Button Event. Toggles the audio chat feature, showing loading messages and making ajax calls. */
+	onStartStopAudioChat: (event: Event) => void;
+
+	/** Internal. Button Event. Toggles the video chat feature, showing loading messages and making ajax calls. */
+	onStartStopVideoChat: (event: Event) => void;
+
+	/**
+	 * Internal. Sets the new rtc mode for the current client.
+	 * @param table_id The table id to set the rtc mode for. If not null, this defines the room for the player and the DOM elements will be created if needed.
+	 * @param target_player_id The player id to set the rtc mode for. . If not null, this defines the room for the player and the DOM elements will be created if needed. Only valid if the table_id is null.
+	 * @param rtc_id The rtc id to set the mode to. If this is 0, the rtc will be disconnected and all other params are ignored.
+	 * @param connecting_player_id The player id to connect to.
+	 */
+	setNewRTCMode: (table_id: number | null, target_player_id: number | null, rtc_id: number | 0, connecting_player_id?: number) => void;
+
+	/** Internal. Button Event. Calls {@link loadPreviousMessage} based on the current target's id. */
+	onLoadPreviousMessages: ((event: Event) => void) | ((args: {type: string, id: number, status?: 'underage' | 'admin' | 'newchat' | 'newchattoconfirm' | string, history: { time: number, mread?: boolean; }[] }) => void);
+
+	/** Internal. Gets the chatHistory for a table based on the arguments. The {@link ajaxcall} will callback to {@link onLoadPreviousMessages} */
+	loadPreviousMessage: (type: string, id: number) => void;
+
+	/** Internal. Chat Window Helper. */
+	stackOrUnstackIfNeeded: () => void;
+	/** Internal. Chat Window Helper. */
+	onUnstackChatWindow: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	unstackChatWindow: (window_id: ChannelInfos['window_id'], state: ChannelInfos['start'] | 'automatic') => void;
+	/** Internal. Chat Window Helper. */
+	stackChatWindowsIfNeeded: (state: ChannelInfos['start']) => void;
+	/** Internal. Chat Window Helper. */
+	stackOneChatWindow: () => void;
+	/** Internal. Chat Window Helper. */
+	getNeededChatbarWidth: () => number;
+	/** Internal. Chat Window Helper. */
+	adaptChatbarDock: () => void;
+	/** Internal. Chat Window Helper. */
+	countStackedWindows: () => number;
+	/** Internal. Chat Window Helper. */
+	closeChatWindow: (window_id: ChannelInfos['window_id']) => void;
+	/** Internal. Chat Window Helper. */
+	onCloseChatWindow: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	onCollapseChatWindow: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	collapseChatWindow: (window_id: ChannelInfos['window_id'], checkBottom?: any) => void;
+	/** Internal. Chat Window Helper. */
+	onExpandChatWindow: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	onCollapseAllChatWindow: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	updateChatBarStatus: () => void;
+	/** Internal. Chat Window Helper. */
+	expandChatWindow: (window_id: ChannelInfos['window_id'], autoCollapseAfterMessage?: boolean) => void;
+	/** Internal. Chat Window Helper. */
+	makeSureChatBarIsOnTop: (window_id: ChannelInfos['window_id']) => void;
+	/** Internal. Chat Window Helper. */
+	makeSureChatBarIsOnBottom: (window_id: ChannelInfos['window_id']) => void;
+	/** Internal. Chat Window Helper. */
+	onScrollDown: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	onToggleStackMenu: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	onCallbackBeforeChat: (args: any, channel_url: string) => void;
+	/** Internal. Chat Window Helper. */
+	isBadWorkInChat: (text?: string) => boolean;
+	/** Internal. Chat Window Helper. */
+	onCallbackAfterChat: (_1: any) => void;
+	/** Internal. Chat Window Helper. */
+	callbackAfterChatError: (args: any) => void;
+	/** Internal. Chat Window Helper. */
+	onDockedChatFocus: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	onDockedChatInputKey: (event: KeyboardEvent) => void;
+	/** Internal. Chat Window Helper. */
+	onShowPredefined: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	onInsertPredefinedMessage: (event: Event) => void;
+	/** Internal. Chat Window Helper. */
+	onInsertPredefinedTextMessage: (event: Event) => void;
+	/** Internal. Sets the given parameters with their matching property (if defined). */
+	setGroupList: (groupList: SiteCore['groupList'], allGroupList?: SiteCore['allGroupList'], red_thumbs_given?: SiteCore['red_thumbs_given'], red_thumbs_taken?: SiteCore['red_thumbs_taken']) => void;
+	/** Internal. Updates the {@link allLanguagesList} property with the given value. */
+	setAllLanguagesList: (allLanguagesList: SiteCore['allLanguagesList']) => void;
+	/** Internal. Updates the {@link pma} property with the given value. */
+	setPma: (pma: SiteCore['pma']) => void;
+	/** Internal. Updates the {@link rtc_mode} and {@link rtc_room} property with the given values. */
+	setRtcMode: (rtc_mode: SiteCore['rtc_mode'], rtc_room: SiteCore['rtc_room']) => void;
+	/** Internal. WIP */
+	takeIntoAccountAndroidIosRequestDesktopWebsite: () => void;
+	/** Internal. WIP */
+	traceLoadingPerformances: () => void;
+	/** Returns the current player id. This returns the global {@link current_player_id} if defined, and {@link Gamegui.player_id} otherwise. */
+	getCurrentPlayerId: () => number;
+
+	/** Internal. WIP */
+	tutorialShowOnce: (...args: any[]) => any;
+	/** Internal. WIP */
+	highligthElementwaitForPopinToClose: (...args: any[]) => any;
+	/** Internal. WIP */
+	highlightElementTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	onElementTutorialNext: (...args: any[]) => any;
+	/** Internal. WIP */
+	websiteWindowVisibilityChange: (...args: any[]) => any;
+	/** Internal. WIP */
+	ackUnreadMessage: (...args: any[]) => any;
+	/** Internal. WIP */
+	ackMessagesWithPlayer: (...args: any[]) => any;
+	/** Internal. WIP */
+	ackMessagesOnTable: (...args: any[]) => any;
+	/** Internal. WIP */
+	onAckMsg: (...args: any[]) => any;
+	/** Internal. WIP */
+	initMonitoringWindowVisibilityChange: (...args: any[]) => any;
+	/** Internal. WIP */
+	playingHoursToLocal: (...args: any[]) => any;
+	/** Internal. WIP */
+	showSplashedPlayerNotifications: (...args: any[]) => any;
+	/** Internal. WIP */
+	displayNextSplashNotif: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewsRead: (...args: any[]) => any;
+	/** Internal. WIP */
+	onDisplayNextSplashNotif: (...args: any[]) => any;
+	/** Internal. WIP */
+	inactivityTimerIncrement: (...args: any[]) => any;
+	/** Internal. WIP */
+	resetInactivityTimer: (...args: any[]) => any;
+	/** Internal. WIP */
+	onForceBrowserReload: (...args: any[]) => any;
+	/** Internal. WIP */
+	doForceBrowserReload: (...args: any[]) => any;
+	/** Internal. WIP */
+	onDebugPing: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewRequestToken: (...args: any[]) => any;
+	/** Internal. WIP */
+	onMuteSound: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSetSoundVolume: (...args: any[]) => any;
+	/** Internal. WIP */
+	onToggleSound: (...args: any[]) => any;
+	/** Internal. WIP */
+	onDisplaySoundControls: (...args: any[]) => any;
+	/** Internal. WIP */
+	displaySoundControls: (...args: any[]) => any;
+	/** Internal. WIP */
+	onHideSoundControls: (...args: any[]) => any;
+	/** Internal. WIP */
+	hideSoundControls: (...args: any[]) => any;
+	/** Internal. WIP */
+	onStickSoundControls: (...args: any[]) => any;
+	/** Internal. WIP */
+	onUnstickSoundControls: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSoundVolumeControl: (...args: any[]) => any;
+	/** Internal. WIP */
+	displayRatingContent: (...args: any[]) => any;
+	/** Internal. WIP */
+	sendRating: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGameRatingEnter: (...args: any[]) => any;
+	/** Internal. WIP */
+	onVideoRatingEnter: (...args: any[]) => any;
+	/** Internal. WIP */
+	onAudioRatingEnter: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSupportRatingEnter: (...args: any[]) => any;
+	/** Internal. WIP */
+	processRatingEnter: (...args: any[]) => any;
+	/** Internal. WIP */
+	onRatingLeave: (...args: any[]) => any;
+	/** Internal. WIP */
+	onVideoRatingClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	onAudioRatingClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGameRatingClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSupportRatingClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	completeRatingClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	showRatingDialog_step2: (...args: any[]) => any;
+	/** Internal. WIP */
+	onAudioRatingClickIssue: (...args: any[]) => any;
+	/** Internal. WIP */
+	onVideoRatingClickIssue: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGameRatingClickIssue: (...args: any[]) => any;
+	/** Internal. WIP */
+	completeRatingClickIssue: (...args: any[]) => any;
+	/** Internal. WIP */
+	showRatingDialog_step3: (...args: any[]) => any;
+	/** Internal. WIP */
+	showGameRatingDialog_step4: (...args: any[]) => any;
+	/** Internal. WIP */
+	recordMediaStats: (...args: any[]) => any;
 
 	//#endregion
 

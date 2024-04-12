@@ -307,7 +307,14 @@ declare class Gamegui extends SiteCore {
 
 	//#region Player Actions
 
-	
+	// This is an override such that enforces the table/noerrortracking options not be defined in the args parameter.
+	ajaxcall(
+		url: string,
+		args: (PlayerActions[keyof PlayerActions] | Record<keyof any, any>) & { lock: boolean | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined, noerrortracking?: undefined, table?: undefined },
+		source: Gamegui,
+		onSuccess?: Function | string,
+		callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any,
+		ajax_method?: 'post' | 'get' | 'iframe'): void;
 
 	/**
 	 * Checks if the player can do the specified action by taking into account:
@@ -667,6 +674,507 @@ declare class Gamegui extends SiteCore {
 	gs_socketio_url: string;
 	/** Internal. */
 	gs_socketio_path: string;
+	/** Internal. */
+	debug_from_chat?: boolean;
+	/** Internal. */
+	chat_on_gs_side?: boolean;
+
+	/** Internal. WIP */
+	completesetup: (...args: any[]) => any;
+	/** Internal. WIP */
+	onReconnect: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGsSocketIoConnectionStatusChanged: (...args: any[]) => any;
+	/** Internal. WIP */
+	updatePremiumEmblemLinks: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGameUiWidthChange: (...args: any[]) => any;
+	/** Internal. WIP */
+	onZoomToggle: (...args: any[]) => any;
+	/** Internal. WIP */
+	adaptStatusBar: (...args: any[]) => any;
+	/** Internal. WIP */
+	adaptPlayersPanels: (...args: any[]) => any;
+	/** Internal. WIP */
+	activeShowOpponentCursor: (...args: any[]) => any;
+	/** Internal. WIP */
+	showOpponentCursorClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	unactiveShowOpponentCursor: (...args: any[]) => any;
+	/** Internal. WIP */
+	onShowMyCursor: (...args: any[]) => any;
+	/** Internal. WIP */
+	onHideCursor: (...args: any[]) => any;
+	/** Internal. WIP */
+	getCursorInfos: (...args: any[]) => any;
+	/** Internal. WIP */
+	showOpponentCursorSendInfos: (...args: any[]) => any;
+	/** Internal. WIP */
+	onShowOpponentCursorMouseOver: (...args: any[]) => any;
+	/** Internal. WIP */
+	getGameStandardUrl: (...args: any[]) => any;
+	/** Internal. WIP */
+	showIngameMenu: (...args: any[]) => any;
+	/** Internal. WIP */
+	hideIngameMenu: (...args: any[]) => any;
+	/** Internal. WIP */
+	toggleIngameMenu: (...args: any[]) => any;
+	/** Internal. WIP */
+	getPlayerTooltip: (...args: any[]) => any;
+	/** Internal. WIP */
+	onStartGame: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNotificationPacketDispatched: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateActivePlayerAnimation: (...args: any[]) => any;
+	/** Internal. WIP */
+	isPlayerActive: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateVisitors: (...args: any[]) => any;
+	/** Internal. WIP */
+	onBanSpectator: (...args: any[]) => any;
+	/** Internal. WIP */
+	switchToGameResults: (...args: any[]) => any;
+	/** Internal. WIP */
+	eloEndOfGameAnimation: (...args: any[]) => any;
+	/** Internal. WIP */
+	eloEndOfGameAnimationWorker: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateResultPage: (...args: any[]) => any;
+	/** Internal. WIP */
+	loadTrophyToSplash: (...args: any[]) => any;
+	/** Internal. WIP */
+	displayScores: (...args: any[]) => any;
+	/** Internal. WIP */
+	buildScoreDlgHtmlContent: (...args: any[]) => any;
+	/** Internal. WIP */
+	onFBReady: (...args: any[]) => any;
+	/** Internal. WIP */
+	onShowGameResults: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGameEnd: (...args: any[]) => any;
+	/** Internal. WIP */
+	prepareMediaRatingParams: (...args: any[]) => any;
+	/** Internal. WIP */
+	getMediaRatingParams: (...args: any[]) => any;
+	/** Internal. WIP */
+	redirectToTablePage: (...args: any[]) => any;
+	/** Internal. WIP */
+	redirectToTournamentPage: (...args: any[]) => any;
+	/** Internal. WIP */
+	redirectToLobby: (...args: any[]) => any;
+	/** Internal. WIP */
+	redirectToMainsite: (...args: any[]) => any;
+	/** Internal. WIP */
+	redirectToGamePage: (...args: any[]) => any;
+	/** Internal. WIP */
+	doRedirectToMetasite: (...args: any[]) => any;
+	/** Internal. WIP */
+	onBackToMetasite: (...args: any[]) => any;
+	/** Internal. WIP */
+	onCreateNewTable: (...args: any[]) => any;
+	/** Internal. WIP */
+	onProposeRematch: (...args: any[]) => any;
+	/** Internal. WIP */
+	onBuyThisGame: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGlobalActionPause: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGlobalActionFullscreen: (...args: any[]) => any;
+	/** Internal. WIP */
+	switchLogModeTo: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGlobalActionPreferences: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGlobalActionHelp: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGlobalActionBack: (...args: any[]) => any;
+	/** Internal. WIP */
+	onGlobalActionQuit: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewLog: (...args: any[]) => any;
+	/** Internal. WIP */
+	addMoveToLog: (...args: any[]) => any;
+	/** Internal. WIP */
+	onChangeContentHeight: (...args: any[]) => any;
+	/** Internal. WIP */
+	onReplayFromPoint: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateDecisionPanel: (...args: any[]) => any;
+	/** Internal. WIP */
+	onPlayerDecide: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateReflexionTimeDisplay: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateReflexionTime: (...args: any[]) => any;
+	/** Internal. WIP */
+	shouldDisplayClockAlert: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateFirePlayerLink: (...args: any[]) => any;
+	/** Internal. WIP */
+	onWouldLikeToThink: (...args: any[]) => any;
+	/** Internal. WIP */
+	sendWakeupInTenSeconds: (...args: any[]) => any;
+	/** Internal. WIP */
+	sendWakeUpSignal: (...args: any[]) => any;
+	/** Internal. WIP */
+	cancelPlannedWakeUp: (...args: any[]) => any;
+	/** Internal. WIP */
+	checkWakupUpInFourteenSeconds: (...args: any[]) => any;
+	/** Internal. WIP */
+	checkWakups: (...args: any[]) => any;
+	/** Internal. WIP */
+	cancelPlannedWakeUpCheck: (...args: any[]) => any;
+	/** Internal. WIP */
+	isInterfaceLocked: (...args: any[]) => any;
+	/** Internal. WIP */
+	isInterfaceUnlocked: (...args: any[]) => any;
+	/** Internal. WIP */
+	lockInterface: (...args: any[]) => any;
+	/** Internal. WIP */
+	unlockInterface: (...args: any[]) => any;
+	/** Internal. WIP */
+	onLockInterface: (...args: any[]) => any;
+	/** Internal. WIP */
+	onAiNotPlaying: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNotPlayingHelp: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSkipPlayersOutOfTime: (...args: any[]) => any;
+	/** Internal. WIP */
+	onWouldFirePlayer: (...args: any[]) => any;
+	/** Internal. WIP */
+	onDecreaseExpelTime: (...args: any[]) => any;
+	/** Internal. WIP */
+	onMove: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNextMove: (...args: any[]) => any;
+	/** Internal. WIP */
+	initArchiveIndex: (...args: any[]) => any;
+	/** Internal. WIP */
+	sendNextArchive: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveNext: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveNextLog: (...args: any[]) => any;
+	/** Internal. WIP */
+	doArchiveNextLog: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveNextTurn: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveHistory: (...args: any[]) => any;
+	/** Internal. WIP */
+	setModeInstataneous: (...args: any[]) => any;
+	/** Internal. WIP */
+	unsetModeInstantaneous: (...args: any[]) => any;
+	/** Internal. WIP */
+	onLastArchivePlayed: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveToEnd: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveToEndSlow: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveGoTo: (...args: any[]) => any;
+	/** Internal. WIP */
+	onEndDisplayLastArchive: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveGoToMoveDisplay: (...args: any[]) => any;
+	/** Internal. WIP */
+	archiveGoToMove: (...args: any[]) => any;
+	/** Internal. WIP */
+	showArchiveComment: (...args: any[]) => any;
+	/** Internal. WIP */
+	getCommentsViewedFromStart: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveCommentMinimize: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveCommentMaximize: (...args: any[]) => any;
+	/** Internal. WIP */
+	applyArchiveCommentMarkup: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveCommentPointElementOnMouseEnter: (...args: any[]) => any;
+	/** Internal. WIP */
+	removeArchiveCommentPointElement: (...args: any[]) => any;
+	/** Internal. WIP */
+	archiveCommentAttachImageToElement: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveCommentPointElementClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveCommentContinueModeChange: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveCommentDisplayModeChange: (...args: any[]) => any;
+	/** Internal. WIP */
+	onTutoRatingEnter: (...args: any[]) => any;
+	/** Internal. WIP */
+	onTutoRatingLeave: (...args: any[]) => any;
+	/** Internal. WIP */
+	onTutoRatingClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	onRepositionPopop: (...args: any[]) => any;
+	/** Internal. WIP */
+	clearArchiveCommentTooltip: (...args: any[]) => any;
+	/** Internal. WIP */
+	removeArchiveCommentAssociatedElements: (...args: any[]) => any;
+	/** Internal. WIP */
+	onArchiveAddComment: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentCancel: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentSave: (...args: any[]) => any;
+	/** Internal. WIP */
+	newArchiveCommentSave: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentSaveModify: (...args: any[]) => any;
+	/** Internal. WIP */
+	newArchiveCommentSaveModify: (...args: any[]) => any;
+	/** Internal. WIP */
+	getArchiveCommentsPointers: (...args: any[]) => any;
+	/** Internal. WIP */
+	onKeyPressTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	onKeyUpTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentNext: (...args: any[]) => any;
+	/** Internal. WIP */
+	doNewArchiveCommentNext: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentDelete: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentModify: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentStartDrag: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentEndDrag: (...args: any[]) => any;
+	/** Internal. WIP */
+	onNewArchiveCommentDrag: (...args: any[]) => any;
+	/** Internal. WIP */
+	initCommentsForMove: (...args: any[]) => any;
+	/** Internal. WIP */
+	onEndOfNotificationDispatch: (...args: any[]) => any;
+	/** Internal. WIP */
+	checkIfArchiveCommentMustBeDisplayed: (...args: any[]) => any;
+	/** Internal. WIP */
+	onHowToTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	onTutoPointerClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	onPublishTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	onQuitTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	loadReplayLogs: (...args: any[]) => any;
+	/** Internal. WIP */
+	replaceArchiveCursor: (...args: any[]) => any;
+	/** Internal. WIP */
+	onEditReplayLogsComment: (...args: any[]) => any;
+	/** Internal. WIP */
+	onRemoveReplayLogsComment: (...args: any[]) => any;
+	/** Internal. WIP */
+	onEditReplayLogsCommentSave: (...args: any[]) => any;
+	/** Internal. WIP */
+	onReplayLogClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	ensureImageLoading: (...args: any[]) => any;
+	/** Internal. WIP */
+	ensureSpecificImageLoading: (...args: any[]) => any;
+	/** Internal. WIP */
+	onLoadImageOk: (...args: any[]) => any;
+	/** Internal. WIP */
+	onLoadImageNok: (...args: any[]) => any;
+	/** Internal. WIP */
+	updateLoaderPercentage: (...args: any[]) => any;
+	/** Internal. WIP */
+	displayTableWindow: (...args: any[]) => any;
+	/** Internal. WIP */
+	updatePubBanner: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSaveState: (...args: any[]) => any;
+	/** Internal. WIP */
+	onLoadState: (...args: any[]) => any;
+	/** Internal. WIP */
+	getScriptErrorModuleInfos: (...args: any[]) => any;
+	/** Internal. WIP */
+	showTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	onCloseTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	onBeforeChatInput: (...args: any[]) => any;
+	/** Internal. WIP */
+	showEliminated: (...args: any[]) => any;
+	/** Internal. WIP */
+	setLoader: (...args: any[]) => any;
+	/** Internal. WIP */
+	displayZombieBack: (...args: any[]) => any;
+	/** Internal. WIP */
+	onZombieBack: (...args: any[]) => any;
+	/** Internal. WIP */
+	showNeutralizedGamePanel: (...args: any[]) => any;
+	/** Internal. WIP */
+	setupCoreNotifications: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_gameStateChange: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_gameStateChangePrivateArgs: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_gameStateMultipleActiveUpdate: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_newActivePlayer: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_playerStatusChanged: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_yourTurnAck: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_clockalert: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_tableInfosChanged: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_playerEliminated: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_tableDecision: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_infomsg: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_archivewaitingdelay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_end_archivewaitingdelay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_replaywaitingdelay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_end_replaywaitingdelay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_replayinitialwaitingdelay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_end_replayinitialwaitingdelay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_replay_has_ended: (...args: any[]) => any;
+	/** Internal. WIP */
+	onEndOfReplay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_updateSpectatorList: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_tableWindow: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_wouldlikethink: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_updateReflexionTime: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_undoRestorePoint: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_resetInterfaceWithAllDatas: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_zombieModeFailWarning: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_zombieModeFail: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_aiError: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_skipTurnOfPlayer: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_zombieBack: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_gameResultNeutralized: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_allPlayersAreZombie: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_simplePause: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_showTutorial: (...args: any[]) => any;
+	/** Internal. WIP */
+	showTutorialActivationDlg: (...args: any[]) => any;
+	/** Internal. WIP */
+	showTutorialItem: (...args: any[]) => any;
+	/** Internal. WIP */
+	onTutorialClose: (...args: any[]) => any;
+	/** Internal. WIP */
+	onTutorialDlgClose: (...args: any[]) => any;
+	/** Internal. WIP */
+	markTutorialAsSeen: (...args: any[]) => any;
+	/** Internal. WIP */
+	toggleTurnBasedNotes: (...args: any[]) => any;
+	/** Internal. WIP */
+	closeTurnBasedNotes: (...args: any[]) => any;
+	/** Internal. WIP */
+	openTurnBasedNotes: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSaveNotes: (...args: any[]) => any;
+	/** Internal. WIP */
+	onClearNotes: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSeeMoreLink: (...args: any[]) => any;
+	/** Internal. WIP */
+	onThumbUpLink: (...args: any[]) => any;
+	/** Internal. WIP */
+	onChangePreference: (...args: any[]) => any;
+	/** Internal. WIP */
+	getRanking: (...args: any[]) => any;
+	/** Internal. WIP */
+	insert_rankings: (...args: any[]) => any;
+	/** Internal. WIP */
+	onSeeMoreRanking: (...args: any[]) => any;
+	/** Internal. WIP */
+	onChangeRankMode: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_aiPlayerWaitingDelay: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_playerConcedeGame: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_skipTurnOfPlayerWarning: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_showCursorClick: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_showCursor: (...args: any[]) => any;
+	/** Internal. WIP */
+	onChatKeyDown: (...args: any[]) => any;
+	/** Internal. WIP */
+	onChatInputBlur: (...args: any[]) => any;
+	/** Internal. WIP */
+	onJudgeDecision: (...args: any[]) => any;
+	/** Internal. WIP */
+	registerEbgControl: (...args: any[]) => any;
+	/** Internal. WIP */
+	destroyAllEbgControls: (...args: any[]) => any;
+	/** Internal. WIP */
+	playMusic: (...args: any[]) => any;
+	/** Internal. WIP */
+	onShowGameHelp: (...args: any[]) => any;
+	/** Internal. WIP */
+	onShowStrategyHelp: (...args: any[]) => any;
+	/** Internal. WIP */
+	lockScreenCounter: (...args: any[]) => any;
+	/** Internal. WIP */
+	initHotseat: (...args: any[]) => any;
+	/** Internal. WIP */
+	onHotseatPlayButton: (...args: any[]) => any;
+	/** Internal. WIP */
+	checkHotseatFocus: (...args: any[]) => any;
+	/** Internal. WIP */
+	giveHotseatFocusTo: (...args: any[]) => any;
+	/** Internal. WIP */
+	init3d: (...args: any[]) => any;
+	/** Internal. WIP */
+	change3d: (...args: any[]) => any;
+	/** Internal. WIP */
+	enter3dButton: (...args: any[]) => any;
+	/** Internal. WIP */
+	leave3dButton: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_banFromTable: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_resultsAvailable: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_switchToTurnbased: (...args: any[]) => any;
+	/** Internal. WIP */
+	ntf_newPrivateState: (...args: any[]) => any;
+	/** Internal. WIP */
+	saveclient: (...args: any[]) => any;
+	/** Internal. WIP */
+	restoreClient: (...args: any[]) => any;
+	/** Internal. WIP */
+	decodeHtmlEntities: (...args: any[]) => any;
+	/** Internal. WIP */
+	applyTranslationsOnLoad: (...args: any[]) => any;
+	/** Internal. WIP */
+	showGameRatingDialog: (...args: any[]) => any;
 
 	//#endregion
 

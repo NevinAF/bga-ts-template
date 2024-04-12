@@ -2,13 +2,13 @@
 
 <table><tr>
 	<td> Author: NevinAF </td>
-	<td> Version: 1.1.3 </td>
+	<td> Version: 1.1.4 </td>
 	<td> Date: March 18, 2024 </td>
 </tr></table>
 
 [![npm version](https://badge.fury.io/js/bga-ts-template.svg)](https://badge.fury.io/js/bga-ts-template)
 
-A starting template built with type safety in mind, containing:
+BGA Type Safe Template is an npm package that includes:
 
 - Typescript with
 	- Nearly full typing for all BGA and Dojo components and heavy documentation.

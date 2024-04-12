@@ -72,14 +72,14 @@ declare global
 		"newPrivateState": { id?: keyof GameStates };
 
 		"chat": ChatNotifArgs;
-		"groupchat": ChatNotifArgs & { gamesession?: string; gamesessionadmin?: string, group_id: number };
+		"groupchat": ChatNotifArgs & { gamesession?: string; gamesessionadmin?: string, group_id: number, group_avatar: string, group_type: string, group_name: string, seemore?: string };
 		"chatmessage": ChatNotifArgs;
-		"tablechat": ChatNotifArgs;
-		"privatechat": ChatNotifArgs & { target_id: number };
+		"tablechat": ChatNotifArgs & { game_name_ori?: string, game_name?: string }
+		"privatechat": ChatNotifArgs & { target_id: number, target_name: string, target_avatar: string, player_id: number, player_name: string, avatar: string };
 		"stopWriting": ChatNotifArgs;
 		"startWriting": ChatNotifArgs;
-		"newRTCMode": { rtc_mode: number, player_id: number, target_id: number, room_creator: number, table_id: number, mread?: boolean | null };
-		"history_history": { is_new?: boolean, mread?: boolean | null };
+		"newRTCMode": { rtc_mode: number, player_id: number, target_id: number, room_creator: number, table_id: number };
+		"history_history": { is_new?: boolean };
 	}
 
 	/**
@@ -100,10 +100,10 @@ declare global
 		log: string;
 		/** True when NotifyAllPlayers method is used (false otherwise), i.e. if all player are receiving this notification. */
 		bIsTableMsg: boolean;
-		/** Information about table ID (formatted as : "/table/t[TABLE_NUMBER]" or "/player/p[PLAYER_ID]"). */
-		channelorig: string;
-		/** Name of the game. */
-		gamenameorig: string;
+		/** Information about channel which this notification was sent from, formatted as : "/<type>/<prefix>[ID]". */
+		channelorig: ChannelInfos['channel'];
+		/** Name of the game which this notification is coming from. Undefined when this is not associated with a game. */
+		gamenameorig?: string;
 		/** UNIX GMT timestamp. */
 		time: number;
 		/** Unique identifier of the notification in hex */
