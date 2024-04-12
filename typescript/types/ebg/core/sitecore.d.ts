@@ -30,12 +30,45 @@ declare class SiteCore extends CoreCore
 	/** The component used for modifying how notifications are synchronized/sequenced or if they should be filtered/ignored. */
 	notifqueue: GameNotif;
 
+	/** Represents if the devices is a touch device. This is true if this devices has an 'ontouchstart' event on the window, or the navigator has a positive 'maxTouchPoints' value. */
+	isTouchDevice: boolean;
+
+	/**
+	 * Shows a message in a big rectangular area on the top of the screen of the current player, and it disappears after few seconds (also it will be in the log in some cases).
+	 * Important: the normal way to inform players about the progression of the game is the game log. The "showMessage" is intrusive and should not be used often.
+	 * 
+	 * Override this method to customize the message display, usually only used for handling specific custom messages.
+	 * @param message The string to display. It should be translated.
+	 * @param type The type of message to display. If set to "info", the message will be an informative message on a white background. If set to "error", the message will be an error message on a red background and it will be added to log. If set to "only_to_log", the message will be added to the game log but will not popup at the top of the screen. If set to custom string, it will be transparent, to use custom type define "head_xxx" in css, where xxx is the type. For example if you want yellow warning, use "warning" as type and add this to css: `.head_warning { background-color: #e6c66e; }`
+	 * @example this.showMessage('This is a message', 'info');
+	 * @example
+	 * // Show message could be used on the client side to prevent user wrong moves before it is send to server. Example from 'battleship':
+	 * onGrid: function(event) {
+	 * 	if (checkIfPlayerTriesToFireOnThemselves(event)) {
+	 * 		this.showMessage(_('This is your own board silly!'), 'error');
+	 * 		return;
+	 * 	}
+	 * 	...
+	 * },
+	 * @example
+	 * // This is an override example, presented by anewcar on discord.
+	 * showMessage: function (msg, type) {
+	 * 	if (type == "error" && msg && msg.includes("!!!club!!!")) {
+	 * 		msg = msg.replace("!!!club!!!", this.getTokenDiv("club")); 
+	 * 		//return; // suppress red banner and gamelog message
+	 * 	}
+	 * 	this.inherited(arguments);
+	 * },
+	 */
+	showMessage: (message: string, type: 'info' | 'error' | 'only_to_log' | string) => void;
+
+
 	//#region Internal
 
 	/** Internal. An internal count to track the number of ajax calls made. */
 	ajaxcall_running: number;
 	/** Internal. The current active menu label type. This is updated by using that {@link changeActiveMenuItem} function. This is used to remember the previous pick for cleanup before changing. */
-	active_menu_label: 'welcome' | 'lobby' | 'gamelobby' | 'gamelist' | 'community' | 'premium' | 'shop' | 'shopsupport' | 'competition' | 'doc' | 'headlines' | 'events' | 'controlpanel' | 'projects' | 'halloffame';
+	active_menu_label: 'welcome' | 'lobby' | 'gamelobby' | 'gamelist' | 'community' | 'premium' | 'shop' | 'shopsupport' | 'competition' | 'doc' | 'headlines' | 'events' | 'controlpanel' | 'projects' | 'halloffame' | '';
 	/** Internal. Counter used by {@link showMessage} function to create a unique identifier for the DOM element. */
 	next_headmsg_id: number;
 	/** Internal. If CometD (web messaging service) has been set up. */
@@ -75,6 +108,82 @@ declare class SiteCore extends CoreCore
 	red_thumbs_given: {};
 	/** Internal. @deprecated This is not used within the main code file anymore. */
 	red_thumbs_taken: {};
+	/** Internal. If truthy, this represents the detached chat for the page. */
+	chatDetached?: false | { type: 'table' | 'player' | 'chat' | 'general' | 'group', id: number, chatname: string };
+	/** Internal. Set to true when there is currently a detached chat on the page. */
+	bChatDetached?: boolean;
+	/** Internal. Record of non translated quick chat messages. This is fully listed for convenience, but may not represent updated values. */
+	predefinedTextMessages: {
+		tbleave: "Sorry I will continue to play later.",
+		goodmove: "Sorry I have an emergency: I'm back in few seconds...",
+		gm: "Good move!",
+		think: "I would like to think a little, thank you",
+		stillthinkin: "Yeah, still there, just thinking.",
+		stillthere: "Hey, are you still there?",
+		gg: "Good Game!",
+		glhf: "Good luck, have fun!",
+		hf: "Have fun!",
+		tftg: "Thanks for the game!"
+	}
+	/** Internal. Inverse lookup for the {@link predefinedTextMessages} */
+	predefinedTextMessages_untranslated: {
+		[P in keyof SiteCore['predefinedTextMessages'] as SiteCore['predefinedTextMessages'][P]]: P
+	}
+	/** Internal. The translated version of the {@link predefinedTextMessages} */
+	predefinedTextMessages_target_translation: Record<keyof SiteCore['predefinedTextMessages'], string>;
+	/** Internal. The difference between new Data and 'servivetime'.innerHTML in minutes. This is always a positive number. */
+	timezoneDelta: number;
+	/** Internal. Partial: This has been partially typed based on a subset of the BGA source code. */
+	bgaUniversalModals: any;
+	/** Internal. Partial: This has been partially typed based on a subset of the BGA source code. */
+	bgaToastHolder: any;
+	/** If 'show', scripting errors passed to {@link onScriptError} will be displayed in a red message on the top part of the bage for 6 seconds. */
+	reportJsError?: boolean | 'show';
+
+	/** Internal. Initializes functionality and fields related to {@link SiteCore}, such as volume listeners and inactivity timers. This should be called manually by subclasses during there initializer functions (i.e, {@link MainSite.create} and {@link Gamegui.completesetup}). */
+	init_core: () => void;
+
+	/** Internal. Sets the {@link page_is_unloading} property to true and calls {@link recordMediaStats} with `'stop'`. This is triggered by {@link dojo._base.unload}. */
+	unload: () => void;
+
+	/** Internal. Sets the 'svelte/index' modules menu states page loading status. This is set to true if there are any {@link ajaxcall_running}. */
+	updateAjaxCallStatus: () => void;
+
+	/** Internal. Sets the active menu label and page name based on the key given. */
+	changeActiveMenuItem: (key: 'welcome' | 'playernotif' | 'welcomestudio' | 'start' | 'legal' | 'message' | 'gameinprogress' | 'table' | 'lobby' | 'meetinglobby' | 'availableplayers' | 'createtable' | 'newtable' | 'gamereview' | 'gamelobby' | 'gamelobbyauto' | 'tournament' | 'newtournament' | 'tournamentlist' | 'gamepanel' | 'games' | 'player' | 'playerstat' | 'group' | 'newgroup' | 'community' | 'report' | 'newreport' | 'moderated' | 'translation' | 'translationhq' | 'map' | 'grouplist' | 'contribute' | 'sponsorship' | 'moderator' | 'bug' | 'bugs' | 'faq' | 'gamepublishers' | 'team' | 'troubleshootmainsite' | 'sandbox' | 'penalty' | 'karmalimit' | 'club' | 'premium' | 'contact' | 'reviewer' | 'giftcodes' | 'shop' | 'shopsupport' | 'prestige' | 'gameranking' | 'award' | 'gamestats' | 'leaderboard' | 'page' | 'news' | 'event' | 'eventnew' | 'eventmodify' | 'controlpanel' | 'linkmoderation' | 'moderation' | 'studio' | 'studiogame' | 'administration' | 'banners' | 'projects' | 'startwannaplay' | 'startsteps' | 'halloffame') => SiteCore['active_menu_label'];
+
+	/** Internal. If the current cometd_service is 'socketio', then event is added to the socket using `.emit("join")` and keyed into the {@link cometd_subscriptions}. */
+	subscribeCometdChannel: (event: string, _1?: any, _2?: any) => void;
+
+	/** Internal. If the current cometd_service is 'socketio', then the events are added to the socket using `.emit("join")` and keyed into the {@link cometd_subscriptions}. */
+	subscribeCometdChannels(events: string[], _1?: any, _2?: any): void;
+
+	/** Internal. Unsubscribes a single listener to the given event. If there are no more listeners for that event, then the listener is removed from the socket using `.emit("leave")`. */
+	unsubscribeCometdChannel: (event: string) => void;
+
+	/** Internal. For all keys in {@link cometd_subscriptions}, the event will be rejoined if needed using `.emit("join"). */
+	reconnectAllSubscriptions: () => void;
+
+	/** Internal. Callback for when the socket io connection changes. This updates the connect status and posts notifications if needed. */
+	onSocketIoConnectionStatusChanged: (status: 'connect' | 'connect_error' | 'connect_timeout' | 'reconnect' | 'reconnect_failed' | 'reconnect_attempt' | string, error: string) => void;
+
+	/** Internal. A noop placeholder. */
+	onFirstConnectedToComet: () => void;
+
+	/** Internal. Preforms an {@link ajaxcall} for leaving a table and shows a confirmation popin if necessary (depending on the game's state). */
+	leaveTable: (table_id: number, success_callback: () => void) => void;
+
+	/** Internal. Increases the logs element max height by 600px. */
+	onSeeMoreLogs: (event: Event) => void;
+
+	/** Internal. A noop placeholder for when {@link onSeeMoreLogs} is called. */
+	onIncreaseContentHeight: () => void;
+
+	/** Internal. Assuming the pase is not currently unloading, this will print the error, url, and line of a script error to the console and show a message in red on the page labeled `Javascript error: ...`. This is directly hooked into the window.onerror property and called manually within a few catch statements. */
+	onScriptError: (error: ErrorEvent | string, url: string, line: number) => void;
+
+	/** Internal. Initializes the docked chat. */
+	initChatDockedSystem: () => void;
 
 	//#endregion
 

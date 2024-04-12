@@ -138,33 +138,7 @@ declare class CoreCore {
 	/** Registers a cometd subscription to the given comet id. This will unsubscribe this listener when using the {@link unsubscribe_all} function. */
 	register_cometd_subs: (comet_id: string) => void;
 
-	/**
-	 * Shows a message in a big rectangular area on the top of the screen of the current player, and it disappears after few seconds (also it will be in the log in some cases).
-	 * Important: the normal way to inform players about the progression of the game is the game log. The "showMessage" is intrusive and should not be used often.
-	 * 
-	 * Override this method to customize the message display, usually only used for handling specific custom messages.
-	 * @param message The string to display. It should be translated.
-	 * @param type The type of message to display. If set to "info", the message will be an informative message on a white background. If set to "error", the message will be an error message on a red background and it will be added to log. If set to "only_to_log", the message will be added to the game log but will not popup at the top of the screen. If set to custom string, it will be transparent, to use custom type define "head_xxx" in css, where xxx is the type. For example if you want yellow warning, use "warning" as type and add this to css: `.head_warning { background-color: #e6c66e; }`
-	 * @example this.showMessage('This is a message', 'info');
-	 * @example
-	 * // Show message could be used on the client side to prevent user wrong moves before it is send to server. Example from 'battleship':
-	 * onGrid: function(event) {
-	 * 	if (checkIfPlayerTriesToFireOnThemselves(event)) {
-	 * 		this.showMessage(_('This is your own board silly!'), 'error');
-	 * 		return;
-	 * 	}
-	 * 	...
-	 * },
-	 * @example
-	 * // This is an override example, presented by anewcar on discord.
-	 * showMessage: function (msg, type) {
-	 * 	if (type == "error" && msg && msg.includes("!!!club!!!")) {
-	 * 		msg = msg.replace("!!!club!!!", this.getTokenDiv("club")); 
-	 * 		//return; // suppress red banner and gamelog message
-	 * 	}
-	 * 	this.inherited(arguments);
-	 * },
-	 */
+	/** Although this function is defined on core, it is a wrapper for the {@link SiteCore.showMessage} function and always overridden. */
 	showMessage: (message: string, type: 'info' | 'error' | 'only_to_log' | string) => void;
 
 	/**
