@@ -2,7 +2,7 @@
 
 <table><tr>
 	<td> Author: NevinAF </td>
-	<td> Version: 1.1.5 </td>
+	<td> Version: 1.1.6 </td>
 	<td> Date: March 18, 2024 </td>
 </tr></table>
 
@@ -33,6 +33,7 @@ This project is an npm package that runs an initializer and builds scripts to as
 - [Existing Project](/README.md#existing-project)
 - [Package Scripts](/README.md#package-scripts)
 - [Configurations](/README.md#configurations)
+- [Tested With](/docs/tutorials/index.md#tested-with)
 
 Additional Content:
 
@@ -236,3 +237,11 @@ Like other jsonc files, the `gamestates.jsonc` file offers a more readable and w
 - When `--typescript`, generates the `GameStates` and `PlayerActions` types to avoid redefining the same information for usage in the typescript files.
 
 WIP - Defines state name constants and transition name constants for usage in the .game.php file.
+
+## Tested With
+
+The following is a list of repositories that have been create with the bga-ts-template, or forked from existing games and converted to the bga-ts-template. These repositories serve as a good example for how to set up more complex project while using the bga-ts-template:
+
+- **[Tutorials](/docs/tutorials/index.md)**: The list of BGA Type Safe Template tutorials.
+
+- **[Terraforming Mars](https://github.com/NevinAF/bga-ts-template-mars)**: Forked from https://github.com/elaskavaia/bga-mars. This game originally uses TS, but left nearly all framework types as `any`. This repository is a good example of how to convert an existing typescript project. Note that most of the changes are related to how the the modules are defined due to using `AMD` modules rather than `none`. This was a choice made to demonstrate that all BGA TS Template features still work after conversions, but not necessarily needed for an easy conversion.
