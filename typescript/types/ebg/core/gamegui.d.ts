@@ -454,7 +454,7 @@ declare class Gamegui extends SiteCore {
 	 * 	...
 	 * }
 	 */
-	updatePageTitle: () => void;
+	updatePageTitle: (stateArgs?: CurrentStateArgs) => void;
 
 	//#endregion
 

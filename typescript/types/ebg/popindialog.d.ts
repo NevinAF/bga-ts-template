@@ -64,7 +64,7 @@ declare class PopInDialog
 	 * Sets the inner html of the dialog.
 	 * @param content The html to set the dialog to.
 	 */
-	setContent: (content: string) => void;
+	setContent: (content: string | Node) => void;
 
 	/**
 	 * Shows the dialog. If the dialog was not created, this will create the dialog and show it.

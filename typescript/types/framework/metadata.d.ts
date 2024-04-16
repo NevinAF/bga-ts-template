@@ -136,6 +136,8 @@ declare global {
 		score: number;
 		/** Not documented. Presumably represents if the player has disconnected and has begun taking 'zombie' actions. This is likely a boolean. */
 		zombie: number;
+		/** Not documented. */
+		no: string;
 	}
 
 	interface Preference
@@ -150,6 +152,7 @@ declare global {
 		values: Record<number | `${number}`, {
 			name: string;
 			cssPref?: string;
+			description?: string;
 		}>;
 		value: number | `${number}`;
 		default?: number;

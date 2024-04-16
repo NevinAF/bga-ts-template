@@ -1998,7 +1998,7 @@ declare namespace dojo {
 		 * so event properties are normalized.
 		 */
 		connect(method: string, objOrFunc: EventListener | string): this;
-		connect(method: string, objOrFunc: Object, funcName: string): this;
+		connect(method: string, objOrFunc: Object, funcName: EventListener | string): this;
 
 		/**
 		 * Deprecated: Use position() for border-box x/y/w/h

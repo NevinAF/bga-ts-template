@@ -71,6 +71,13 @@ declare global {
 	 */
 	const g_gamethemeurl: string;
 
+	/**
+	 * The non-game specific theme url. This should be used just like {@link g_gamethemeurl} but for assets that are not specific to the game, that is shared assets.
+	 * @example
+	 * const image = "<img class='imgtext' src='" + g_themeurl + "img/layout/help_click.png' alt='action' /> <span class='tooltiptext'>" + text + "</span>""
+	 */
+	const g_themeurl: string;
+
 	/** The replay number in live game. It is set to undefined (i.e. not set) when it is not a replay mode, so the good check is `typeof g_replayFrom != 'undefined'` which returns true if the game is in replay mode during the game (the game is ongoing but the user clicked "reply from this move" in the log). */
 	const g_replayFrom: number | undefined;
 

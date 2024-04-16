@@ -108,7 +108,7 @@ declare global {
 		/** Not documented. Likely has something to do with players leaving the game, thus making the game results neutralized. The may be a boolean. */
 		game_result_neutralized: string | '0';
 		/** The current game state data. This is the same data that is passed to the `onEnteringState` method. */
-		gamestate: CurrentStateArgs;
+		gamestate: CurrentStateArgs & { private_state: CurrentStateArgs };
 
 		/**
 		 * A dictionary of all game states defined in the states.inc.php file. This should be the same as {@link GameStates} but possibly contain additional information based on what was included in the game specific interface. 
