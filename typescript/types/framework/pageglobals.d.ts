@@ -1,6 +1,27 @@
 declare global {
 	//#region Preload Globals
 
+	/** The pages name using the {@link location} global. */
+	const pagename: string;
+
+	/** If cookie consent is still needed for the specific browser user. */
+	const bConsentNeeded: boolean;
+
+	/** gtag is a global function that is used to send data to Google Analytics. */
+	function gtag(...args: any[]): void;
+
+	/** A callback function for when the user grants their consent with their cookie banner */
+	function setCookies(): void;
+
+	/** Resets the document.cookie object for this domain. */
+	function resetCookieConsent(): void;
+
+	/** If true, the browser has at least one extension that is incompatible with the BGA site. */
+	const bAtLeastOneIncompatibility: boolean;
+
+	/** A helper object used to build html string for several uses within the script tags on the html page. */
+	var html: string;
+
 	/** The dojoConfig object sets options and default behavior for various aspects of the dojo toolkit. This is the same object as {@link dojo.config}, but loaded before. */
 	const dojoConfig: dojo._base.Config;
 

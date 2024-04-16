@@ -137,6 +137,23 @@ declare global {
 		/** Not documented. Presumably represents if the player has disconnected and has begun taking 'zombie' actions. This is likely a boolean. */
 		zombie: number;
 	}
+
+	interface Preference
+	{
+		/** The name of the preference, automatically translated. */
+		name: string;
+		/** Whether the preference requires a reload to take effect. If true, the interface will auto reload when changed. */
+		needReload: boolean;
+		/** If the preference is a generic preference that applies to all game pages. For example, "Display Tooltips" (200) is a generic preference. */
+		generic?: boolean;
+		/** The array (map) of values with additional parameters per value. This acts like an enum where the key is the value and the 'name' is the value name. */
+		values: Record<number | `${number}`, {
+			name: string;
+			cssPref?: string;
+		}>;
+		value: number | `${number}`;
+		default?: number;
+	}
 }
 
 export {};

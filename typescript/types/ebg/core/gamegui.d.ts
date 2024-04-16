@@ -129,8 +129,30 @@ declare class Gamegui extends SiteCore {
 	developermode: boolean;
 	/** If true, this is a sandbox game. Sandbox games are mostly non-scripted and act like a table top simulator rather than a traditional BGA game. */
 	is_sandbox: boolean;
+	/** The id for this game, mostly used for generating the table results and loading game statistics. */
+	game_id: number;
+	/** If the current game that is being played is a coop game. This is different than if the game can be played coop. */
+	is_coop: boolean;
+	/** If the current game that is being played is a solo game. This is different than if the game can be played solo. */
+	is_solo: boolean;
+	/**
+	 * The user preferences for the specific client.
+	 * @example
+	 * // If display tooltips is Enabled
+	 * if (this.prefs[200].value == 0) 
+	 * 	...
+	 */
+	prefs: Record<number | `${number}`, Preference>;
+	/** The description for tiebreakers as found in the gameinfos file. This is in english and is translated when needed by the {@link TableResults} component. */
+	tiebreaker: string;
+	/** If defined and true, the table results will show the tie breaker scores as needed. Otherwise, no tiebreaker content is added. */
+	tiebreaker_split?: boolean;
+	/** If losers should not be ranked, as defined in the gameinfos file. If in the game, all losers are equal (no score to rank them or explicit in the rules that losers are not ranked between them), set this to true  The game end result will display 'Winner' for the 1st player and 'Loser' for all other players. Your can view core.core getRankString() (CoreCore) for more information. */
+	losers_not_ranked: boolean;
+	/** Defines if this page represents a tutorial version of the game. */
+	bTutorial: boolean;
 
-	/** The base id for all game preferences. */
+	/** The id for the display tooltips preference. */
 	GAMEPREFERENCE_DISPLAYTOOLTIPS: 200;
 
 	/**
@@ -601,7 +623,7 @@ declare class Gamegui extends SiteCore {
 	/** Internal. The chat component for the table. */
 	tablechat: ChatInput /* | null */;
 	/** Internal. Represents if a video/audio chat is in progress */
-	mediaChatRating?: boolean;
+	mediaChatRating: boolean;
 	/** Internal. Used to pass video/audio chat between links. */
 	mediaRatingParams: string;
 	/** Internal. @deprecated This is not used within the main code file anymore. */
@@ -678,6 +700,53 @@ declare class Gamegui extends SiteCore {
 	debug_from_chat?: boolean;
 	/** Internal. */
 	chat_on_gs_side?: boolean;
+	/** Internal. WIP. */
+	decision: { decision_type: 'none' | 'abandon' | string, decision_taken?: boolean | 'true'; decision_refused?: boolean | 'true'; players?: number[]; };
+	/** Internal. The current server number this game is being played on. */
+	gameserver: number;
+	/** Internal. The bundle version for js. */
+	jsbundlesversion: string;
+	/** Internal. @deprecated This is not used anywhere in the game code. */
+	bActiveEvents: boolean;
+	/** Internal. Helper for where to send the user when on quick game ends. */
+	quickGameEnd: boolean;
+	/** Internal. Helper for where to send the user when on quick game ends. */
+	quickGameEndUrl?: string;
+	/** Internal. WIP */
+	bTimerCommon: boolean;
+	/** Internal. WIP */
+	turnBasedNotes: boolean;
+	/** Internal. WIP */
+	gameeval: boolean;
+	/** Internal. WIP */
+	gameisalpha: boolean;
+	/** Internal. WIP */
+	gamecanapprove: boolean;
+	/** Internal. WIP */
+	number_of_tb_table_its_your_turn: number;
+	/** Internal. WIP */
+	bUseWebStockets: boolean;
+	/** Internal. WIP */
+	metasite_tutorial: number[];
+	/** Internal. WIP */
+	tournament_id: null | number;
+	/** Internal. WIP */
+	lockts: number;
+	/** Internal. WIP */
+	mslobby: 'lobby';
+	/** Internal. WIP */
+	game_status: 'public' | 'beta_restricted' | 'beta' | 'private';
+	/** Internal. WIP */
+	game_group: number;
+	/** Internal. WIP */
+	emergencymsg: [];
+	/** Internal. WIP */
+	hotseat: [];
+	/** Internal. WIP */
+	hotseat_interface: 'normal' | 'hotseataccount' | 'single_screen'
+	/** Internal. WIP */
+	hotseatplayers: number[];
+
 
 	/** Internal. WIP */
 	completesetup: (...args: any[]) => any;

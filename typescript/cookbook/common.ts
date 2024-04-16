@@ -3,6 +3,7 @@
 import Gamegui = require("ebg/core/gamegui");
 import dojo = require("dojo");
 import "ebg/core/common";
+import Select = require("dijit/form/Select");
 
 /**
  * A typescript mixin function that add all `Common` methods to the given `Gamegui` class. The `common` module is a collection of wrappers and Gamegui-like methods that are directly defined on the cookbook page, and are recommended to be used in almost all games (sometimes depending on depth/complexity of the game).
@@ -215,6 +216,45 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 	
 		const title = this.format_string_recursive(description, tpl);
 		this.setMainTitle(title ?? '');
+	}
+
+	/** Initializes an observer that listens for changes to the preferences and calls the callback method when a preference changes. */
+	addPreferenceListener(callback: (prefId: number) => void): void
+	{
+		dojo.query('.preference_control').on('change', (e: Event) => {
+			const target = e.target;
+			if (!(target instanceof HTMLSelectElement))
+			{
+				console.error("Preference control class is not a valid element to be listening to events from. The target of the event does not have an id.", e.target);
+				return;
+			}
+
+			const match = target.id.match(/^preference_[cf]ontrol_(\d+)$/)?.[1];
+			if (!match)
+				return;
+
+			const matchId = parseInt(match);
+			if (isNaN(matchId))
+			{
+				console.error("Preference control id was not a valid number.", match);
+				return;
+			}
+
+			const pref = this.prefs[matchId];
+			if (!pref)
+			{
+				console.warn("Preference was changed but somehow the preference id was not found.", matchId, this.prefs);
+				return;
+			}
+
+			const value = target.value as `${number}`;
+			if (!pref.values[value]) {
+				console.warn("Preference value was changed but somehow the value is not a valid value.", value, pref.values);
+			}
+
+			pref.value = value;
+			callback(matchId);
+		});
 	}
 }
 
