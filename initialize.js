@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const fs = require('fs');
 const path = require('path');
 let { execSync } = require('child_process');
@@ -340,7 +338,12 @@ const copyGameInfos = (content) =>
 					content = content.replace('// "$schema": ', '"$schema": ');
 
 					if (source.endsWith("gameinfos.jsonc")) {
-						content = copyGameInfos(content);
+						try {
+							content = copyGameInfos(content);
+						}
+						catch (e) {
+							console.warn("\t-Unable to copy data from existing gameinfos.inc.php.");
+						}
 					}
 				}
 				else {
@@ -379,13 +382,13 @@ else
 }
 
 
-if (config.typescript === true && !checkCommand('tsc'))
+if (config.typescript === true && !checkCommand('npx tsc'))
 {
 	console.log("Installing typescript...");
 	execSync(packageManager + ' install typescript');
 }
 
-if (config.scss === true && !checkCommand('sass'))
+if (config.scss === true && !checkCommand('npx sass'))
 {
 	console.log("Installing sass...");
 	execSync(packageManager + ' install sass');

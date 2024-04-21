@@ -608,7 +608,7 @@ $gameinfos = ${writer.stringify(gameinfos, true)};`);
 
 if (fs.existsSync('___source-folder___client/tsconfig.json')) {
 
-	const tsCommand = 'tsc -p ___source-folder___client --outFile ___yourgamename___.js' + (builder.watch ? ' -w' : '');
+	const tsCommand = 'npx tsc -p ___source-folder___client --outFile ___yourgamename___.js' + (builder.watch ? ' -w' : '');
 	builder.execCommand(`Typescript compiler: client/define.ts => ___yourgamename___.js`, tsCommand);
 
 	// const cookbookModuleRegex = /"@cookbook\/([^"]+)"/g;
@@ -658,7 +658,7 @@ if (fs.existsSync('___source-folder___client/tsconfig.json')) {
 }
 
 if (fs.existsSync('___source-folder___client/___yourgamename___.scss')) {
-	builder.execCommand(`SCSS compiler: client/___yourgamename___.scss => ___yourgamename___.css`, `sass --no-source-map ___source-folder___client/___yourgamename___.scss ___yourgamename___.css` + (builder.watch ? ' --watch' : ''));
+	builder.execCommand(`SCSS compiler: client/___yourgamename___.scss => ___yourgamename___.css`, `npx sass --no-source-map ___source-folder___client/___yourgamename___.scss ___yourgamename___.css` + (builder.watch ? ' --watch' : ''));
 }
 
 //#endregion
