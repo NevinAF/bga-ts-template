@@ -20,7 +20,7 @@ declare class I18n {
 	 * this.nlsStrings[t] = dojo.i18n.getLocalization("ebg", t)
 	 * ```
 	 */
-	loadBundle: (bundle: string) => void;
+	loadBundle(bundle: string): void;
 
 	/**
 	 * Gets the translation for the given key from the active bundle.
@@ -28,20 +28,20 @@ declare class I18n {
 	 * @param key The key to get the translation for.
 	 * @returns The translation for the given key.
 	 */
-	getTranslation: (bundle: string, key: string) => string;
+	getTranslation(bundle: string, key: string): string;
 
 	/**
 	 * Sets the active bundle to the given bundle. This is used as a default for when using the getSimpleTranslation function.
 	 * @param bundle The name of the bundle to set as active.
 	 */
-	setActiveBundle: (bundle: string) => void;
+	setActiveBundle(bundle: string): void;
 
 	/**
 	 * Gets the translation for the given key from the active bundle.
 	 * @param key The key to get the translation for.
 	 * @returns The translation for the given key.
 	 */
-	getSimpleTranslation: (key: string) => string;
+	getSimpleTranslation(key: string): string;
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<I18n>['extend'];

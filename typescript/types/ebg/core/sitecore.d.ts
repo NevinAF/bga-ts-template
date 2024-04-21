@@ -47,7 +47,7 @@ declare class SiteCore extends CoreCore
 	 * 	this.inherited(arguments);
 	 * },
 	 */
-	showMessage: (message: string, type: 'info' | 'error' | 'only_to_log' | string) => void;
+	showMessage(message: string, type: 'info' | 'error' | 'only_to_log' | string): void;
 
 
 	//#region Internal
@@ -144,61 +144,61 @@ declare class SiteCore extends CoreCore
 	rtc_room: any;
 
 	/** Internal. Initializes functionality and fields related to {@link SiteCore}, such as volume listeners and inactivity timers. This should be called manually by subclasses during there initializer functions (i.e, {@link MainSite.create} and {@link Gamegui.completesetup}). */
-	init_core: () => void;
+	init_core(): void;
 
 	/** Internal. Sets the {@link page_is_unloading} property to true and calls {@link recordMediaStats} with `'stop'`. This is triggered by {@link dojo._base.unload}. */
-	unload: () => void;
+	unload(): void;
 
 	/** Internal. Sets the 'svelte/index' modules menu states page loading status. This is set to true if there are any {@link ajaxcall_running}. */
-	updateAjaxCallStatus: () => void;
+	updateAjaxCallStatus(): void;
 
 	/** Internal. Sets the active menu label and page name based on the key given. */
-	changeActiveMenuItem: (key: 'welcome' | 'playernotif' | 'welcomestudio' | 'start' | 'legal' | 'message' | 'gameinprogress' | 'table' | 'lobby' | 'meetinglobby' | 'availableplayers' | 'createtable' | 'newtable' | 'gamereview' | 'gamelobby' | 'gamelobbyauto' | 'tournament' | 'newtournament' | 'tournamentlist' | 'gamepanel' | 'games' | 'player' | 'playerstat' | 'group' | 'newgroup' | 'community' | 'report' | 'newreport' | 'moderated' | 'translation' | 'translationhq' | 'map' | 'grouplist' | 'contribute' | 'sponsorship' | 'moderator' | 'bug' | 'bugs' | 'faq' | 'gamepublishers' | 'team' | 'troubleshootmainsite' | 'sandbox' | 'penalty' | 'karmalimit' | 'club' | 'premium' | 'contact' | 'reviewer' | 'giftcodes' | 'shop' | 'shopsupport' | 'prestige' | 'gameranking' | 'award' | 'gamestats' | 'leaderboard' | 'page' | 'news' | 'event' | 'eventnew' | 'eventmodify' | 'controlpanel' | 'linkmoderation' | 'moderation' | 'studio' | 'studiogame' | 'administration' | 'banners' | 'projects' | 'startwannaplay' | 'startsteps' | 'halloffame') => SiteCore['active_menu_label'];
+	changeActiveMenuItem(key: 'welcome' | 'playernotif' | 'welcomestudio' | 'start' | 'legal' | 'message' | 'gameinprogress' | 'table' | 'lobby' | 'meetinglobby' | 'availableplayers' | 'createtable' | 'newtable' | 'gamereview' | 'gamelobby' | 'gamelobbyauto' | 'tournament' | 'newtournament' | 'tournamentlist' | 'gamepanel' | 'games' | 'player' | 'playerstat' | 'group' | 'newgroup' | 'community' | 'report' | 'newreport' | 'moderated' | 'translation' | 'translationhq' | 'map' | 'grouplist' | 'contribute' | 'sponsorship' | 'moderator' | 'bug' | 'bugs' | 'faq' | 'gamepublishers' | 'team' | 'troubleshootmainsite' | 'sandbox' | 'penalty' | 'karmalimit' | 'club' | 'premium' | 'contact' | 'reviewer' | 'giftcodes' | 'shop' | 'shopsupport' | 'prestige' | 'gameranking' | 'award' | 'gamestats' | 'leaderboard' | 'page' | 'news' | 'event' | 'eventnew' | 'eventmodify' | 'controlpanel' | 'linkmoderation' | 'moderation' | 'studio' | 'studiogame' | 'administration' | 'banners' | 'projects' | 'startwannaplay' | 'startsteps' | 'halloffame'): SiteCore['active_menu_label'];
 
 	/** Internal. If the current cometd_service is 'socketio', then event is added to the socket using `.emit("join")` and keyed into the {@link cometd_subscriptions}. */
-	subscribeCometdChannel: (event: string, _1?: any, _2?: any) => void;
+	subscribeCometdChannel(event: string, _1?: any, _2?: any): void;
 
 	/** Internal. If the current cometd_service is 'socketio', then the events are added to the socket using `.emit("join")` and keyed into the {@link cometd_subscriptions}. */
 	subscribeCometdChannels(events: string[], _1?: any, _2?: any): void;
 
 	/** Internal. Unsubscribes a single listener to the given event. If there are no more listeners for that event, then the listener is removed from the socket using `.emit("leave")`. */
-	unsubscribeCometdChannel: (event: string) => void;
+	unsubscribeCometdChannel(event: string): void;
 
 	/** Internal. For all keys in {@link cometd_subscriptions}, the event will be rejoined if needed using `.emit("join"). */
-	reconnectAllSubscriptions: () => void;
+	reconnectAllSubscriptions(): void;
 
 	/** Internal. Callback for when the socket io connection changes. This updates the connect status and posts notifications if needed. */
-	onSocketIoConnectionStatusChanged: (status: 'connect' | 'connect_error' | 'connect_timeout' | 'reconnect' | 'reconnect_failed' | 'reconnect_attempt' | string, error: string) => void;
+	onSocketIoConnectionStatusChanged(status: 'connect' | 'connect_error' | 'connect_timeout' | 'reconnect' | 'reconnect_failed' | 'reconnect_attempt' | string, error: string): void;
 
 	/** Internal. A noop placeholder. */
-	onFirstConnectedToComet: () => void;
+	onFirstConnectedToComet(): void;
 
 	/** Internal. Preforms an {@link ajaxcall} for leaving a table and shows a confirmation popin if necessary (depending on the game's state). */
-	leaveTable: (table_id: number, success_callback: () => void) => void;
+	leaveTable(table_id: number, success_callback: () => void): void;
 
 	/** Internal. Increases the logs element max height by 600px. */
-	onSeeMoreLogs: (event: Event) => void;
+	onSeeMoreLogs(event: Event): void;
 
 	/** Internal. A noop placeholder for when {@link onSeeMoreLogs} is called. */
-	onIncreaseContentHeight: () => void;
+	onIncreaseContentHeight(): void;
 
 	/** Internal. Assuming the pase is not currently unloading, this will print the error, url, and line of a script error to the console and show a message in red on the page labeled `Javascript error: ...`. This is directly hooked into the window.onerror property and called manually within a few catch statements. */
-	onScriptError: (error: ErrorEvent | string, url: string, line: number) => void;
+	onScriptError(error: ErrorEvent | string, url: string, line: number): void;
 
 	/** Internal. Initializes the docked chat. This uses {@link jstpl_chatwindow} to create the visible DOM element. */
-	initChatDockedSystem: () => void;
+	initChatDockedSystem(): void;
 
 	/** Internal. Returns a {@link ChannelInfos} object containting channel information of a {@link Notif}. Expects a {@link NotifFrom}<{@link ChatNotifArgs}>, and will return null if the {@link Notif.channelorig} does not match as {@link ChannelInfos.channel} */
-	extractChannelInfosFromNotif: (notif: Notif) => ChannelInfos | null;
+	extractChannelInfosFromNotif(notif: Notif): ChannelInfos | null;
 
 	/** Internal. Returns a {@link ChatNotifArgs} with extra information about creating a chat message window. */
-	getChatInputArgs: (channel: ChannelInfos) => ChatInputArgs;
+	getChatInputArgs(channel: ChannelInfos): ChatInputArgs;
 
 	/** Internal. Passed to the {@link notifqueue}'s {@link GameNotif.onPlaceLogOnChannel}, used for logging messages onto a channel (chat window + extra). */
-	onPlaceLogOnChannel: (chatnotif: NotifFrom<ChatNotifArgs | 'newRTCMode'>) => void;
+	onPlaceLogOnChannel(chatnotif: NotifFrom<ChatNotifArgs | 'newRTCMode'>): void;
 
 	/** Internal. Updates the writing bubble status on the given chat window. */
-	onUpdateIsWritingStatus: (window_id: ChannelInfos['window_id']) => void;
+	onUpdateIsWritingStatus(window_id: ChannelInfos['window_id']): void;
 
 	/**
 	 * Internal. If the {@link dockedChatInitialized} is false or the window matching the channel infos exists, this will return false. Otherwise, the DOM element matching the channel infos will be created.
@@ -206,31 +206,31 @@ declare class SiteCore extends CoreCore
 	 * @param subscribe Overrides the {@link ChannelInfos.subscribe} value.
 	 * @returns True if the chat bar window was created, false otherwise.
 	 */
-	createChatBarWindow: (channel: ChannelInfos, subscribe?: boolean) => boolean;
+	createChatBarWindow(channel: ChannelInfos, subscribe?: boolean): boolean;
 
 	/** Internal. Button Event. Removes the 'startchat_toconfirm' class from the chat window corresponding to the id of the current target. */
-	onStartChatAccept: (event: Event) => void;
+	onStartChatAccept(event: Event): void;
 
 	/** Internal. Button Event. Blocks and closes the chat window corresponding to the id of the current target. */
-	onStartChatBlock: (event: Event) => void;
+	onStartChatBlock(event: Event): void;
 
 	/** Internal. Toggle Button Event. Updates preference for if the general notifications should be ignored (hidden + no notifications). */
-	onChangeStopNotifGeneralBox: (event: Event) => void;
+	onChangeStopNotifGeneralBox(event: Event): void;
 
 	/** Internal. Button Event. Toggles preference for if the general notifications should be ignored. Directly calls {@link onChangeStopNotifGeneralBox} after changing. */
-	onChangeStopNotifGeneralLabel: (event: Event) => void;
+	onChangeStopNotifGeneralLabel(event: Event): void;
 
 	/** Internal. Checks if launching audio/video is currently on a cooldown (max 120s) due to entering and leaving a chat. This uses {@link sessionStorage} to store the state of this cooldown (timeToWaitNextAV, AVAttemptNumber, lastAVAttemptTimestamp). @see setAVFrequencyLimitation */
-	checkAVFrequencyLimitation: () => boolean;
+	checkAVFrequencyLimitation(): boolean;
 
 	/** Internal. Increments the attempt account and resets the timeout based on attempts (10s per attempt, max 60s). This uses {@link sessionStorage} to store the state of this cooldown (timeToWaitNextAV, AVAttemptNumber, lastAVAttemptTimestamp). @see checkAVFrequencyLimitation */
-	setAVFrequencyLimitation: () => void;;
+	setAVFrequencyLimitation(): void;;
 
 	/** Internal. Button Event. Toggles the audio chat feature, showing loading messages and making ajax calls. */
-	onStartStopAudioChat: (event: Event) => void;
+	onStartStopAudioChat(event: Event): void;
 
 	/** Internal. Button Event. Toggles the video chat feature, showing loading messages and making ajax calls. */
-	onStartStopVideoChat: (event: Event) => void;
+	onStartStopVideoChat(event: Event): void;
 
 	/**
 	 * Internal. Sets the new rtc mode for the current client.
@@ -239,191 +239,192 @@ declare class SiteCore extends CoreCore
 	 * @param rtc_id The rtc id to set the mode to. If this is 0, the rtc will be disconnected and all other params are ignored.
 	 * @param connecting_player_id The player id to connect to.
 	 */
-	setNewRTCMode: (table_id: number | null, target_player_id: number | null, rtc_id: number | 0, connecting_player_id?: number) => void;
+	setNewRTCMode(table_id: number | null, target_player_id: number | null, rtc_id: number | 0, connecting_player_id?: number): void;
 
 	/** Internal. Button Event. Calls {@link loadPreviousMessage} based on the current target's id. */
-	onLoadPreviousMessages: ((event: Event) => void) | ((args: {type: string, id: number, status?: 'underage' | 'admin' | 'newchat' | 'newchattoconfirm' | string, history: { time: number, mread?: boolean; }[] }) => void);
+	onLoadPreviousMessages(event: Event): void;
+	onLoadPreviousMessages(args: {type: string, id: number, status?: 'underage' | 'admin' | 'newchat' | 'newchattoconfirm' | string, history: { time: number, mread?: boolean; }[] }): void;
 
 	/** Internal. Gets the chatHistory for a table based on the arguments. The {@link ajaxcall} will callback to {@link onLoadPreviousMessages} */
-	loadPreviousMessage: (type: string, id: number) => void;
+	loadPreviousMessage(type: string, id: number): void;
 
 	/** Internal. Chat Window Helper. */
-	stackOrUnstackIfNeeded: () => void;
+	stackOrUnstackIfNeeded(): void;
 	/** Internal. Chat Window Helper. */
-	onUnstackChatWindow: (event: Event) => void;
+	onUnstackChatWindow(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	unstackChatWindow: (window_id: ChannelInfos['window_id'], state: ChannelInfos['start'] | 'automatic') => void;
+	unstackChatWindow(window_id: ChannelInfos['window_id'], state: ChannelInfos['start'] | 'automatic'): void;
 	/** Internal. Chat Window Helper. */
-	stackChatWindowsIfNeeded: (state: ChannelInfos['start']) => void;
+	stackChatWindowsIfNeeded(state: ChannelInfos['start']): void;
 	/** Internal. Chat Window Helper. */
-	stackOneChatWindow: () => void;
+	stackOneChatWindow(): void;
 	/** Internal. Chat Window Helper. */
-	getNeededChatbarWidth: () => number;
+	getNeededChatbarWidth(): number;
 	/** Internal. Chat Window Helper. */
-	adaptChatbarDock: () => void;
+	adaptChatbarDock(): void;
 	/** Internal. Chat Window Helper. */
-	countStackedWindows: () => number;
+	countStackedWindows(): number;
 	/** Internal. Chat Window Helper. */
-	closeChatWindow: (window_id: ChannelInfos['window_id']) => void;
+	closeChatWindow(window_id: ChannelInfos['window_id']): void;
 	/** Internal. Chat Window Helper. */
-	onCloseChatWindow: (event: Event) => void;
+	onCloseChatWindow(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	onCollapseChatWindow: (event: Event) => void;
+	onCollapseChatWindow(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	collapseChatWindow: (window_id: ChannelInfos['window_id'], checkBottom?: any) => void;
+	collapseChatWindow(window_id: ChannelInfos['window_id'], checkBottom?: any): void;
 	/** Internal. Chat Window Helper. */
-	onExpandChatWindow: (event: Event) => void;
+	onExpandChatWindow(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	onCollapseAllChatWindow: (event: Event) => void;
+	onCollapseAllChatWindow(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	updateChatBarStatus: () => void;
+	updateChatBarStatus(): void;
 	/** Internal. Chat Window Helper. */
-	expandChatWindow: (window_id: ChannelInfos['window_id'], autoCollapseAfterMessage?: boolean) => void;
+	expandChatWindow(window_id: ChannelInfos['window_id'], autoCollapseAfterMessage?: boolean): void;
 	/** Internal. Chat Window Helper. */
-	makeSureChatBarIsOnTop: (window_id: ChannelInfos['window_id']) => void;
+	makeSureChatBarIsOnTop(window_id: ChannelInfos['window_id']): void;
 	/** Internal. Chat Window Helper. */
-	makeSureChatBarIsOnBottom: (window_id: ChannelInfos['window_id']) => void;
+	makeSureChatBarIsOnBottom(window_id: ChannelInfos['window_id']): void;
 	/** Internal. Chat Window Helper. */
-	onScrollDown: (event: Event) => void;
+	onScrollDown(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	onToggleStackMenu: (event: Event) => void;
+	onToggleStackMenu(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	onCallbackBeforeChat: (args: any, channel_url: string) => void;
+	onCallbackBeforeChat(args: any, channel_url: string): void;
 	/** Internal. Chat Window Helper. */
-	isBadWorkInChat: (text?: string) => boolean;
+	isBadWorkInChat(text?: string): boolean;
 	/** Internal. Chat Window Helper. */
-	onCallbackAfterChat: (_1: any) => void;
+	onCallbackAfterChat(_1: any): void;
 	/** Internal. Chat Window Helper. */
-	callbackAfterChatError: (args: any) => void;
+	callbackAfterChatError(args: any): void;
 	/** Internal. Chat Window Helper. */
-	onDockedChatFocus: (event: Event) => void;
+	onDockedChatFocus(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	onDockedChatInputKey: (event: KeyboardEvent) => void;
+	onDockedChatInputKey(event: KeyboardEvent): void;
 	/** Internal. Chat Window Helper. */
-	onShowPredefined: (event: Event) => void;
+	onShowPredefined(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	onInsertPredefinedMessage: (event: Event) => void;
+	onInsertPredefinedMessage(event: Event): void;
 	/** Internal. Chat Window Helper. */
-	onInsertPredefinedTextMessage: (event: Event) => void;
+	onInsertPredefinedTextMessage(event: Event): void;
 	/** Internal. Sets the given parameters with their matching property (if defined). */
-	setGroupList: (groupList: SiteCore['groupList'], allGroupList?: SiteCore['allGroupList'], red_thumbs_given?: SiteCore['red_thumbs_given'], red_thumbs_taken?: SiteCore['red_thumbs_taken']) => void;
+	setGroupList(groupList: SiteCore['groupList'], allGroupList?: SiteCore['allGroupList'], red_thumbs_given?: SiteCore['red_thumbs_given'], red_thumbs_taken?: SiteCore['red_thumbs_taken']): void;
 	/** Internal. Updates the {@link allLanguagesList} property with the given value. */
-	setAllLanguagesList: (allLanguagesList: SiteCore['allLanguagesList']) => void;
+	setAllLanguagesList(allLanguagesList: SiteCore['allLanguagesList']): void;
 	/** Internal. Updates the {@link pma} property with the given value. */
-	setPma: (pma: SiteCore['pma']) => void;
+	setPma(pma: SiteCore['pma']): void;
 	/** Internal. Updates the {@link rtc_mode} and {@link rtc_room} property with the given values. */
-	setRtcMode: (rtc_mode: SiteCore['rtc_mode'], rtc_room: SiteCore['rtc_room']) => void;
+	setRtcMode(rtc_mode: SiteCore['rtc_mode'], rtc_room: SiteCore['rtc_room']): void;
 	/** Internal. WIP */
-	takeIntoAccountAndroidIosRequestDesktopWebsite: () => void;
+	takeIntoAccountAndroidIosRequestDesktopWebsite(): void;
 	/** Internal. WIP */
-	traceLoadingPerformances: () => void;
+	traceLoadingPerformances(): void;
 	/** Returns the current player id. This returns the global {@link current_player_id} if defined, and {@link Gamegui.player_id} otherwise. */
-	getCurrentPlayerId: () => number;
+	getCurrentPlayerId(): number;
 
 	/** Internal. WIP */
-	tutorialShowOnce: (...args: any[]) => any;
+	tutorialShowOnce(...args: any[]): any;
 	/** Internal. WIP */
-	highligthElementwaitForPopinToClose: (...args: any[]) => any;
+	highligthElementwaitForPopinToClose(...args: any[]): any;
 	/** Internal. WIP */
-	highlightElementTutorial: (...args: any[]) => any;
+	highlightElementTutorial(...args: any[]): any;
 	/** Internal. WIP */
-	onElementTutorialNext: (...args: any[]) => any;
+	onElementTutorialNext(...args: any[]): any;
 	/** Internal. WIP */
-	websiteWindowVisibilityChange: (...args: any[]) => any;
+	websiteWindowVisibilityChange(...args: any[]): any;
 	/** Internal. WIP */
-	ackUnreadMessage: (...args: any[]) => any;
+	ackUnreadMessage(...args: any[]): any;
 	/** Internal. WIP */
-	ackMessagesWithPlayer: (...args: any[]) => any;
+	ackMessagesWithPlayer(...args: any[]): any;
 	/** Internal. WIP */
-	ackMessagesOnTable: (...args: any[]) => any;
+	ackMessagesOnTable(...args: any[]): any;
 	/** Internal. WIP */
-	onAckMsg: (...args: any[]) => any;
+	onAckMsg(...args: any[]): any;
 	/** Internal. WIP */
-	initMonitoringWindowVisibilityChange: (...args: any[]) => any;
+	initMonitoringWindowVisibilityChange(...args: any[]): any;
 	/** Internal. WIP */
-	playingHoursToLocal: (...args: any[]) => any;
+	playingHoursToLocal(...args: any[]): any;
 	/** Internal. WIP */
-	showSplashedPlayerNotifications: (...args: any[]) => any;
+	showSplashedPlayerNotifications(...args: any[]): any;
 	/** Internal. WIP */
-	displayNextSplashNotif: (...args: any[]) => any;
+	displayNextSplashNotif(...args: any[]): any;
 	/** Internal. WIP */
-	onNewsRead: (...args: any[]) => any;
+	onNewsRead(...args: any[]): any;
 	/** Internal. WIP */
-	onDisplayNextSplashNotif: (...args: any[]) => any;
+	onDisplayNextSplashNotif(...args: any[]): any;
 	/** Internal. WIP */
-	inactivityTimerIncrement: (...args: any[]) => any;
+	inactivityTimerIncrement(...args: any[]): any;
 	/** Internal. WIP */
-	resetInactivityTimer: (...args: any[]) => any;
+	resetInactivityTimer(...args: any[]): any;
 	/** Internal. WIP */
-	onForceBrowserReload: (...args: any[]) => any;
+	onForceBrowserReload(...args: any[]): any;
 	/** Internal. WIP */
-	doForceBrowserReload: (...args: any[]) => any;
+	doForceBrowserReload(...args: any[]): any;
 	/** Internal. WIP */
-	onDebugPing: (...args: any[]) => any;
+	onDebugPing(...args: any[]): any;
 	/** Internal. WIP */
-	onNewRequestToken: (...args: any[]) => any;
+	onNewRequestToken(...args: any[]): any;
 	/** Internal. WIP */
-	onMuteSound: (...args: any[]) => any;
+	onMuteSound(...args: any[]): any;
 	/** Internal. WIP */
-	onSetSoundVolume: (...args: any[]) => any;
+	onSetSoundVolume(...args: any[]): any;
 	/** Internal. WIP */
-	onToggleSound: (...args: any[]) => any;
+	onToggleSound(...args: any[]): any;
 	/** Internal. WIP */
-	onDisplaySoundControls: (...args: any[]) => any;
+	onDisplaySoundControls(...args: any[]): any;
 	/** Internal. WIP */
-	displaySoundControls: (...args: any[]) => any;
+	displaySoundControls(...args: any[]): any;
 	/** Internal. WIP */
-	onHideSoundControls: (...args: any[]) => any;
+	onHideSoundControls(...args: any[]): any;
 	/** Internal. WIP */
-	hideSoundControls: (...args: any[]) => any;
+	hideSoundControls(...args: any[]): any;
 	/** Internal. WIP */
-	onStickSoundControls: (...args: any[]) => any;
+	onStickSoundControls(...args: any[]): any;
 	/** Internal. WIP */
-	onUnstickSoundControls: (...args: any[]) => any;
+	onUnstickSoundControls(...args: any[]): any;
 	/** Internal. WIP */
-	onSoundVolumeControl: (...args: any[]) => any;
+	onSoundVolumeControl(...args: any[]): any;
 	/** Internal. WIP */
-	displayRatingContent: (...args: any[]) => any;
+	displayRatingContent(...args: any[]): any;
 	/** Internal. WIP */
-	sendRating: (...args: any[]) => any;
+	sendRating(...args: any[]): any;
 	/** Internal. WIP */
-	onGameRatingEnter: (...args: any[]) => any;
+	onGameRatingEnter(...args: any[]): any;
 	/** Internal. WIP */
-	onVideoRatingEnter: (...args: any[]) => any;
+	onVideoRatingEnter(...args: any[]): any;
 	/** Internal. WIP */
-	onAudioRatingEnter: (...args: any[]) => any;
+	onAudioRatingEnter(...args: any[]): any;
 	/** Internal. WIP */
-	onSupportRatingEnter: (...args: any[]) => any;
+	onSupportRatingEnter(...args: any[]): any;
 	/** Internal. WIP */
-	processRatingEnter: (...args: any[]) => any;
+	processRatingEnter(...args: any[]): any;
 	/** Internal. WIP */
-	onRatingLeave: (...args: any[]) => any;
+	onRatingLeave(...args: any[]): any;
 	/** Internal. WIP */
-	onVideoRatingClick: (...args: any[]) => any;
+	onVideoRatingClick(...args: any[]): any;
 	/** Internal. WIP */
-	onAudioRatingClick: (...args: any[]) => any;
+	onAudioRatingClick(...args: any[]): any;
 	/** Internal. WIP */
-	onGameRatingClick: (...args: any[]) => any;
+	onGameRatingClick(...args: any[]): any;
 	/** Internal. WIP */
-	onSupportRatingClick: (...args: any[]) => any;
+	onSupportRatingClick(...args: any[]): any;
 	/** Internal. WIP */
-	completeRatingClick: (...args: any[]) => any;
+	completeRatingClick(...args: any[]): any;
 	/** Internal. WIP */
-	showRatingDialog_step2: (...args: any[]) => any;
+	showRatingDialog_step2(...args: any[]): any;
 	/** Internal. WIP */
-	onAudioRatingClickIssue: (...args: any[]) => any;
+	onAudioRatingClickIssue(...args: any[]): any;
 	/** Internal. WIP */
-	onVideoRatingClickIssue: (...args: any[]) => any;
+	onVideoRatingClickIssue(...args: any[]): any;
 	/** Internal. WIP */
-	onGameRatingClickIssue: (...args: any[]) => any;
+	onGameRatingClickIssue(...args: any[]): any;
 	/** Internal. WIP */
-	completeRatingClickIssue: (...args: any[]) => any;
+	completeRatingClickIssue(...args: any[]): any;
 	/** Internal. WIP */
-	showRatingDialog_step3: (...args: any[]) => any;
+	showRatingDialog_step3(...args: any[]): any;
 	/** Internal. WIP */
-	showGameRatingDialog_step4: (...args: any[]) => any;
+	showGameRatingDialog_step4(...args: any[]): any;
 	/** Internal. WIP */
-	recordMediaStats: (...args: any[]) => any;
+	recordMediaStats(...args: any[]): any;
 
 	//#endregion
 

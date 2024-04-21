@@ -9,9 +9,9 @@ declare class ChatInput {
 	detachType: string | 'playtable';
 	detachTypeGame: string;
 	detachId: string;
-	create: (game: any, type: string, url: string, title: string) => void;
+	create(game: any, type: string, url: string, title: string): void;
 	baseparams: { table: number; }
-	callbackBeforeChat: (arg: { msg: string}) => boolean;
+	callbackBeforeChat(arg: { msg: string}): boolean;
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<ChatInput>['extend'];

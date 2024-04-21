@@ -479,6 +479,7 @@ declare namespace dojo {
 			 * listeners may be attached to a function, and source functions may
 			 * be either regular function calls or DOM events.
 			 */
+			connect(obj: any, event: string, method: EventListener | string, dontFix?: boolean): Handle;
 			connect(obj: any, event: string, context: any, method: EventListener | string, dontFix?: boolean): Handle;
 			connect(event: string, context: any, method: EventListener | string, dontFix?: boolean): Handle;
 

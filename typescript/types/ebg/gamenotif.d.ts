@@ -20,7 +20,7 @@ declare class GameNotif {
 	 * @param predicate A function that will receive notif object and will return true if this specific notification should be ignored.
 	 * @example this.notifqueue.setIgnoreNotificationCheck( 'dealCard', (notif) => (notif.args.player_id == this.player_id) );
 	 */
-	setIgnoreNotificationCheck: <T extends keyof NotifTypes>(notif_type: T, predicate: ((notif: NotifFrom<T>) => boolean)) => void;
+	setIgnoreNotificationCheck<T extends keyof NotifTypes>(notif_type: T, predicate: ((notif: NotifFrom<T>) => boolean)): void;
 
 	/**
 	 * This method will set a check whether any of notifications of specific type should be ignored.
@@ -51,14 +51,14 @@ declare class GameNotif {
 	 * 	this.notifqueue.setSynchronousDuration(anim.duration);
 	 * },
 	 */
-	setSynchronous: (notif_type: keyof NotifTypes, duration?: number) => void;
+	setSynchronous(notif_type: keyof NotifTypes, duration?: number): void;
 
 	/**
 	 * This method will set a check whether any of notifications of specific type should be ignored.
 	 * @param duration The duration in milliseconds to wait after executing the notification handler.
 	 * @see {@link setSynchronous}
 	 */
-	setSynchronousDuration: (duration: number) => void;
+	setSynchronousDuration(duration: number): void;
 
 	//#region Internal
 
@@ -90,36 +90,36 @@ declare class GameNotif {
 	cometd_service: any | null;
 
 	/** Internal. Handles getting a new packet of notifications. */
-	onNotification: (notifs_or_json: NotifsPacket | string) => void;
+	onNotification(notifs_or_json: NotifsPacket | string): void;
 	/** Internal. Resynchronizes the network packets, usually used for replaying events. */
-	resynchronizeNotifications: (isHistory: boolean) => void;
+	resynchronizeNotifications(isHistory: boolean): void;
 	/** Internal. Asynchronously tries to pull logs from history to display. Keeps trying until it succeeds. */
-	pullResynchronizeLogsToDisplay: () => void;
+	pullResynchronizeLogsToDisplay(): void;
 	/** Internal. Dispatches all queued notifications. */
-	dispatchNotifications: () => void;
+	dispatchNotifications(): void;
 	/** Internal. Formats and prints the given log message. */
-	formatLog: (message: string, args: { player_name: string, player_id?: number, i18n?: string, [key: string]: any }) => string;
+	formatLog(message: string, args: { player_name: string, player_id?: number, i18n?: string, [key: string]: any }): string;
 	/**
 	 * Internal. Dispatches a single notification.
 	 * @returns True if a sound was played.
 	 */
-	dispatchNotification: (notif: Notif, disableSound?: boolean) => boolean;
+	dispatchNotification(notif: Notif, disableSound?: boolean): boolean;
 	/** Adds the given message to the game chat based on the parameters given. */
-	addChatToLog: (message: string, seeMore?: boolean, translateIcon?: boolean, extraClasses?: string) => void;
+	addChatToLog(message: string, seeMore?: boolean, translateIcon?: boolean, extraClasses?: string): void;
 	/** Internal. Translates the inner html of the target element for the event. This opens a new window on google translate with the source text? */
-	onTranslateLog: (event: Event) => void;
+	onTranslateLog(event: Event): void;
 	/** Adds the given message to the game log based on the parameters given. */
-	addToLog: (message: string, seeMore?: boolean, notif?: Notif | null, translateIcon?: boolean, isSpectator?: boolean, instantaneous?: boolean, timestamp?: number) => void;
+	addToLog(message: string, seeMore?: boolean, notif?: Notif | null, translateIcon?: boolean, isSpectator?: boolean, instantaneous?: boolean, timestamp?: number): void;
 	/** Changed the player name to an HTML string with a link to the player account, and red style if the player is an admin. */
-	playerNameFilter: (args: { player_name: string, player_id: number }) => void;
+	playerNameFilter(args: { player_name: string, player_id: number }): void;
 	/** Changes the properties on this object to strings tha tare formatted to match the player color. */
-	playerNameFilterGame: (args: { player_name: string, i18n?: string, [key: string]: any }) => void;
+	playerNameFilterGame(args: { player_name: string, i18n?: string, [key: string]: any }): void;
 	/** Internal. Check if there is a notification currently being processed. This is the same as {@link waiting_from_notifend} !== null. */
-	isSynchronousNotifProcessed: () => boolean;
+	isSynchronousNotifProcessed(): boolean;
 	/** Internal. Callback for the internal timeout when the {@link waiting_from_notifend} has finished (the time has elapsed). This dispatches the next notification if needed. */
-	onSynchronousNotificationEnd: () => void;
+	onSynchronousNotificationEnd(): void;
 	/** Internal. A callback for replaying the game from a specific state (based on the id of the target element). */
-	debugReplayNotif: (event: Event) => void;
+	debugReplayNotif(event: Event): void;
 
 	//#endregion
 

@@ -8,17 +8,17 @@ import "dojo/_base/declare";
 declare class Draggable
 {
 	/** Creates event handlers for the listener_div and caches the target and page for handling. */
-	create: (page: any, target_id: string, listener_div?: string | HTMLElement) => void;
+	create(page: any, target_id: string, listener_div?: string | HTMLElement): void;
 
 	/** Destroys the event handlers for the listener_div. */
-	destroy: () => void;
+	destroy(): void;
 
-	enable: () => void;
-	disable: (cursorStyle?: CSSStyleDeclaration['cursor']) => void;
+	enable(): void;
+	disable(cursorStyle?: CSSStyleDeclaration['cursor']): void;
 
-	onStartDragging: (item_id: string, left: number, top: number) => void;
-	onEndDragging: (item_id: string, left: number, top: number, bDragged: boolean) => void;
-	onDragging: (item_id: string, left: number, top: number, dx: number, dy: number) => void;
+	onStartDragging(item_id: string, left: number, top: number): void;
+	onEndDragging(item_id: string, left: number, top: number, bDragged: boolean): void;
+	onDragging(item_id: string, left: number, top: number, dx: number, dy: number): void;
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<Draggable>['extend'];

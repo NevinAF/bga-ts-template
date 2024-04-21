@@ -43,7 +43,7 @@ declare global {
 	 * 
 	 * This is an alias for {@link g_i18n.getSimpleTranslation}, with checks to ensure the translation is not undefined.
 	 */
-	const _: (key: string) => string;
+	function _(key: string): string;
 
 	/**
 	 * The global translation dictionary, where the first key is the bundle to pull translations from, and the second is the key in that bundle.
@@ -53,7 +53,7 @@ declare global {
 	 * 
 	 * This is an alias for {@link g_i18n.getTranslation}, with checks to ensure the translation is not undefined.
 	 */
-	const __: (bundle: string, key: string) => string;
+	function __(bundle: string, key: string): string;
 
 	/**
 	 * Returns a formatted url for the specified file. This is used to load assets that are not versioned with the game (updates the version number in the game theme url with the version of the matching file).
@@ -204,7 +204,7 @@ declare global {
 	 * @example
 	 * playSound('yourgamename_yoursoundname');
 	 */
-	const playSound: (idOrEvent: string) => void;
+	function playSound(idOrEvent: string):void;
 
 	/**
 	 * Called from {@link playSound} to actually play the sound. Unlike using {@link playSound}, this function does not check for the muted status, does not catch errors, and does not use {@link SoundManager.getSoundIdFromEvent} to update sound aliases.
@@ -213,7 +213,7 @@ declare global {
 	 * 
 	 * @param sound The name of the sound file to play in the form '<gamename>_<soundname>'.
 	 */
-	const playSoundFile: (soundId: string) => void;
+	function playSoundFile(soundId: string): void;
 
 	/**
 	 * Stops the sound with the given name. This is done by pausing the audio element with the given id.
@@ -224,7 +224,7 @@ declare global {
 	 * @example
 	 * stopSound('yourgamename_yoursoundname');
 	 */
-	const stopSound: (idOrEvent: string) => void;
+	function stopSound(idOrEvent: string): void;
 
 	/**
 	 * Partial: This has been partially typed based on a subset of the BGA source code.

@@ -31,10 +31,10 @@ declare class Zone
 	 * @param item_width An integer for the width of the objects you want to organize in this zone.
 	 * @param item_height An integer for the height of the objects you want to organize in this zone.
 	 */
-	create: (page: CoreCore, container_div: HTMLElement, item_width: number, item_height: number) => void;
+	create(page: CoreCore, container_div: HTMLElement, item_width: number, item_height: number): void;
 
 	/** Connects an `onresize` event to the window which will update this zone's display. */
-	setFluidWidth: () => void;
+	setFluidWidth(): void;
 
 	/**
 	 * Sets what pattern the zone uses to position and arrange elements. The zone package comes with many positioning patterns pre-coded; these allow your items to take on a variety of arrangements.
@@ -46,17 +46,17 @@ declare class Zone
 	 * - 'ellipticalfit'
 	 * - 'custom'
 	*/
-	setPattern: (pattern: 'grid' | 'diagonal' | 'verticalfit' | 'horizontalfit' | 'ellipticalfit' | 'custom') => void;
+	setPattern(pattern: 'grid' | 'diagonal' | 'verticalfit' | 'horizontalfit' | 'ellipticalfit' | 'custom'): void;
 
 	/** Checks if this zone contains an item with the matching DOM id. */
-	isInZone: (id: string) => boolean;
+	isInZone(id: string): boolean;
 
 	/**
 	 * After creating an object that you want to add to the zone as a classic HTML template (dojo.place / this.format_block), this is used to add and position the object in the zone.
 	 * @param target The DOM id of the object to add to the zone.
 	 * @param weight The weight of the object to add to the zone. This is used to determine the order of the items in the zone. Whenever a new item is added, all elements in the items array is sorted by weight, in ascending order with ties broken by the order they were added.
 	 */
-	placeInZone: (target: string | HTMLElement, weight: number) => void;
+	placeInZone(target: string | HTMLElement, weight: number): void;
 
 	/**
 	 * Removes the object with the matching DOM id from the zone.
@@ -64,25 +64,25 @@ declare class Zone
 	 * @param destroy If true, the object will be removed from the DOM entirely. If false, the object will be removed from the zone but remain in the DOM.
 	 * @param animateTo If set, the object will animate to the specified DOM element (using {@link Gamegui.slideToObject}). This happens before the object is destroyed if destroy is true.
 	 */
-	removeFromZone: (target: string | HTMLElement, destroy: boolean, animateTo: string | HTMLElement) => void;
+	removeFromZone(target: string | HTMLElement, destroy: boolean, animateTo: string | HTMLElement): void;
 
 	/**
 	 * Removes and destroys all objects from the zone.
 	 */
-	removeAll: () => void;
+	removeAll(): void;
 
 	/**
 	 * Repositions all objects in the zone. This is useful if the zone's size has changed, or if the pattern has changed.
 	 */
-	updateDisplay: () => void;
+	updateDisplay(): void;
 
 	/** Returns the count of items within this zone. */
-	getItemNumber: () => number;
+	getItemNumber(): number;
 
 	/**
 	 * Returns the DOM id for all elements in the zone, in order of how they are displayed (weight and order added).
 	*/
-	getItems: () => string[];
+	getItems(): string[];
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<Zone>['extend'];

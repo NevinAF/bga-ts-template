@@ -14,15 +14,15 @@ declare class SoundManager {
 	useOgg: boolean;
 	volume: number;
 
-	init: () => void;
-	initHtml5Audio: () => void;
-	getSoundIdFromEvent: (event: string) => string;
-	getSoundTag: (idOrEvent: string) => `audiosrc_${string}`;
-	doPlay: (idOrEvent: string) => void;
-	loadSound: (idOrEvent: string) => void;
-	doPlayFile: (soundId: string) => void;
-	stop: (idOrEvent: string) => void;
-	onChangeSound: (event: Event) => void;
+	init(): void;
+	initHtml5Audio(): void;
+	getSoundIdFromEvent(event: string): string;
+	getSoundTag(idOrEvent: string): `audiosrc_${string}`;
+	doPlay(idOrEvent: string): void;
+	loadSound(idOrEvent: string): void;
+	doPlayFile(soundId: string): void;
+	stop(idOrEvent: string): void;
+	onChangeSound(event: Event): void;
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<SoundManager>['extend'];

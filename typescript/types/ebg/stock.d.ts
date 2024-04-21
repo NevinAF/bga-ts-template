@@ -94,7 +94,7 @@ declare class Stock {
 	 * this.playerHand = new ebg.stock();
 	 * this.playerHand.create( this, $('myhand'), this.cardwidth, this.cardheight );
 	 */
-	create: (game: CoreCore, container_div: any, itemWidth: number, itemHeight: number) => void;
+	create(game: CoreCore, container_div: any, itemWidth: number, itemHeight: number): void;
 	
 	/**
 	 * Define a new type of item, `StockItemType`, and add it to the stock with given type id. It is mandatory to define a new item type before adding it to the stock. The list of defined item types are always available in `item_type` property.
@@ -104,7 +104,7 @@ declare class Stock {
 	 * @param image_position {@link StockItemType.image_position} The sprite sheet position for this `StockItemType`. This is a zero indexed number defined by the following formula: `row * Stock.image_items_per_row + col`. This number should never exceed the number of sprites in the sprite sheet.
 	 * @returns {void}
 	 */
-	addItemType: (typeId: number, weight: number, image: string, image_position: number) => void;
+	addItemType(typeId: number, weight: number, image: string, image_position: number): void;
 
 	/**
 	 * Add an item to the stock, with the specified type, but without a unique ID. This is useful when items of the same type don't need to be uniquely identified. For example, a pile of money tokens in a game. Only use `addToStock` and `removeFromStock` OR `addToStockWithId` and `removeFromStockById` for a given stock, not both.
@@ -120,7 +120,7 @@ declare class Stock {
 	 * @param from The element to animate the item from. When the `from` parameter is specified, the item will be created at the location of the from element and animate to the stock. The location create is always an absolute position at the top left of the from div. This is optional and can be used to animate the item from a specific location on the page. If this is not specified, the item will be created and placed immediately inside the stock.
 	 * @returns {void}
 	 */
-	addToStockWithId: (typeId: number, itemId: number, from?: string | HTMLElement) => void;
+	addToStockWithId(typeId: number, itemId: number, from?: string | HTMLElement): void;
 
 	/**
 	 * Remove an item of the specific type from the stock. Only use `addToStock` and `removeFromStock` OR `addToStockWithId` and `removeFromStockById` for a given stock, not both.
@@ -129,7 +129,7 @@ declare class Stock {
 	 * @param noupdate Default is false. If set to "true" it will prevent the Stock display from changing. This is useful when multiple (but not all) items are removed at the same time, to avoid ghost items appearing briefly. If you pass noupdate you have to call updateDisplay() after all items are removed.
 	 * @returns {void}
 	 */
-	removeFromStock: (typeId: string, to?: string | HTMLElement, noupdate?: boolean) => void;
+	removeFromStock(typeId: string, to?: string | HTMLElement, noupdate?: boolean): void;
 
 	/**
 	 * Remove an item of the specific type from the stock. Only use `addToStock` and `removeFromStock` OR `addToStockWithId` and `removeFromStockById` for a given stock, not both.
@@ -138,17 +138,17 @@ declare class Stock {
 	 * @param noupdate Default is false. If set to "true" it will prevent the Stock display from changing. This is useful when multiple (but not all) items are removed at the same time, to avoid ghost items appearing briefly. If you pass noupdate you have to call updateDisplay() after all items are removed.
 	 * @returns {void}
 	 */
-	removeFromStockById: (itemId: number, to?: string | HTMLElement, noupdate?: boolean) => void;
+	removeFromStockById(itemId: number, to?: string | HTMLElement, noupdate?: boolean): void;
 
 	/** Removes all items from the stock. */
-	removeAll: () => void;
+	removeAll(): void;
 
 	/**
 	 * Removes all items from the stock.
 	 * @param to The element to animate the items to. When the `to` parameter is specified, the items will be animated from the stock to the location of the to element. The location moved to is always an absolute position at the top left of the to div. This is optional and can be used to animate the items to a specific location on the page. Either way, the items are destroyed after the animation is complete.
 	 * @returns {void}
 	*/
-	removeAllTo: (to?: string | HTMLElement) => void;
+	removeAllTo(to?: string | HTMLElement): void;
 
 	//#endregion
 
@@ -176,40 +176,40 @@ declare class Stock {
 	 * // The following returns: { 34:1,  65:1,  89:1  }
 	 * var item_types = this.myStockControl.getPresentTypeList();
 	 */
-	getPresentTypeList: () => { [typeId: number]: number };
+	getPresentTypeList(): { [typeId: number]: number };
 
 	/**
 	 * Returns the total number of items in the stock.
 	 * @returns The total number of items in the stock.
 	 */
-	count: () => number;
+	count(): number;
 
 	/**
 	 * Returns the array of items in the stock.
 	 * @returns An array of items in the stock.
 	 */
-	getAllItems: () => StockItem[];
+	getAllItems(): StockItem[];
 
 	/**
 	 * A constant function that returns the id for an item given it's id. Same as `{container_div.id}`_item_{itemId}`.
 	 * @param itemId The unique id of the item to be removed from the stock. This id must be unique within the stock and is used to identify the item when removing it from the stock.
 	 * @returns Returns `{container_div.id}`_item_{itemId}`.
 	 */
-	getItemDivId: (itemId: string) => string;
+	getItemDivId(itemId: string): string;
 
 	/**
 	 * Returns the item with the specified unique id. Only useful for obtaining the item's type id.
 	 * @param itemId The unique id of the item to be removed from the stock. This id must be unique within the stock and is used to identify the item when removing it from the stock.
 	 * @returns The item with the specified unique id.
 	 */
-	getItemById: (itemId: number) => StockItem;
+	getItemById(itemId: number): StockItem;
 
 	/**
 	 * Returns the type id of the item with the specified unique id. If you want the weight of an item using the type, use item_type[typeId].weight.
 	 * @param itemId The unique id of the item to be removed from the stock. This id must be unique within the stock and is used to identify the item when removing it from the stock.
 	 * @returns The type id of the item with the specified unique id
 	 */
-	getItemWeightById: (itemId: number) => number | null;
+	getItemWeightById(itemId: number): number | null;
 
 	//#endregion
 
@@ -220,10 +220,10 @@ declare class Stock {
 	 * @param mode The selection mode to set for the stock.
 	 * @returns {void}
 	 */
-	setSelectionMode: (mode: StockSelectionMode) => void;
+	setSelectionMode(mode: StockSelectionMode): void;
 
 	/** Sets the selection appearance for the stock. @see StockSelectionAppearance */
-	setSelectionAppearance: (appearanceType: StockSelectionAppearance) => void;
+	setSelectionAppearance(appearanceType: StockSelectionAppearance): void;
 
 	/**
 	 * Predicate function that returns true if the item with the specified unique id is selected.
@@ -247,21 +247,21 @@ declare class Stock {
 	unselectItem(itemId: number): void;
 
 	/** Deselects all items in the stock. */
-	unselectAll: () => void;
+	unselectAll(): void;
 
 	/**
 	 * Selects all items in the stock matching the specified type id.
 	 * @param typeId The type id of the items to be selected. This must be a type id that was previously defined with `addItemType`.
 	 * @returns {void}
 	 */
-	selectItemsByType: (typeId: number) => void;
+	selectItemsByType(typeId: number): void;
 
 	/**
 	 * Deselects all items in the stock matching the specified type id.
 	 * @param typeId The type id of the items to be deselected. This must be a type id that was previously defined with `addItemType`.
 	 * @returns {void}
 	 */
-	unselectItemsByType: (typeId: number) => void;
+	unselectItemsByType(typeId: number): void;
 
 	/**
 	 * A callback function that should be overridden when listening for changes in a stocks selection. This callback method is called when the player selects/unselects an item of the stock.
@@ -380,7 +380,7 @@ declare class Stock {
 	 * @returns {void}
 	 * @example stock.resizeItems(100, 120, 150, 170);
 	*/
-	resizeItems: (width: number, height: number, background_width?: number, background_height?: number) => void;
+	resizeItems(width: number, height: number, background_width?: number, background_height?: number): void;
 
 	/** The duration of all animations in milliseconds. Default is 1000ms. */
 	duration: number;

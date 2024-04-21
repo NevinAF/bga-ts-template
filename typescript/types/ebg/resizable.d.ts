@@ -6,7 +6,7 @@ import "dojo/_base/declare";
  */
 declare class Resizable
 {
-	create: (...args: any[]) => any;
+	create(...args: any[]): any;
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<Resizable>['extend'];

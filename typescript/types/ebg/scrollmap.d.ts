@@ -98,7 +98,7 @@
 declare class ScrollMap
 {
 	/** Creates event handlers for all divs for handling. */
-	create: (container_div: HTMLElement, scrollable_div: HTMLElement, surface_div: HTMLElement, onsurface_div: HTMLElement, options?: { disableVerticalScrolling?: boolean, onsurfaceDragEnabled?: boolean }) => void;
+	create(container_div: HTMLElement, scrollable_div: HTMLElement, surface_div: HTMLElement, onsurface_div: HTMLElement, options?: { disableVerticalScrolling?: boolean, onsurfaceDragEnabled?: boolean }): void;
 
 	/**
 	 * Scrolls to the specified position. This is animated unless duration is 0.
@@ -107,7 +107,7 @@ declare class ScrollMap
 	 * @param duration The duration of the animation in milliseconds. Default is 350ms.
 	 * @param delay The delay before the animation starts in milliseconds. Default is 0ms.
 	 */
-	scrollto: (xpos: number, ypos: number, duration?: number, delay?: number) => void;
+	scrollto(xpos: number, ypos: number, duration?: number, delay?: number): void;
 
 	/**
 	 * Offsets the scroll position by the specified amount. This is animated unless duration is 0.
@@ -116,25 +116,25 @@ declare class ScrollMap
 	 * @param duration The duration of the animation in milliseconds. Default is 350ms.
 	 * @param delay The delay before the animation starts in milliseconds. Default is 0ms.
 	 */
-	scroll: (xoffset: number, yoffset: number, duration?: number, delay?: number) => void;
+	scroll(xoffset: number, yoffset: number, duration?: number, delay?: number): void;
 
 	/**
 	 * Scrolls the the center of all elements matching the querySelector. The center is the center of the bounds these object occupy, not the average center. This is always animated with the default duration of 350ms.
 	 * @param querySelector The query selector to match elements to scroll to. If undefined, this will find the center of all elements in the scrollable div.
 	*/
-	scrollToCenter: (querySelector?: string) => void;
+	scrollToCenter(querySelector?: string): void;
 
 	/**
 	 * Adds clickable NWSE controls this scrollmap.
 	 * @param scrollDelta The amount to scroll when any control is clicked. This value is in pixels.
 	*/
-	setupOnScreenArrows: (scrollDelta: number) => void;
+	setupOnScreenArrows(scrollDelta: number): void;
 
 	/** Enables all scrolling functionality.{@link disableScrolling} for more info. */
-	enableScrolling: () => void;
+	enableScrolling(): void;
 
 	/** Disables all scrolling functionality. This will prevent all interaction with the scrollmap and hide all scroll controls. */
-	disableScrolling: () => void;
+	disableScrolling(): void;
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<ScrollMap>['extend'];

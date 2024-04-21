@@ -90,7 +90,7 @@ declare class CoreCore {
 	 * var player = gamedatas.players[this.player_id];
 	 * var div = this.format_block('jstpl_player_board', player ); // var jstpl_player_board = ... is defined in .tpl file 
 	 */
-	format_block: (var_template: string, args: Record<string, any>) => string;
+	format_block(var_template: string, args: Record<string, any>): string;
 
 	/**
 	 * Formats the string with the values from `args` using ${key} syntax. This is a simple templating system that is generally used to format HTML blocks. The `format` is a string that contains ${key} placeholders, and `args` is an object that contains the values to replace the placeholders with. The method returns the formatted string. Note: result is trimmed.
@@ -100,7 +100,7 @@ declare class CoreCore {
 	 * @returns The formatted string.
 	 * @example var div = this.format_string('<div color="${player_color}"></div>', {player_color: '#ff0000'} );
 	 */
-	format_string: (format: string, args: Record<string, any>) => string;
+	format_string(format: string, args: Record<string, any>): string;
 
 	/**
 	 * Same as `format_string` but recursively formats until no more placeholders are found. This is useful for nested templates, like with server notifications.
@@ -108,7 +108,7 @@ declare class CoreCore {
 	 * @param args The values to replace the placeholders with.
 	 * @returns The formatted string.
 	 */
-	format_string_recursive: (format: string, args: Record<string, any>) => string;
+	format_string_recursive(format: string, args: Record<string, any>): string;
 
 	/**
 	 * Translates a string. This is a simple function that tries to use the current page translations, {@link _}, and if that fails, it uses the global translations, {@link __}.
@@ -120,26 +120,26 @@ declare class CoreCore {
 	 * this.clienttranslate(text)
 	 * text == _(text) ? __('lang_mainsite', text) : _(text);
 	 */
-	clienttranslate_string: (text: string) => string;
+	clienttranslate_string(text: string): string;
 
 	/**
 	 * Translates ALL elements with the 'clienttranslatetarget' class.
 	 * @param args The translation keys to translate. The key is the element id, and the value is the translation key.
 	 * @param translationFrom The translation source to use. This will use the game translations if not specified.
 	 */
-	translate_client_targets: (args: Record<string, any>, translationFrom?: string) => void;
+	translate_client_targets(args: Record<string, any>, translationFrom?: string): void;
 
 	/** Registers a dojo.Handle to this object, under the {@link subscriptions} array. This will unsubscribe this listener when using the {@link unsubscribe_all} function. */
-	register_subs: (handle: dojo.Handle) => void;
+	register_subs(handle: dojo.Handle): void;
 
 	/** Unsubscribes all listeners registered with {@link register_subs}. */
-	unsubscribe_all: () => void;
+	unsubscribe_all(): void;
 
 	/** Registers a cometd subscription to the given comet id. This will unsubscribe this listener when using the {@link unsubscribe_all} function. */
-	register_cometd_subs: (comet_id: string) => void;
+	register_cometd_subs(comet_id: string): void;
 
 	/** Although this function is defined on core, it is a wrapper for the {@link SiteCore.showMessage} function and always overridden. */
-	showMessage: (message: string, type: 'info' | 'error' | 'only_to_log' | string) => void;
+	showMessage(message: string, type: 'info' | 'error' | 'only_to_log' | string): void;
 
 	/**
 	 * Moves an element such that the visual position of the `target` element is located at the top-left of the `location` element. This is not really an animation, but placeOnObject is frequently used to set up the initial position of an element before an animation is performed.
@@ -147,7 +147,7 @@ declare class CoreCore {
 	 * @param location The element to move the target to.
 	 * @example this.placeOnObject('my_element', 'my_location');
 	 */
-	placeOnObject: (target: string | HTMLElement, location: string | HTMLElement) => void;
+	placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
 
 	/**
 	 * Moves an element such that the visual position of the `target` element is located at the top-left of the `location` element, with an offset. This is not really an animation, but placeOnObject is frequently used to set up the initial position of an element before an animation is performed.
@@ -157,21 +157,21 @@ declare class CoreCore {
 	 * @param relativeY The y offset from the top-left of the location element.
 	 * @example this.placeOnObjectPos('my_element', 'my_location', 10, 10);
 	 */
-	placeOnObjectPos: (target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number) => void;
+	placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void;
 
 	/** If 3D is enabled (that is, the 'ebd-body' element has the 'mode_3d' class), disable the 3d and return the previous transform value. This is useful for translating DOM elements in 2d space, then re-enabling using {@link enable3dIfNeeded}. */
-	disable3dIfNeeded: () => CSSStyleDeclaration['transform'] | null;
+	disable3dIfNeeded(): CSSStyleDeclaration['transform'] | null;
 
 	/** Adds the  'mode_3d' class to the 'ebd-body' element if needed, and sets the transform style. If the transform is undefined/null, then this will have no effect. */
-	enable3dIfNeeded: (transform?: CSSStyleDeclaration['transform'] | null) => void;
+	enable3dIfNeeded(transform?: CSSStyleDeclaration['transform'] | null): void;
 
 	/** Gets the Z position of an element by using window.getComputedStyle() and pulling it from the view matrix. */
-	getComputedTranslateZ: () => number | null;
+	getComputedTranslateZ(): number | null;
 
 	/**
 	 * Slides an element to a target element on the z axis.
 	 */
-	transformSlideAnimTo3d: (baseAnimation: dojo._base.Animation, target: string | HTMLElement, duration: number, delay: number, x: number, y: number) => dojo._base.Animation;
+	transformSlideAnimTo3d(baseAnimation: dojo._base.Animation, target: string | HTMLElement, duration: number, delay: number, x: number, y: number): dojo._base.Animation;
 
 	/**
 	 * Slides an element to a target position. Sliding element on the game area is the recommended and the most used way to animate your game interface. Using slides allow players to figure out what is happening on the game, as if they were playing with the real boardgame.
@@ -182,7 +182,7 @@ declare class CoreCore {
 	 * @returns The animation object that can be played.
 	 * @example this.slideToObject( "some_token", "some_place_on_board" ).play();
 	 */
-	slideToObject: (target: string | HTMLElement, destination: string | HTMLElement, duration?: number, delay?: number) => Animation;
+	slideToObject(target: string | HTMLElement, destination: string | HTMLElement, duration?: number, delay?: number): Animation;
 
 	/**
 	 * Slides an element to a target position. Sliding element on the game area is the recommended and the most used way to animate your game interface. Using slides allow players to figure out what is happening on the game, as if they were playing with the real boardgame.
@@ -211,10 +211,10 @@ declare class CoreCore {
 	slideToObjectPctPos(target: string | HTMLElement, destination: string | HTMLElement, xpercent: number, ypercent: number, duration?: number, delay?: number): Animation;
 
 	/** Converts the given angle in degrees to radians. Same as `angle * Math.PI / 180`. */
-	toRadians: (angle: number) => number;
+	toRadians(angle: number): number;
 
 	/** Rotates the vector by the given angle in degrees. */
-	vector_rotate: (vector: { x: number, y: number }, angle: number) => { x: number, y: number };
+	vector_rotate(vector: { x: number, y: number }, angle: number): { x: number, y: number };
 
 	/**
 	 * This destroys the `target` element and all its connectors (onClick, etc), then places a clone positioned at the original location but attached to the `newParent` element. This is useful for moving elements between different containers. See {@link GameguiCookbook.attachToNewParentNoDestroy} for a version that does not destroy the target element.
@@ -225,7 +225,7 @@ declare class CoreCore {
 	 * @param newParent The new parent element to attach the target to. Note that the position of the target will remain visually the same.
 	 * @param position The child index which this should be inserted at. If a string, it will be inserted matching the type, otherwise it will be inserted at the given index.
 	 */
-	attachToNewParent: (target: string | HTMLElement, newParent: string | HTMLElement, position: dojo.PosString | number) => void;
+	attachToNewParent(target: string | HTMLElement, newParent: string | HTMLElement, position: dojo.PosString | number): void;
 
 	/**
 	 * This destroys the `target` element and all its connectors (onClick, etc), then places a clone positioned and attached to the `newParent` element.
@@ -236,7 +236,7 @@ declare class CoreCore {
 	 * @param newParent The new parent element to attach the target to. Note that the position of the target will remain visually the same.
 	 * @param position The child index which this should be inserted at. If a string, it will be inserted matching the type, otherwise it will be inserted at the given index.
 	 */
-	attachToNewParentNoReplace: (target: string | HTMLElement, newParent: string | HTMLElement, position: dojo.PosString | number) => void;
+	attachToNewParentNoReplace(target: string | HTMLElement, newParent: string | HTMLElement, position: dojo.PosString | number): void;
 
 	/**
 	 * Slides an existing html element to some destination and destroys it upon arrival. This is a handy shortcut to slide an existing HTML object to some place then destroy it upon arrival. It can be used for example to move a victory token or a card from the board to the player panel to show that the player earns it, then destroy it when we don't need to keep it visible on the player panel.
@@ -248,7 +248,7 @@ declare class CoreCore {
 	 * @param delay (optional) If you define a delay, the slide will start only after this delay. This is particularly useful when you want to slide several objects from the same position to the same position: you can give a 0ms delay to the first object, a 100ms delay to the second one, a 200ms delay to the third one, ... this way they won't be superposed during the slide.
 	 * @example this.slideToObjectAndDestroy( "some_token", "some_place_on_board", 1000, 0 );
 	 */
-	slideToObjectAndDestroy: (target: string | HTMLElement, destination: string | HTMLElement, duration?: number, delay?: number) => void;
+	slideToObjectAndDestroy(target: string | HTMLElement, destination: string | HTMLElement, duration?: number, delay?: number): void;
 
 	/**
 	 * Slides a new element from a source location to a destination location. The temporary object created from an html string. This is useful when you want to slide a temporary HTML object from one place to another. As this object does not exists before the animation and won't remain after, it could be complex to create this object (with dojo.place), to place it at its origin (with placeOnObject) to slide it (with slideToObject) and to make it disappear at the end.
@@ -261,7 +261,7 @@ declare class CoreCore {
 	 * @returns The animation object that can be played.
 	 * @example this.slideTemporaryObject('<div class="token_icon"></div>', 'tokens', 'my_origin_div', 'my_target_div').play();
 	 */
-	slideTemporaryObject: (temporaryHTML: dojo.NodeFragmentOrString, parent: string | HTMLElement, from: string | HTMLElement, to: string | HTMLElement, duration?: number, delay?: number) => Animation;
+	slideTemporaryObject(temporaryHTML: dojo.NodeFragmentOrString, parent: string | HTMLElement, from: string | HTMLElement, to: string | HTMLElement, duration?: number, delay?: number): Animation;
 
 	/**
 	 * Fades out the target node, then destroys it. This call starts the animation.
@@ -271,7 +271,7 @@ declare class CoreCore {
 	 * @param delay (optional) If you define a delay, the fade out will start only after this delay. This is particularly useful when you want to fade out several objects from the same position to the same position: you can give a 0ms delay to the first object, a 100ms delay to the second one, a 200ms delay to the third one, ... this way they won't be superposed during the fade out.
 	 * @example this.fadeOutAndDestroy( "a_card_that_must_disappear" );
 	 */
-	fadeOutAndDestroy: (target: string | HTMLElement, duration?: number, delay?: number) => void;
+	fadeOutAndDestroy(target: string | HTMLElement, duration?: number, delay?: number): void;
 
 	/**
 	 * Rotates an element to a target degree using an animation. It starts the animation, and stored the rotation degree in the class, so next time you rotate object - it is additive. There is no animation hooks in this one.
@@ -289,7 +289,7 @@ declare class CoreCore {
 		
 	* animation.play();
 	*/
-	rotateTo: (target: string | HTMLElement, degree: number) => void;
+	rotateTo(target: string | HTMLElement, degree: number): void;
 
 	/**
 	 * Rotates an element to a target degree without using an animation.
@@ -297,7 +297,7 @@ declare class CoreCore {
 	 * @param degree The degree to rotate the element to.
 	 * @example this.rotateInstantTo( "a_card_that_must_rotate", 90 );
 	 */
-	rotateInstantTo: (target: string | HTMLElement, degree: number) => void;
+	rotateInstantTo(target: string | HTMLElement, degree: number): void;
 
 	/**
 	 * Rotates an element by a delta degree using an animation. It starts the animation, and stored the rotation degree in the class, so next time you rotate object - it is additive. There is no animation hooks in this one.
@@ -305,14 +305,14 @@ declare class CoreCore {
 	 * @param delta The degree to rotate the element by.
 	 * @example this.rotateDelta( "a_card_that_must_rotate", 90 );
 	 */
-	rotateInstantDelta: (target: string | HTMLElement, delta: number) => void;
+	rotateInstantDelta(target: string | HTMLElement, delta: number): void;
 
 	/**
 	 * Returns the rotation angle of the given element as it is stored in the {@link rotateToPosition} record. If the object does not have a stored rotation it will default to 0. This recursively sum the rotation of all parent elements.
 	 * @param target The element to get the rotation of.
 	 * @returns The rotation angle of the element.
 	 */
-	getAbsRotationAngle: (target: string | HTMLElement | null) => number;
+	getAbsRotationAngle(target: string | HTMLElement | null): number;
 
 	/**
 	 * Adds the given style to all elements with the given class. This uses the dojo.query and dojo.style functions to apply the style to all elements with the given class.
@@ -321,7 +321,7 @@ declare class CoreCore {
 	 * @param value The value to apply to the style property.
 	 * @example this.addClassToClass( 'my_class', 'color', 'red' );
 	 */
-	addClassToClass: <T extends keyof CSSStyleDeclaration>(className: string, property: T, value: CSSStyleDeclaration[T]) => void;
+	addClassToClass<T extends keyof CSSStyleDeclaration>(className: string, property: T, value: CSSStyleDeclaration[T]): void;
 
 	/**
 	 * A wrapper for dojo.connect which maintains a list of all connections for easier cleanup and disconnecting. This is the recommended way to connect events in BGA when connecting permanent objects - if you just want to connect the temp object you should probably not use this method but use dojo.connect which won't require any clean-up. If you plan to destroy the element you connected, you must call this.disconnect() to prevent memory leaks.
@@ -333,7 +333,7 @@ declare class CoreCore {
 	 * @example this.connect( $('my_element'), 'onclick', 'onClickOnMyElement' );
 	 * @example this.connect( $('my_element'), 'onclick', (e) => { console.log('boo'); } );
 	 */
-	connect: (target: string | HTMLElement, event: string, method: string | Function) => void;
+	connect(target: string | HTMLElement, event: string, method: string | Function): void;
 
 	/**
 	 * Same as `connect` but for all the nodes set with the specified css className.
@@ -342,7 +342,7 @@ declare class CoreCore {
 	 * @param method The method to call when the event is triggered. If this is a string, it will call the method with the same name on this object.
 	 * @example this.connectClass('pet', 'onclick', 'onPet');
 	 */
-	connectClass: (className: string, event: string, method: string | Function) => void;
+	connectClass(className: string, event: string, method: string | Function): void;
 
 	/**
 	 * Disconnects any event handler previously registered with `connect` or `connectClass` that matches the element and event.
@@ -350,13 +350,13 @@ declare class CoreCore {
 	 * @param event The event to disconnect.
 	 * @example this.disconnect( $('my_element'), 'onclick');
 	 */
-	disconnect: (target: string | HTMLElement, event: string) => void;
+	disconnect(target: string | HTMLElement, event: string): void;
 
 	/**
 	 * Disconnects all previously registed event handlers (registered via `connect` or `connectClass`).
 	 * @example this.disconnectAll();
 	 */
-	disconnectAll: () => void;
+	disconnectAll(): void;
 
 	/**
 	 * Connects an event to a query selector. This is a wrapper for dojo.connect that uses dojo.query to find the elements to connect the event to. This is useful for connecting events to elements that are created dynamically.
@@ -364,37 +364,37 @@ declare class CoreCore {
 	 * @param event The event to connect to.
 	 * @param method The method to call when the event is triggered. If this is a string, it will call the method with the same name on this object.
 	 */
-	connectQuery: (selector: string, event: string, method: string | Function) => void;
+	connectQuery(selector: string, event: string, method: string | Function): void;
 
 	/** Alias for {@link connectClass}. See {@link connectClass} for more information. */
-	addEventToClass: (className: string, event: string, method: string | Function) => void;
+	addEventToClass(className: string, event: string, method: string | Function): void;
 
 	/**
 	 * Updates the global `this.gamedatas.counters` and sets the element `counter_name` to the new value.
 	 * @param counter_name The counter to update.
 	 * @param new_value The new value of the counter.
 	 */
-	setCounter: (counter_name: string, new_value: string | number) => void;
+	setCounter(counter_name: string, new_value: string | number): void;
 
 	/**
 	 * Increments the global `this.gamedatas.counters` and the value of the element `counter_name` by `delta`.
 	 * @param counter_name The counter to increment.
 	 * @param delta The amount to increment the counter by.
 	 */
-	incCounter: (counter_name: string, delta: number) => void;
+	incCounter(counter_name: string, delta: number): void;
 
 	/**
 	 * Decrements the global `this.gamedatas.counters` and the value of the element `counter_name` by `delta`. Unlike {@link incCounter}, this will not allow the counter to go below 0.
 	 * @param counter_name The counter to decrement.
 	 * @param delta The amount to decrement the counter by.
 	 */
-	decrCounter: (counter_name: string, delta: number) => void;
+	decrCounter(counter_name: string, delta: number): void;
 
 	/**
 	 * Updates game counters in the player panel (such as resources). The `counters` argument is a map of counters (the key must match counter_name).
 	 * @param counters A map of counters to update.
 	 */
-	updateCounters: (counters: { [key: string]: { counter_name: string, counter_value: string | number }}) => void;
+	updateCounters(counters: { [key: string]: { counter_name: string, counter_value: string | number }}): void;
 
 	/**
 	 * Creates the HTML used for {@link addTooltip} from the given content.
@@ -402,7 +402,7 @@ declare class CoreCore {
 	 * @param actionStringTranslated The information about "what happens when I click on this element?".
 	 * @returns The HTML content of the tooltip.
 	 */
-	getHtmlFromTooltipinfos: (helpStringTranslated: string, actionStringTranslated: string) => string;
+	getHtmlFromTooltipinfos(helpStringTranslated: string, actionStringTranslated: string): string;
 
 	/**
 	 * Adds a tooltip to the DOM element. This is a simple text tooltip to display some information about "what is this game element?" and "what happens when I click on this element?". You must specify both of the strings. You can only use one and specify an empty string for the other one. When you pass text directly function _() must be used for the text to be marked for translation! Except for empty string. Parameter "delay" is optional. It is primarily used to specify a zero delay for some game element when the tooltip gives really important information for the game - but remember: no essential information must be placed in tooltips as they won't be displayed in some browsers (see Guidelines).
@@ -412,7 +412,7 @@ declare class CoreCore {
 	 * @param delay (optional) The delay in milliseconds to wait before showing the tooltip. The default is 500 milliseconds.
 	 * @example this.addTooltip( 'cardcount', _('Number of cards in hand'), '' );
 	 */
-	addTooltip: (target: string, helpStringTranslated: string, actionStringTranslated: string, delay?: number) => void;
+	addTooltip(target: string, helpStringTranslated: string, actionStringTranslated: string, delay?: number): void;
 
 	/**
 	 * Adds an HTML tooltip to the DOM element. This is for more elaborate content such as presenting a bigger version of a card.
@@ -421,7 +421,7 @@ declare class CoreCore {
 	 * @param delay (optional) The delay in milliseconds to wait before showing the tooltip. The default is 500 milliseconds.
 	 * @example this.addTooltipHtml( 'cardcount', '<div>Number of cards in hand</div>' );
 	 */
-	addTooltipHtml: (target: string, html: string, delay?: number) => void;
+	addTooltipHtml(target: string, html: string, delay?: number): void;
 
 	/**
 	 * Adds a simple text tooltip to all the DOM elements set with the specified css class. This is for more elaborate content such as presenting a bigger version of a card.
@@ -431,7 +431,7 @@ declare class CoreCore {
 	 * @param delay (optional) The delay in milliseconds to wait before showing the tooltip. The default is 500 milliseconds.
 	 * @example this.addTooltipToClass( 'meeple', _('This is A Meeple'), _('Click to tickle') );
 	 */
-	addTooltipToClass: (className: string, helpStringTranslated: string, actionStringTranslated: string, delay?: number) => void;
+	addTooltipToClass(className: string, helpStringTranslated: string, actionStringTranslated: string, delay?: number): void;
 
 	/**
 	 * Adds an HTML tooltip to all the DOM elements set with the specified css class. This is for more elaborate content such as presenting a bigger version of a card.
@@ -440,14 +440,14 @@ declare class CoreCore {
 	 * @param delay (optional) The delay in milliseconds to wait before showing the tooltip. The default is 500 milliseconds.
 	 * @example this.addTooltipHtmlToClass( 'meeple', '<div>This is A Meeple</div>' );
 	 */
-	addTooltipHtmlToClass: (className: string, html: string, delay?: number) => void;
+	addTooltipHtmlToClass(className: string, html: string, delay?: number): void;
 
 	/**
 	 * Removes a tooltip from the DOM element.
 	 * @param target The DOM element to remove the tooltip from.
 	 * @example this.removeTooltip('cardcount');
 	 */
-	removeTooltip: (target: string | HTMLElement) => void;
+	removeTooltip(target: string | HTMLElement): void;
 
 	/**
 	 * Changes the {@link bHideTooltips} property and overrides all tooltips 'onShow' event to either block or unblock all tooltips from showing.
@@ -456,7 +456,7 @@ declare class CoreCore {
 	 * Specific tooltips can be hidden by either calling {@link removeTooltip} or by setting the 'onShow' event to a noop function. This will be reverted whenever this function is called:
 	 * @example this.tooltips['some_id'].onShow = () => {};
 	 */
-	switchDisplayTooltips: (displayType: 0 | 1) => void;
+	switchDisplayTooltips(displayType: 0 | 1): void;
 
 	/**
 	 * Replaces a pseudo markup text with a proper html string, designed for comments. This function replaces the following:
@@ -468,7 +468,7 @@ declare class CoreCore {
 	 * @param text The text to apply the markup to.
 	 * @returns The HTML string with the markup applied.
 	 */
-	applyCommentMarkup: (text: string) => string;
+	applyCommentMarkup(text: string): string;
 
 	/**
 	 * Shows a confirmation dialog to the user, with a yes and no button.
@@ -487,13 +487,13 @@ declare class CoreCore {
 	 * });
 	 * return; // nothing should be called or done after calling this, all action must be done in the handler
 	 */
-	confirmationDialog: <T>(message: string, yesHandler: (param: T) => any, noHandler?: (param: T) => any, param?: T) => void;
+	confirmationDialog<T>(message: string, yesHandler: (param: T) => any, noHandler?: (param: T) => any, param?: T): void;
 
 	/**
 	 * Shows a warning dialog single 'duly noted' button. The di
 	 * 
 	 */
-	warningDialog: (message: string, callback: () => any) => void;
+	warningDialog(message: string, callback: () => any): void;
 
 	/**
 	 * Creates a dialog with the message and title, and a single button that says "Ok".
@@ -508,7 +508,7 @@ declare class CoreCore {
 	 * @example
 	 * this.infoDialog(_("You need to reload the page because the game is out of sync."), _("Out of Sync"), () => window.location.reload());
 	 */
-	infoDialog: (message: string, title: string, callback?: () => any, useSiteDialog?: boolean) => void;
+	infoDialog(message: string, title: string, callback?: () => any, useSiteDialog?: boolean): void;
 
 	/**
 	 * Shows a multiple choice dialog to the user. Note: there is no cancel handler, so make sure you gave user a choice to get out of it.
@@ -524,7 +524,7 @@ declare class CoreCore {
 	 * });
 	 * return; // must return here
 	 */
-	multipleChoiceDialog: (message: string, choices: string[], callback: (choice: number) => void) => void;
+	multipleChoiceDialog(message: string, choices: string[], callback: (choice: number) => void): void;
 
 	/**
 	 * Shows a info dialog that also has a text field. See {@link infoDialog} for more information.
@@ -532,7 +532,7 @@ declare class CoreCore {
 	 * @param callback The callback to call when the "Ok" button is clicked. This is passed the unmodified value of the text field.
 	 * @param message The message to display in the dialog. If omitted, the dialog will not have a message.
 	 */
-	askForValueDialog: (title: string, callback: (value: string) => void, message?: string) => void;
+	askForValueDialog(title: string, callback: (value: string) => void, message?: string): void;
 
 	/**
 	 * Displays a score value over an element to make the scoring easier to follow for the players. This is particularly useful for final scoring or other important scoring events.
@@ -555,7 +555,7 @@ declare class CoreCore {
 	 * 	this.displayScoring( notif.args.target, notif.args.color, notif.args.score, duration);
 	 * },
 	 */
-	displayScoring: (anchor: string | HTMLElement, color: string, score: number | string, duration?: number, offset_x?: number, offset_y?: number) => void;
+	displayScoring(anchor: string | HTMLElement, color: string, score: number | string, duration?: number, offset_x?: number, offset_y?: number): void;
 
 	/**
 	 * Shows a bubble with a message in it. This is a comic book style speech bubble to express the players voices.
@@ -579,7 +579,7 @@ declare class CoreCore {
 	 * 	this.showBubble( notif.args.target, notif.args.text, notif.args.delay ?? 0, duration, notif.args.custom_class );
 	 * },
 	 */
-	showBubble: (anchor: string, message: string, delay?: number, duration?: number, custom_class?: string) => void;
+	showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
 
 	/**
 	 * Creates an concentric circles animated effect at the specified location relative to the anchor. This is useful for showing a point of interest or a special event, usually use to represent a mouse click of a player.
@@ -588,7 +588,7 @@ declare class CoreCore {
 	 * @param top The top offset.
 	 * @param backgroundColor (optional) The background color of the circles. The default is 'red'.
 	 */
-	showClick: (anchor: string, left: CSSStyleDeclaration['left'], top: CSSStyleDeclaration['top'], backgroundColor?: CSSStyleDeclaration['backgroundColor']) => void;
+	showClick(anchor: string, left: CSSStyleDeclaration['left'], top: CSSStyleDeclaration['top'], backgroundColor?: CSSStyleDeclaration['backgroundColor']): void;
 
 	/**
 	 * Returns a translated string representing the `rank` of the given placement.
@@ -596,10 +596,10 @@ declare class CoreCore {
 	 * @param losersOrdered If true, all players will be marked in the 1st, 2nd, 3rd, etc. order. If false, 1 = Winner and 2+ = Loser.
 	 * @returns The translated string representing the rank.
 	 */
-	getRankString: (player_rank: number, losersOrdered?: boolean) => '1st' | '2nd' | '3rd' | `${number}th` | 'Winner' | 'Loser' | string;
+	getRankString(player_rank: number, losersOrdered?: boolean): '1st' | '2nd' | '3rd' | `${number}th` | 'Winner' | 'Loser' | string;
 
 	/** Turns the number 0-100 into a translated karma label. If the number is out of range, undefined is returned. */
-	getKarmaLabel: (karma: number) => 'Very bad' | 'Bad' | 'Not good' | 'Average' | 'Good' | 'Very good' | 'Excellent' | 'Perfect' | string | undefined;
+	getKarmaLabel(karma: number): 'Very bad' | 'Bad' | 'Not good' | 'Average' | 'Good' | 'Very good' | 'Excellent' | 'Perfect' | string | undefined;
 
 	/** Returns the number of keys in an object. @deprecated You should use Object.keys(obj).length instead. */
 	getObjectLength(obj: object): number;
@@ -639,31 +639,31 @@ declare class CoreCore {
 
 
 	/** Internal. Makes an ajax page request and loads the content into the given part of the DOM. The {@param loadTo} will be emptied before any new elements are added. */
-	ajaxpageload: (url: string, content: object | string, loadTo: string | HTMLElement, callback_target: any, callback: string | ((data: any) => any)) => void;
+	ajaxpageload(url: string, content: object | string, loadTo: string | HTMLElement, callback_target: any, callback: string | ((data: any) => any)): void;
 
 	/** Internal. Helper function for ajax calls used to present HTTP errors. This calls the {@link showMessage} function with a custom translated error matching the error code. */
-	displayUserHttpError: (error_code: number) => void;
+	displayUserHttpError(error_code: number): void;
 
 	/** Internal. Enables the {@link bCancelAllAjax} property which modifies how ajax callbacks are attached to the ajax requests. */
-	cancelAjaxCall: () => void;
+	cancelAjaxCall(): void;
 
 	/** Internal. Apply gender regex to some text. */
-	applyGenderRegexps: (text: string, apply_type?: null | 0 | 1) => string;
+	applyGenderRegexps(text: string, apply_type?: null | 0 | 1): string;
 	
 	/** Internal. Sets the {@link interface_min_width}. */
-	adaptScreenToMinWidth: (min_width: number) => void;
+	adaptScreenToMinWidth(min_width: number): void;
 
 	/** Internal. Preforms screen resizing by styling the body element with a zoom equal to a newly computed {@link currentZoom}. */
-	adaptScreenToMinWidthWorker: () => void;
+	adaptScreenToMinWidthWorker(): void;
 
 	/** Internal. @deprecated This looks like it is using an old version of dojo position, and not called withing the source code. */
-	getObjPosition: (obj: HTMLElement | string) => { x: number, y: number };
+	getObjPosition(obj: HTMLElement | string): { x: number, y: number };
 
 	/** Internal. A purely helper function for {@link showBubble}. This is used like a local function would be to prevent duplication. Always used {@link showBubble} instead. */
-	doShowBubble: (anchor: string, message: string, custom_class?: string) => void;
+	doShowBubble(anchor: string, message: string, custom_class?: string): void;
 
 	/** Internal. Returns the translated <text>_displayed string. */
-	getGameNameDisplayed: (text: string) => string;
+	getGameNameDisplayed(text: string): string;
 
 	//#endregion
 

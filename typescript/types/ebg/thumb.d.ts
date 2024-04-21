@@ -5,7 +5,7 @@ import "dojo/_base/declare";
  * Partial: This has been partially typed based on a subset of the BGA source code.
  */
 declare class Thumb {
-	create: (...args: any[]) => any;
+	create(...args: any[]): any;
 
 	/** See definition from {@link dojo._base.DeclareConstructor.extend} for more information. */
 	static extend: dojo._base.DeclareConstructor<Thumb>['extend'];
