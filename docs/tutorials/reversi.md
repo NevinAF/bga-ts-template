@@ -532,7 +532,7 @@ There are a couple of variations on the rules for Reversi, but the most common i
 	}
 	```
 
-2. Add the list of possible moves to the `argPlayerTurn` function in your `yourgamename.action.php` file:
+2. Add the list of possible moves to the `argPlayerTurn` function in your `yourgamename.game.php` file:
 
 	```php
 	function argPlayerTurn()
@@ -613,7 +613,7 @@ The game is still not playable, but you can now see the possible moves for the f
 
 ## Step 9 - Player Actions
 
-1. Fill in the `playDisc`  function in your `yourgamename.action.php` file:
+1. Fill in the `playDisc`  function in your `yourgamename.game.php` file:
 
 	```php
 	function playDisc( int $x, int $y )
@@ -652,7 +652,7 @@ The game is still not playable, but you can now see the possible moves for the f
 	}
 	```
 
-2. Fill in the `stNextPlayer` function in your `yourgamename.action.php` file:
+3. Fill in the `stNextPlayer` function in your `yourgamename.game.php` file:
 
 	```php
 	function stNextPlayer()
@@ -707,7 +707,7 @@ The game is still not playable, but you can now see the possible moves for the f
 	}
 	```
 
-3. Connect an `onclick` function to all of the squares on the board:
+4. Connect an `onclick` function to all of the squares on the board:
 
 	```typescript
 	setup(gamedatas: Gamedatas): void
@@ -717,7 +717,7 @@ The game is still not playable, but you can now see the possible moves for the f
 		// ...
 	}
 
-4. Add the `onPlayDisc` function to your `yourgamename.ts` file:
+5. Add the `onPlayDisc` function to your `yourgamename.ts` file:
 
 	```typescript
 	// Player's action
@@ -758,7 +758,7 @@ Notifications are used to inform players when something happens in the game. In 
 - When discs are converted because of a move
 - When the scores
 
-1. Add the following to the `playDisc` function in your `yourgamename.action.php` file:
+1. Add the following to the `playDisc` function in your `yourgamename.game.php` file:
 
 	```php
 	function playDisc( int $x, int $y )
@@ -944,7 +944,7 @@ Statistics are mostly optional and are a fun way to compare player strategies or
 
 	> See [stats.json](https://en.doc.boardgamearena.com/Game_statistics:_stats.json) for more information about the stats file for BGA games.
 
-2. Add the following to the `playDisc` function in your `yourgamename.action.php` file:
+2. Add the following to the `playDisc` function in your `yourgamename.game.php` file:
 
 	```php
 	function playDisc( int $x, int $y )
