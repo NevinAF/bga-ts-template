@@ -378,7 +378,7 @@ From this point in the tutorial and on:
 
 	> This will automatically be converted to `gamestates.inc.php`, `yourgamename.action.php`, and `build/gamestates.d.ts` when you run `npm run build`.
 
-2. Add placeholder functions to remove `Undefined method` errors. Add the following to your `yourgamename.action.php` file. Note that this replaces the large section of comments in the file describing the player actions, state arguments, and state actions.
+2. Add placeholder functions to remove `Undefined method` errors. Add the following to your `yourgamename.game.php` file. Note that this replaces the large section of comments in the file describing the player actions, state arguments, and state actions.
 
 	```php
 	// Player actions
