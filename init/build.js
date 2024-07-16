@@ -263,7 +263,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			else if (state.type === undefined) {
 				exitWithError(`State ${key} ("${state.name}") does not have a type.`);
 			}
-			else if (state.type !== 'multipleactiveplayer' && state.type !== 'activeplayer') {
+			else if (state.type !== 'multipleactiveplayer' && state.type !== 'activeplayer' && state.type !== 'private') {
 				exitWithError(`State ${key} ("${state.name}") does not have a valid type: ${state.type}.`);
 			}
 		}
