@@ -430,19 +430,17 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 		// Validate that all defined 'initialprivate' are on type 'multipleactiveplayer' states and target states which are 'private'
 		for (const key in statesJSON) {
 			const state = statesJSON[key];
-			const initialprivate = state.initialprivate;
+			const initialprivateKey = state.initialprivate;
 
-			if (initialprivate) {
+			if (initialprivateKey) {
 				if (state.type !== 'multipleactiveplayer')
 					exitWithError(`State ${key} ("${state.name}") has initialprivate defined but is not of type 'multipleactiveplayer'.`);
 				
-				for (const target of initialprivate) {
-					if (!statesJSON[target])
-						exitWithError(`State ${key} ("${state.name}") has initialprivate ${target}, but that state does not exist.`);
+					if (!statesJSON[initialprivateKey])
+						exitWithError(`State ${key} ("${state.name}") has initialprivate key ${initialprivateKey}, but that state does not exist.`);
 
-					if (statesJSON[target].type !== 'private')
-						exitWithError(`State ${key} ("${state.name}") has an initialprivate target ${target} which is not of type 'private'.`);
-				}
+					if (statesJSON[initialprivateKey].type !== 'private')
+						exitWithError(`State ${key} ("${state.name}") has an initialprivate key ${initialprivateKey} which is not of type 'private'.`);
 			}
 		}
 
