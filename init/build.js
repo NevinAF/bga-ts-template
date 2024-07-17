@@ -451,7 +451,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 					exitWithError(`State ${key} ("${state.name}") has initialprivate defined as '${initialprivate}', but that state does not exist.`);
 
 				if (statesJSON[initialprivate].type !== 'private')
-					exitWithError(`State ${key} ("${state.name}") has initialprivate defined as '${initialprivate}', but that state ("${statesJSON[initialprivate]}") is not of type 'private'.`);
+					exitWithError(`State ${key} ("${state.name}") has initialprivate defined as '${initialprivate}', but that state ("${statesJSON[initialprivate].name}") is not of type 'private'.`);
 			}
 		}
 
