@@ -263,7 +263,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			else if (state.type === undefined) {
 				exitWithError(`State ${key} ("${state.name}") does not have a type.`);
 			}
-			else if (state.type !== 'multipleactiveplayer' && state.type !== 'activeplayer') {
+			else if (state.type !== 'multipleactiveplayer' && state.type !== 'activeplayer' && state.type !== 'private') {
 				exitWithError(`State ${key} ("${state.name}") does not have a valid type: ${state.type}.`);
 			}
 		}
@@ -318,6 +318,17 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 		}
 
 		// Validate that all possible actions are unique and if they share a name with another states possible actions, their values are the same.
+		/** Compares the parameters defined by two possibleactions entries to see if they contain the same data. */
+		function actionsAreEqual(aParams, bParams) {
+			if (aParams.length !== bParams.length)
+				return false;
+
+			const keys = ['name', 'type', 'argTypeDetails', 'bCanFail', 'mandatory', 'typescriptType'];
+			for (let i = 0; i < aParams.length; i++) {
+				if (keys.some(k => aParams[i][k] !== bParams[i][k]))
+					return false;
+			}
+		}
 		const possibleActions = new Map();
 		for (const key in statesJSON) {
 			const state = statesJSON[key];
@@ -335,7 +346,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			for (const action in actions) {
 				if (!possibleActions.has(action)) {
 					possibleActions.set(action, actions[action]);
-				} else if (possibleActions.get(action) !== actions[action]) {
+				} else if (actionsAreEqual(possibleActions.get(action), actions[action])) {
 					exitWithError(`Action named "${action}" in state ${key} ("${state.name}") has a different value than the same action name in another state.`);
 				}
 
@@ -434,15 +445,13 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 
 			if (initialprivate) {
 				if (state.type !== 'multipleactiveplayer')
-					exitWithError(`State ${key} ("${state.name}") has initialprivate defined but is not of type 'multipleactiveplayer'.`);
-				
-				for (const target of initialprivate) {
-					if (!statesJSON[target])
-						exitWithError(`State ${key} ("${state.name}") has initialprivate ${target}, but that state does not exist.`);
+					exitWithError(`State ${key} ("${state.name}") has initialprivate defined as '${initialprivate}' but is not of type 'multipleactiveplayer'.`);
 
-					if (statesJSON[target].type !== 'private')
-						exitWithError(`State ${key} ("${state.name}") has an initialprivate target ${target} which is not of type 'private'.`);
-				}
+				if (!statesJSON[initialprivate])
+					exitWithError(`State ${key} ("${state.name}") has initialprivate defined as '${initialprivate}', but that state does not exist.`);
+
+				if (statesJSON[initialprivate].type !== 'private')
+					exitWithError(`State ${key} ("${state.name}") has initialprivate defined as '${initialprivate}', but that state ("${statesJSON[initialprivate]}") is not of type 'private'.`);
 			}
 		}
 

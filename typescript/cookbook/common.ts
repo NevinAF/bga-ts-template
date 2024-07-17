@@ -2,8 +2,6 @@
 
 import Gamegui = require("ebg/core/gamegui");
 import dojo = require("dojo");
-import "ebg/core/common";
-import Select = require("dijit/form/Select");
 
 /**
  * A typescript mixin function that add all `Common` methods to the given `Gamegui` class. The `common` module is a collection of wrappers and Gamegui-like methods that are directly defined on the cookbook page, and are recommended to be used in almost all games (sometimes depending on depth/complexity of the game).
@@ -255,6 +253,54 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 			pref.value = value;
 			callback(matchId);
 		});
+	}
+
+	override onScriptError(error: string | ErrorEvent, url: string, line: number): void
+	{
+		if (this.page_is_unloading) return;
+
+		console.error("Script error:", error);
+		super.onScriptError(error, url, line);
+	}
+
+	showError(log: string, args: Record<keyof any, any> = {})
+	{
+		args['you'] = this.divYou();
+		var message = this.format_string_recursive(log, args);
+		this.showMessage(message, "error");
+		console.error(message);
+	}
+
+	getPlayerColor(player_id: number): string | null
+	{
+		return this.gamedatas.players[player_id]?.color ?? null;
+	}
+
+	getPlayerName(player_id: number): string | null
+	{
+		return this.gamedatas.players[player_id]?.name ?? null;
+	}
+
+	getPlayerFromColor(color: string): Player | null
+	{
+		for (const id in this.gamedatas.players)
+		{
+			const player = this.gamedatas.players[id];
+			if (player?.color === color)
+				return player;
+		}
+		return null;
+	}
+
+	getPlayerFromName(name: string): Player | null
+	{
+		for (const id in this.gamedatas.players)
+		{
+			const player = this.gamedatas.players[id];
+			if (player?.name === name)
+				return player;
+		}
+		return null;
 	}
 }
 

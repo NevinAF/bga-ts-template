@@ -33,10 +33,13 @@
 			// When cookbook files are added, this lets you import them without the full path.
 			"cookbook/*": [ "../___source-to-template___/typescript/cookbook/*" ]
 		},
+		"noImplicitOverride": true, // Recommended! This will prevent you from accidentally overriding any of the framework's functions.
 
 		/* Preference. This defaults to the most strict ts rules. */
 		"strict": true,
+		"exactOptionalPropertyTypes": true,
 		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"removeComments": true, // Comments are always removed from JS in production, so you don't need to remove them when compiling.

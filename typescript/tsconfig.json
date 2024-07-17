@@ -9,9 +9,12 @@
 		],
 		"types": [],
 		"strict": true,
+		"exactOptionalPropertyTypes": true,
 		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
 		"noEmit": true,
 	}
 }

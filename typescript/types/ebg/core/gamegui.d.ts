@@ -330,6 +330,7 @@ declare class Gamegui extends SiteCore {
 	//#region Player Actions
 
 	// This is an override such that enforces the table/noerrortracking options not be defined in the args parameter.
+	// @ts-ignore
 	ajaxcall(
 		url: string,
 		args: (PlayerActions[keyof PlayerActions] | Record<keyof any, any>) & { lock: boolean | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined, noerrortracking?: undefined, table?: undefined },

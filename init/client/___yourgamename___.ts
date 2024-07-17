@@ -26,7 +26,7 @@ class ___YourGameName___ extends Gamegui
 	}
 
 	/** @gameSpecific See {@link Gamegui.setup} for more information. */
-	setup(gamedatas: Gamedatas): void
+	override setup(gamedatas: Gamedatas): void
 	{
 		console.log( "Starting game setup" );
 		
@@ -49,7 +49,7 @@ class ___YourGameName___ extends Gamegui
 	//// Game & client states
 	
 	/** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
-	onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void
+	override onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void
 	{
 		console.log( 'Entering state: '+stateName );
 		
@@ -61,7 +61,7 @@ class ___YourGameName___ extends Gamegui
 	}
 
 	/** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
-	onLeavingState(stateName: GameStateName): void
+	override onLeavingState(stateName: GameStateName): void
 	{
 		console.log( 'Leaving state: '+stateName );
 		
@@ -73,7 +73,7 @@ class ___YourGameName___ extends Gamegui
 	}
 
 	/** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
-	onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
+	override onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
 	{
 		console.log( 'onUpdateActionButtons: ' + stateName, args );
 
@@ -146,7 +146,7 @@ class ___YourGameName___ extends Gamegui
 	//// Reaction to cometD notifications
 
 	/** @gameSpecific See {@link Gamegui.setupNotifications} for more information. */
-	setupNotifications()
+	override setupNotifications()
 	{
 		console.log( 'notifications subscriptions setup' );
 		

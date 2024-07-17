@@ -30,7 +30,7 @@ declare global {
 	 * 				[y: number]: boolean;
 	 * 			};
 	 * 		}
-	 * 	};
+	 * 	} };
 	 * 	11: 'nextPlayer';
 	 * }
 	 */
@@ -218,12 +218,12 @@ declare global {
 	 */
 	type GameStateArgs<N extends keyof GameStates | GameStateName> = 
 		N extends keyof GameStates ?
-			GameStates[N] extends string ? {} :
+			GameStates[N] extends string ? null :
 			GameStates[N] extends { argsType: infer T } ? T :
 			never
 		: {
 			[K in keyof GameStates]:
-				GameStates[K] extends N ? { } :
+				GameStates[K] extends N ? null :
 				GameStates[K] extends { name: N, argsType: infer T } ? T :
 				never;
 		}[keyof GameStates];

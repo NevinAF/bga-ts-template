@@ -51,7 +51,7 @@ class PlayerActionQueue
 	/**
 	 * The maximum time, in milliseconds, that an action can be queued before it is sent. If the action is queued for longer than this time, it will be dropped and the callback will be called with an error code of '-513'. Default is 10 seconds (10000).
 	 */
-	actionPostTimeout?: number;
+	actionPostTimeout?: number | undefined;
 
 	/**
 	 * The 'titleLocking' module is required for any of the strategies to work. This defines how queueing an action will lock/unlock the title when awaiting/receiving the response of action when an action is queue. This will prevent flickering in the title due to queued actions being sent and updating the title.
@@ -249,7 +249,7 @@ class PlayerActionQueue
 	
 							// Also remove this
 							return x !== item;
-						});
+						})!;
 	
 						this.asyncPostActions();
 					}
