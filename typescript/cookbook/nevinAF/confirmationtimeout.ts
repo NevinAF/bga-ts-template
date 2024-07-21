@@ -1,3 +1,4 @@
+/// <amd-module name="cookbook/nevinAF/confirmationtimeout"/>
 import 'ebg/core/common';
 
 /**
