@@ -74,7 +74,7 @@ declare class CoreCore {
 	 */
 	ajaxcall(
 		url: string,
-		args: (PlayerActions[keyof PlayerActions] | Record<keyof any, any>) & { lock: boolean | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined, noerrortracking?: boolean },
+		args: (PlayerActions[keyof PlayerActions] | Record<keyof any, any>) & { lock: boolean | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined, noerrortracking?: boolean | undefined },
 		source: CoreCore,
 		onSuccess?: Function | string,
 		callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any,
