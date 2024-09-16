@@ -178,6 +178,8 @@ replacequeue.push(['init/gitignore', '.gitignore']);
 //#region VS Code Settings
 if (config.vscode === true)
 {
+	console.log("Configuring VS Code settings...");
+
 	const addKeys = (source, target, keys = null) =>
 	{
 		source = __dirname + "/" + source;
@@ -187,6 +189,8 @@ if (config.vscode === true)
 		let targetObj;
 		if (fs.existsSync(target))
 		{
+			console.log("\t" + target + ": already exists, inserting any template keys that aren't present.");
+			
 			keys = keys || Object.keys(sourceObj);
 			try { targetObj = jsoncUtil.readObject(target); }
 			catch (e) {
@@ -212,9 +216,13 @@ if (config.vscode === true)
 				}
 			}
 		}
-		else targetObj = keys ?
+		else {
+			console.log("\t" + target + ": writing new file.");
+
+			targetObj = keys ?
 			keys.reduce((acc, key) => { acc[key] = sourceObj[key]; return acc; }, {}) :
 			sourceObj;
+		}
 
 		if (!fs.existsSync(target.substring(0, target.lastIndexOf('/'))))
 			fs.mkdirSync(target.substring(0, target.lastIndexOf('/')), { recursive: true });
