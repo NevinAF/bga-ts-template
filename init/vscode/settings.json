@@ -28,8 +28,8 @@
 			"url": "./node_modules/bga-ts-template/schema/stats.schema.json"
 		},
 		{
-			"fileMatch": [ "**/gamesates.json*" ],
-			"url": "./node_modules/bga-ts-template/schema/gamesates.schema.json"
+			"fileMatch": [ "**/gamestates.json*" ],
+			"url": "./node_modules/bga-ts-template/schema/gamestates.schema.json"
 		},
 		{
 			"fileMatch": [ "**/gameinfos.json*" ],
