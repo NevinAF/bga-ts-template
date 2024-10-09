@@ -394,8 +394,7 @@ class ConfirmationTimeout
 			return;
 		}
 
-		// @ts-ignore
-		let pref = gameui.prefs[durationPref];
+		let pref = gameui.prefs?.[durationPref];
 		if (pref === undefined)
 		{
 			console.error('Invalid duration preference id: ' + durationPref);

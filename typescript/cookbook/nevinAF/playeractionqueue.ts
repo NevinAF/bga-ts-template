@@ -1,5 +1,5 @@
 /// <amd-module name="cookbook/nevinAF/playeractionqueue"/>
-import Gamegui = require("ebg/core/gamegui");
+import "ebg/core/gamegui";
 
 type AjaxResponseDelegate = (error: boolean, errorMessage?: string, errorCode?: number) => any;
 
@@ -15,12 +15,12 @@ type AjaxResponseDelegate = (error: boolean, errorMessage?: string, errorCode?: 
  */
 class PlayerActionQueue
 {
-	constructor(game: Gamegui) { this.game = game; }
+	constructor(game: InstanceType<BGA.Gamegui>) { this.game = game; }
 
 	/**
 	 * The game that the player action queue is attached to. This is used to post actions to the server.
 	 */
-	game: Gamegui;
+	game: InstanceType<BGA.Gamegui>;
 
 	/**
 	 * The error codes used when an action fails to post (i.e. cannot be sent to the server).
@@ -109,7 +109,7 @@ class PlayerActionQueue
 	 * playCard( 2, 42 ); // Posts immediately.
 	 * playCard( 1, 05 ); // This will wait for the first playCard(1, 37) to complete before posting.
 	 */
-	enqueueAjaxAction<T extends keyof PlayerActions>(refItem: PlayerActionQueueArgs<T>, dependencies?: (keyof PlayerActions | PlayerActionQueueItem)[]): PlayerActionQueueItem
+	enqueueAjaxAction<T extends keyof BGA.GameStatePossibleActions>(refItem: PlayerActionQueueArgs<T>, dependencies?: (keyof BGA.GameStatePossibleActions | PlayerActionQueueItem)[]): PlayerActionQueueItem
 	{
 		if (this.queue === undefined)
 			this.queue = [];
@@ -119,8 +119,8 @@ class PlayerActionQueue
 	
 		item.dependencies = dependencies ?
 			// Map the action names to the existing objects, and keep the objects as is.
-			dependencies.flatMap((dep) => (typeof dep === 'string') ?
-				this.queue!.filter((a) => a.action === dep) : dep) :
+			dependencies.flatMap((dep) => (typeof dep === 'object') ?
+				dep : this.queue!.filter((a) => a.action === dep)) :
 			// Default, all actions previously added in the queue must be completed before this action can be sent.
 			null;
 	
@@ -152,7 +152,7 @@ class PlayerActionQueue
 	 * @param action The action to filter out of the queue.
 	 * @returns True if any action was filtered out, false otherwise.
 	 */
-	filterActionQueue(filter: keyof PlayerActions | ((item: PlayerActionQueueItem) => boolean)): boolean
+	filterActionQueue(filter: keyof BGA.GameStatePossibleActions | ((item: PlayerActionQueueItem) => boolean)): boolean
 	{
 		if (!this.queue) return false;
 	
@@ -164,7 +164,7 @@ class PlayerActionQueue
 	
 			if (item) {
 				if (item.state === 'inProgress') continue;
-				if (typeof filter === 'string' ? item.action !== filter : !filter(item)) continue;
+				if (typeof filter === 'function' ? !filter(item) : item.action !== filter) continue;
 				item.callback?.(true, 'Action was filtered out', this.actionErrorCodes.FILTERED_OUT);
 			}
 	
@@ -294,7 +294,7 @@ class PlayerActionQueue
 	}
 }
 
-interface PlayerActionQueueItem extends PlayerActionQueueArgs<keyof PlayerActions>
+interface PlayerActionQueueItem extends PlayerActionQueueArgs<keyof BGA.GameStatePossibleActions>
 {
 	/** The actions that need to be completed before this action item is posted. If any of these dependencies  */
 	dependencies: PlayerActionQueueItem[] | null;
@@ -302,11 +302,11 @@ interface PlayerActionQueueItem extends PlayerActionQueueArgs<keyof PlayerAction
 	state: 'queued' | 'inProgress' | 'complete' | 'failed';
 }
 
-interface PlayerActionQueueArgs<T extends keyof PlayerActions> {
+interface PlayerActionQueueArgs<T extends keyof BGA.GameStatePossibleActions> {
 	/** The name of the action to enqueue */
 	action: T;
 	/** The arguments for the action. If action can be multiple types, this will include all possible combinations, but only the correct arguments should really be populated and sent. */
-	args: ExcludeEmpty<PlayerActions[T]> extends never ? {} : ExcludeEmpty<PlayerActions[T]>;
+	args: BGA.AjaxParams<`/${string}/${string}/${T}.html`, null>[1];
 	/** The callback to call when the action is removed from the action queue, either because of a server response (not necessarily successful), or an action error (see {@link Gamegui.actionErrorCodes}) */
 	callback?: AjaxResponseDelegate;
 	onSent?: () => any;

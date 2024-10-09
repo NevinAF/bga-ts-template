@@ -5,7 +5,7 @@
 	"main": "./dist/index.d.ts",
 	"types": "./typescript/types/index.d.ts",
 	"scripts": {
-		"test": "tsc -p typescript"
+		"test": "tsc -p typescript/lib"
 	},
 	"bin": {
 		"bga-init": "./bin/bga-init.js",

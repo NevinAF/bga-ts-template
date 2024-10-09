@@ -1,18 +1,18 @@
 /// <amd-module name="cookbook/common"/>
 
-import Gamegui = require("ebg/core/gamegui");
 import dojo = require("dojo");
+import "ebg/core/gamegui";
 
 /**
  * A typescript mixin function that add all `Common` methods to the given `Gamegui` class. The `common` module is a collection of wrappers and Gamegui-like methods that are directly defined on the cookbook page, and are recommended to be used in almost all games (sometimes depending on depth/complexity of the game).
  * @see README.md for more information on using cookbook mixins.
  */
-const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase) => class Common extends Base
+const CommonMixin = <TBase extends new (...args: any[]) => InstanceType<BGA.Gamegui>>(Base: TBase) => class Common extends Base
 {
 	/**
 	 * This method will attach mobile to a new_parent without destroying, unlike original attachToNewParent which destroys mobile and all its connectors (onClick, etc).
 	 */
-	attachToNewParentNoDestroy(mobile_in: string | HTMLElement, new_parent_in: string | HTMLElement, relation?: dojo.PosString | number, place_position?: string): dojo.DomGeometryBox
+	attachToNewParentNoDestroy(mobile_in: string | HTMLElement, new_parent_in: string | HTMLElement, relation?: DojoJS.PlacePosition, place_position?: string): DojoJS.DomGeometryBox
 	{
 		const mobile = $(mobile_in);
 		const new_parent = $(new_parent_in);
@@ -59,7 +59,11 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 	 * // Arguments must match the arguments of the PlayerAction 'myAction'.
 	 * this.ajaxAction( 'myAction', { myArgument1: arg1, myArgument2: arg2 }, (is_error) => {} );
 	 */
-	ajaxAction<T extends keyof PlayerActions>(action: T, args: PlayerActions[T] & { lock?: true | 'table' | 'player', action?: undefined, module?: undefined, class?: undefined }, callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any, ajax_method?: 'post' | 'get'): boolean
+	ajaxAction<K extends keyof BGA.GameStatePossibleActions>(
+		action: K,
+		args: BGA.AjaxParams<`/${string}/${string}/${K}.html`, this>[1],
+		callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any,
+		ajax_method?: 'post' | 'get'): boolean
 	{
 		if (!this.checkAction(action))
 			return false;
@@ -67,12 +71,10 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 		if (!args)
 			args = {} as any;
 
-		// @ts-ignore - Prevents error when no PlayerActions are defined.
 		if (!args.lock) args.lock = true;
 
 		this.ajaxcall(
 			`/${this.game_name}/${this.game_name}/${action}.html`,
-			// @ts-ignore - Prevents error when no PlayerActions are defined and stating that 'lock' might not be defined.
 			args,
 			this, () => {}, callback, ajax_method
 		);
@@ -96,7 +98,7 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 	 * // With defined argument type
 	 * notif_cardPlayed(notif: Notif<NotifTypes['cardPlayed']>) { ... }
 	 */
-	subscribeNotif<T extends keyof NotifTypes>(event: T, callback: (notif: NotifAs<T>) => any): dojo.Handle
+	subscribeNotif<T extends keyof BGA.NotifTypes>(event: T, callback: (notif: BGA.Notif<T>) => any): DojoJS.Handle
 	{
 		return dojo.subscribe(event, this, callback);
 	}
@@ -113,7 +115,7 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 	 * @param tooltip The tooltip to be displayed when hovering over the button.
 	 * @returns The HTMLElement of the button that was added. Null if the button was not found on the dom.
 	 */
-	addImageActionButton(id: string, label: string, method: string | Function, destination?: string, blinking?: boolean, color?: 'blue' | 'red' | 'gray' | 'none', tooltip?: string): HTMLElement | null
+	addImageActionButton(id: string, label: string, method: keyof this | DojoJS.BoundFunc<this, [GlobalEventHandlersEventMap['click']]>, destination?: string, blinking?: boolean, color?: 'blue' | 'red' | 'gray' | 'none', tooltip?: string): HTMLElement | null
 	{
 		if (!color) color = "gray";
 		this.addActionButton(id, label, method, destination, blinking, color);
@@ -171,7 +173,7 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 	/** Gets an html span with the text 'You' formatted and highlighted to match the default styling for `descriptionmyturn` messages with the word `You`. This does preform language translations. */
 	divYou(): string
 	{
-		return this.divColoredPlayer(this.player_id, __("lang_mainsite", "You"));
+		return this.divColoredPlayer(this.player_id!, __("lang_mainsite", "You"));
 	}
 
 	/**
@@ -179,9 +181,9 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 	 * @param player_id The player id to get the color for.
 	 * @param text The text to be highlighted. If undefined, the {@link Player.name} will be used instead.
 	 */
-	divColoredPlayer(player_id: number, text?: string): string
+	divColoredPlayer(player_id: BGA.ID, text?: string): string
 	{
-		const player = this.gamedatas.players[player_id];
+		const player = this.gamedatas?.players[player_id];
 		if (player === undefined)
 			return "--unknown player--";
 
@@ -203,9 +205,10 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 	 */
 	setDescriptionOnMyTurn(description: string): void
 	{
-		this.gamedatas.gamestate.descriptionmyturn = description;
+		// @ts-ignore - if specific states are defined, the descriptionmyturn will a set of literal strings.
+		this.gamedatas!.gamestate.descriptionmyturn = description;
 	
-		let tpl: any = dojo.clone(this.gamedatas.gamestate.args);
+		let tpl: any = dojo.clone(this.gamedatas?.gamestate.args);
 		if (tpl === null)
 			tpl = {};
 	
@@ -238,7 +241,7 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 				return;
 			}
 
-			const pref = this.prefs[matchId];
+			const pref = this.prefs![matchId];
 			if (!pref)
 			{
 				console.warn("Preference was changed but somehow the preference id was not found.", matchId, this.prefs);
@@ -273,30 +276,32 @@ const CommonMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase)
 
 	getPlayerColor(player_id: number): string | null
 	{
-		return this.gamedatas.players[player_id]?.color ?? null;
+		return this.gamedatas?.players[player_id]?.color ?? null;
 	}
 
 	getPlayerName(player_id: number): string | null
 	{
-		return this.gamedatas.players[player_id]?.name ?? null;
+		return this.gamedatas?.players[player_id]?.name ?? null;
 	}
 
-	getPlayerFromColor(color: string): Player | null
+	getPlayerFromColor(color: string): BGA.GamePlayer | null
 	{
-		for (const id in this.gamedatas.players)
+		let id: BGA.ID;
+		for (id in this.gamedatas?.players)
 		{
-			const player = this.gamedatas.players[id];
+			const player = this.gamedatas?.players[id];
 			if (player?.color === color)
 				return player;
 		}
 		return null;
 	}
 
-	getPlayerFromName(name: string): Player | null
+	getPlayerFromName(name: string): BGA.GamePlayer | null
 	{
-		for (const id in this.gamedatas.players)
+		let id: BGA.ID;
+		for (id in this.gamedatas?.players)
 		{
-			const player = this.gamedatas.players[id];
+			const player = this.gamedatas?.players[id];
 			if (player?.name === name)
 				return player;
 		}

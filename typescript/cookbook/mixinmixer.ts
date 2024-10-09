@@ -1,4 +1,4 @@
-/// <amd-module name="cookbook/blender" />
+/// <amd-module name="cookbook/mixinmixer" />
 
 function mixinmixer<TBase, TMixin extends (base: TBase) => TBase>(
 	base: TBase,

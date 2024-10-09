@@ -1,0 +1,46 @@
+/*
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * PackageTest implementation : © Me myself and I
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ */
+ {
+	"references": [
+		{ "path": "../lib" },
+	],
+	"include": [
+		"**/*",
+		"../lib/html-script/index.ts",
+		"../lib/template-framework.d.ts"
+	],
+	"compilerOptions": {
+		/* NEVER CHANGE THESE */
+		"target": "es5", // This is the framework's version
+		"module": "AMD", // This is what allows for imports and automatically creates the define function.
+
+		/* Recommended, should not need to change. */
+		"moduleResolution": "node10",
+		"lib": [ "dom", "esnext" ],
+		"noImplicitOverride": true, // Recommended! This will prevent you from accidentally overriding any of the framework's functions.
+
+		"paths": {
+			"*": ["../lib/*", "./*"],
+		},
+
+		"allowJs": true,
+
+		/* Preference. This defaults to the most strict ts rules. */
+		"checkJs": true,
+		"strict": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"removeComments": true, // Comments are always removed from JS in production, so you don't need to remove them when compiling.
+		"sourceMap": false,
+	},
+}

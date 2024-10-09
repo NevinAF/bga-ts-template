@@ -1,8 +1,8 @@
 /// <amd-module name="cookbook/nevinAF/titlelocking"/>
-import Gamegui = require("ebg/core/gamegui");
+import "ebg/core/gamegui";
 import dojo = require("dojo");
 
-const TitleLockingMixin = <TBase extends new (...args: any[]) => Gamegui>(Base: TBase) => class TitleLocking extends Base
+const TitleLockingMixin = <TBase extends new (...args: any[]) => InstanceType<BGA.Gamegui>>(Base: TBase) => class TitleLocking extends Base
 {
 	/** The element that is used to display the title when the title banner is locked. This is a sibling of `pagemaintitle_wrap` and `gameaction_status_wrap`, parented to `page-title`. This is readonly. */
 	titlelock_element?: HTMLElement;
