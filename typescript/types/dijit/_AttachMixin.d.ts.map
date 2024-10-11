@@ -1,0 +1,1 @@
+{"version":3,"file":"_AttachMixin.d.ts","sourceRoot":"","sources":["../../lib/dijit/_AttachMixin.ts"],"names":[],"mappings":"AAaA,QAAA,IAMC,YAAY,4CA+Fc,CAAC;AAG5B,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,UAAU,KAAK;YACd,YAAY,EAAE,OAAO,YAAY,CAAC;SAClC;KACD;CACD;AAED,SAAS,YAAY,CAAC"}

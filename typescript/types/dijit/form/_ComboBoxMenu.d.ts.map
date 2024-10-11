@@ -1,0 +1,1 @@
+{"version":3,"file":"_ComboBoxMenu.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/_ComboBoxMenu.ts"],"names":[],"mappings":"AAYA,QAAA,IAAI,aAAa,KA6E0B,CAAC;AAE5C,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,aAAa,EAAE,OAAO,aAAa,CAAC;SACpC;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,aAAa,CAAC"}

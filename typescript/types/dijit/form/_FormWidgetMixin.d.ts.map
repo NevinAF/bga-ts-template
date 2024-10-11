@@ -1,0 +1,1 @@
+{"version":3,"file":"_FormWidgetMixin.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/_FormWidgetMixin.ts"],"names":[],"mappings":"AAcA,QAAA,IAAI,gBAAgB,qDAwJe,CAAC;AAEpC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,gBAAgB,EAAE,OAAO,gBAAgB,CAAC;SAC1C;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,gBAAgB,CAAC"}

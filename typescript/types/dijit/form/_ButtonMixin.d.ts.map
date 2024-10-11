@@ -1,0 +1,1 @@
+{"version":3,"file":"_ButtonMixin.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/_ButtonMixin.ts"],"names":[],"mappings":"AAQA,QAAA,IAAI,YAAY,iDAuDgB,CAAC;AAUjC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,YAAY,EAAE,OAAO,YAAY,CAAC;SAClC;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,YAAY,CAAC"}

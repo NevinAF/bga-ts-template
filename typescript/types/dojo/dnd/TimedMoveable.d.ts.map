@@ -1,0 +1,1 @@
+{"version":3,"file":"TimedMoveable.d.ts","sourceRoot":"","sources":["../../../lib/dojo/dnd/TimedMoveable.ts"],"names":[],"mappings":"AAMA,QAAA,IAAI,aAAa,6FA0Ba,CAAC;AAE/B,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,UAAU,OAAO;YAChB,aAAa,EAAE,OAAO,aAAa,CAAC;SACpC;QACD,UAAU,IAAI;YACb,GAAG,EAAE,OAAO,CAAC;SACb;KACD;CACD;AAED,SAAS,aAAa,CAAC"}

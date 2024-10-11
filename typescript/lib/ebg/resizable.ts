@@ -1,10 +1,8 @@
 import dojo = require("dojo");
 import declare = require("dojo/_base/declare");
 
-type Core = InstanceType<typeof import('ebg/core/core')>;
-
 class Resizable_Template {
-	page: Core | null = null;
+	page: InstanceType<BGA.CorePage> | null = null;
 	item_id: string | null = null;
 	item_div: HTMLElement | null = null;
 	mouse_x_origin: number | null = null;
@@ -25,7 +23,7 @@ class Resizable_Template {
 	onEndDragging = (e: string, t: number, i: number): any => {};
 	onDragging = (e: string, t: number, i: number): any => {};
 
-	create(page: Core, item_id: string, interact_element?: HTMLElement | string | null, width_resize?: boolean, height_resize?: boolean, resize_parent?: boolean) {
+	create(page: InstanceType<BGA.CorePage>, item_id: string, interact_element?: HTMLElement | string | null, width_resize?: boolean, height_resize?: boolean, resize_parent?: boolean) {
 		this.page = page;
 		this.item_id = item_id;
 		this.item_div = $(item_id) as HTMLElement;

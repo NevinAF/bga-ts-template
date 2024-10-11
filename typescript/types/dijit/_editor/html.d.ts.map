@@ -1,0 +1,1 @@
+{"version":3,"file":"html.d.ts","sourceRoot":"","sources":["../../../lib/dijit/_editor/html.ts"],"names":[],"mappings":"AAMA,QAAA,IAAI,IAAI,IAAK,CAAC;AAyMd,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,YAAY;YACrB,IAAI,EAAE,OAAO,IAAI,CAAC;SAClB;QAED,UAAU,KAAK;YACd,OAAO,EAAE,YAAY,CAAC;SACtB;KACD;CACD;AAED,SAAS,IAAI,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"_WidgetBase.d.ts","sourceRoot":"","sources":["../../lib/dijit/_WidgetBase.ts"],"names":[],"mappings":"AAwCA,QAAA,IAAI,WAAW;;;MAwaU,CAAC;AAG1B,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YAEd,WAAW,EAAE,OAAO,WAAW,CAAC;SAChC;KACD;CACD;AAED,SAAS,WAAW,CAAC"}

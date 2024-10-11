@@ -3,9 +3,6 @@ import declare = require("dojo/_base/declare");
 import "ebg/peerconnect";
 import "ebg/scriptlogger";
 
-type PeerConnect = InstanceType<typeof import("ebg/peerconnect")>
-type ScriptLogger = InstanceType<typeof import("ebg/scriptlogger")>
-
 declare global {
 	namespace BGA {
 		type RoomId = `T${number}` | `P${number}_${number}`;
@@ -44,8 +41,8 @@ class WebRTC_Template {
 	player_id: BGA.ID;
 	room: BGA.RoomId;
 	in_room: BGA.ID[] = [];
-	logger: ScriptLogger;
-	connections: Record<BGA.ID, PeerConnect> = {};
+	logger: InstanceType<BGA.ScriptLogger>;
+	connections: Record<BGA.ID, InstanceType<BGA.PeerConnect>> = {};
 	pcConfig: RTCConfiguration;
 	pcConstraints: RTCOfferOptions;
 	mediaConstraints: BGA.WebRTCMediaConstraints;

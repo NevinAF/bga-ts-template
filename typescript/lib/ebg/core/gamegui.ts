@@ -249,13 +249,13 @@ declare global {
 	}
 }
 
-interface Gamegui_Template extends InstanceType<typeof ebg.core.sitecore> {
-	// game_name: string = ""; // can no longer be undefined.
-	// gamedatas: Gamedatas | null = null; // can no longer be undefined.
-	// player_id: BGA.ID | null = null; // can no longer be undefined.
-	// table_id: BGA.ID | null = null; // can no longer be undefined.
-	// isSpectator: boolean = true; // can no longer be undefined.
-}
+interface Gamegui_Template extends Type<InstanceType<typeof ebg.core.sitecore> & {
+	game_name: string; // can no longer be undefined.
+	gamedatas: BGA.Gamedatas | null; // can no longer be undefined.
+	player_id: BGA.ID | null; // can no longer be undefined.
+	table_id: BGA.ID | null; // can no longer be undefined.
+	isSpectator: boolean; // can no longer be undefined.
+}> { }
 
 /**
  * The main class for a game interface. This should always define:
@@ -400,6 +400,14 @@ class Gamegui_Template
 	//#endregion
 
 	//#region Core Functions
+
+	constructor() {
+		this.game_name = "";
+		this.gamedatas = null;
+		this.player_id = null;
+		this.table_id = null;
+		this.isSpectator = false;
+	}
 
 	/**
 	 * Called once as soon as the page is loaded and base fields have been defined. This method must set up the game user interface according to current game situation specified in parameters.
@@ -589,7 +597,7 @@ class Gamegui_Template
 	 * 	}
 	 * }
 	 */
-	checkAction(e: keyof BGA.GameStatePossibleActions, nomessage?: true): boolean{
+	checkAction(e: Default<keyof BGA.GameStatePossibleActions, string>, nomessage?: true): boolean{
 		if (!this.checkLock(nomessage)) {
 			undefined === nomessage &&
 				this.developermode &&
@@ -626,7 +634,7 @@ class Gamegui_Template
 	 * 	}
 	 * }
 	 */
-	checkPossibleActions(action: keyof BGA.GameStatePossibleActions): boolean {
+	checkPossibleActions(action: Default<keyof BGA.GameStatePossibleActions, string>): boolean {
 		var t: any = this.gamedatas!.gamestate.possibleactions;
 		this.gamedatas!.gamestate.private_state &&
 			this.isCurrentPlayerActive() &&
@@ -8722,7 +8730,7 @@ class Gamegui_Template
 							'<div class="gamelogreview whiteblock">' +
 							this.format_string_recursive(
 								b.log,
-								b.args!
+								b.args as any
 							) +
 							"</div>";
 					}
@@ -11020,7 +11028,7 @@ class Gamegui_Template
 		}
 	}
 
-	bgaPerformAction<K extends keyof BGA.GameStatePossibleActions>(
+	bgaPerformAction<K extends Default<keyof BGA.GameStatePossibleActions, string>>(
 		e: K,
 		t: BGA.AjaxParams<`/${string}/${string}/${K}.html`, this>[1],
 		i?: { lock?: boolean, checkAction?: boolean, checkPossibleActions?: boolean }

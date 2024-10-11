@@ -1,0 +1,1 @@
+{"version":3,"file":"MenuSeparator.d.ts","sourceRoot":"","sources":["../../lib/dijit/MenuSeparator.ts"],"names":[],"mappings":"AAQA,QAAA,IAAI,aAAa,EAUA,OAAO,CAAC,wBAAwB,CAAC;AAElD,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,aAAa,EAAE,OAAO,aAAa,CAAC;SACpC;KACD;CACD;AAED,SAAS,aAAa,CAAC"}

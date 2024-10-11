@@ -1,0 +1,1 @@
+{"version":3,"file":"io-query.d.ts","sourceRoot":"","sources":["../../lib/dojo/io-query.ts"],"names":[],"mappings":"AAEA,cAAM,OAAO;IACZ,OAAO,CAAC,MAAM,CAAC,CAAC,CAA2B;IAE3C;;;OAGG;IACH,aAAa,CAAC,CAAC,EAAE,MAAM,CAAC,MAAM,EAAE,GAAG,CAAC,GAAG,MAAM;IAgB7C;;OAEG;IACH,aAAa,CAAC,CAAC,EAAE,MAAM,GAAG,MAAM,CAAC,MAAM,EAAE,GAAG,CAAC;CA4B7C;;AAED,kBAAuB"}

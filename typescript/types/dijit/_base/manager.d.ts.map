@@ -1,0 +1,1 @@
+{"version":3,"file":"manager.d.ts","sourceRoot":"","sources":["../../../lib/dijit/_base/manager.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,GAAG,QAAQ,SAAS,CAAC,CAAC;AAElC,QAAA,IAAI,OAAO;;;;;;;;CASV,CAAC;AAEF,KAAK,OAAO,GAAG,OAAO,OAAO,CAAC;AAE9B,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAM,SAAQ,OAAO;SAAG;KAClC;CACD;AAGD,SAAS,KAAK,CAAC"}

@@ -64,6 +64,7 @@ class ___YourGameName___ extends Gamegui
 		switch( stateName )
 		{
 		case 'dummmy':
+			// enable/disable any user interaction...
 			break;
 		}
 	}
@@ -76,6 +77,7 @@ class ___YourGameName___ extends Gamegui
 		switch( stateName )
 		{
 		case 'dummmy':
+			// enable/disable any user interaction...
 			break;
 		}
 	}
@@ -91,19 +93,14 @@ class ___YourGameName___ extends Gamegui
 		switch( stateName )
 		{
 		case 'dummmy':
-			// Add buttons if needed
+			// Add buttons to action bar...
+			// this.addActionButton( 'button_id', _('Button label'), this.onButtonClicked );
 			break;
 		}
 	}
 
 	///////////////////////////////////////////////////
 	//// Utility methods
-	
-	/*
-		Here, you can defines some utility methods that you can use everywhere in your typescript
-		script.
-	*/
-
 
 	///////////////////////////////////////////////////
 	//// Player's action
@@ -116,69 +113,101 @@ class ___YourGameName___ extends Gamegui
 		- make a call to the game server
 	*/
 	
-	/*
-	Example:
-	onMyMethodToCall1( evt: Event )
+	/* Example:
+
+	onButtonClicked( evt: Event )
 	{
-		console.log( 'onMyMethodToCall1' );
+		console.log( 'onButtonClicked' );
 
 		// Preventing default browser reaction
 		evt.preventDefault();
 
-		//	With base Gamegui class...
+		// Builtin example...
+		if(this.checkAction( 'myAction' ))
+		{
+			this.ajaxcall(
+				`/${this.game_name!}/${this.game_name!}/myAction.html`,
+				{
+					lock: true, 
+					myArgument1: arg1,
+					myArgument2: arg2,
+				},
+				this,
+				function( server_response: unknown ) {
+					// Callback only on success (no error)
+					// (for player actions, this is almost always empty)
+				}, function(error: boolean, errorMessage?: string, errorCode?: number) {
+					// What to do after the server call in anyway (success or failure)
+					// (usually catch unexpected server errors)
+				},
+			);
+		}
 
-		// Check that this action is possible (see "possibleactions" in states.inc.php)
-		if(!this.checkAction( 'myAction' ))
-			return;
+		// Builtin example with new BGA wrapper...
+		this.bgaPerformAction( 'myAction', { myArgument1: arg1, myArgument2: arg2 } );
 
-		this.ajaxcall( "/yourgamename/yourgamename/myAction.html", { 
-			lock: true, 
-			myArgument1: arg1,
-			myArgument2: arg2,
-		}, this, function( result ) {
-			// What to do after the server call if it succeeded
-			// (most of the time: nothing)
-		}, function( is_error) {
-
-			// What to do after the server call in anyway (success or failure)
-			// (most of the time: nothing)
-		} );
-
-
-		//	With GameguiCookbook::Common...
-		this.ajaxAction( 'myAction', { myArgument1: arg1, myArgument2: arg2 }, (is_error) => {} );
+		//	With CommonMixin from 'cookbook/common'...
+		this.ajaxAction(
+			'myAction',
+			{ myArgument1: arg1, myArgument2: arg2 },
+			function(error: boolean, errorMessage?: string, errorCode?: number) {
+				// What to do after the server call in anyway (success or failure)
+				// (usually catch unexpected server errors)
+			}
+		);
 	}
+
 	*/
+	
 
 	///////////////////////////////////////////////////
 	//// Reaction to cometD notifications
 
 	/** See {@link BGA.Gamegui#setupNotifications} for more information. */
-	override setupNotifications()
+	override setupNotifications = () =>
 	{
 		console.log( 'notifications subscriptions setup' );
 		
 		// TODO: here, associate your game notifications with local methods
 		
-		// With base Gamegui class...
-		// dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
+		// Builtin example...
+		// dojo.subscribe( 'cardPlayed_1', this, "ntf_any" );
+		// dojo.subscribe( 'actionTaken', this, "ntf_actionTaken" );
+		// dojo.subscribe( 'cardPlayed_0', this, "ntf_cardPlayed" );
+		// dojo.subscribe( 'cardPlayed_1', this, "ntf_cardPlayed" );
 
-		// With GameguiCookbook::Common class...
-		// this.subscribeNotif( 'cardPlayed', this.notif_cardPlayed ); // Adds type safety to the subscription
+		//	With CommonMixin from 'cookbook/common'...
+		// this.subscribeNotif( "cardPlayed_1", this.ntf_any );
+		// this.subscribeNotif( "actionTaken", this.ntf_actionTaken );
+		// this.subscribeNotif( "cardPlayed_0", this.ntf_cardPlayed );
+		// this.subscribeNotif( "cardPlayed_1", this.ntf_cardPlayed );
 	}
 
-	/*
-	Example:
-	
-	// The argument here should be one of there things:
-	// - `Notif`: A notification with all possible arguments defined by the NotifTypes interface. See {@link Notif}.
-	// - `NotifFrom<'cardPlayed'>`: A notification matching any other notification with the same arguments as 'cardPlayed' (A type can be used here instead). See {@link NotifFrom}.
-	// - `NotifAs<'cardPlayed'>`: A notification that is explicitly a 'cardPlayed' Notif. See {@link NotifAs}.
-	notif_cardPlayed( notif: NotifFrom<'cardPlayed'> )
+	/* Example:
+
+	ntf_any( notif: BGA.Notif )
 	{
-		console.log( 'notif_cardPlayed', notif );
-		// Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
+		console.log( 'ntf_any', notif );
+		notif.args!['arg_0'];
 	}
+
+	ntf_actionTaken( notif: BGA.Notif<'actionTaken'> ) {
+		console.log( 'ntf_actionTaken', notif );
+	}
+
+	ntf_cardPlayed( notif: BGA.Notif<'cardPlayed_0' | 'cardPlayed_1'> )
+	{
+		console.log( 'ntf_cardPlayed', notif );
+		switch( notif.type ) {
+			case 'cardPlayed_0':
+				notif.args.arg_0;
+				break;
+			case 'cardPlayed_1':
+				notif.args.arg_1;
+				break;
+		}
+	}
+
 	*/
 }
 

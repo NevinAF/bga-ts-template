@@ -3,8 +3,6 @@
 import dojo = require("dojo");
 import declare = require("dojo/_base/declare");
 
-type ScriptLogger = InstanceType<typeof import("ebg/scriptlogger")>;
-
 class PeerConnect_Template {
 	peerId: BGA.ID;
 	localStream: MediaStream;
@@ -12,7 +10,7 @@ class PeerConnect_Template {
 	remoteStream: MediaStream | null = null;
 	pc: RTCPeerConnection | null = null;
 	started: boolean = false;
-	logger: ScriptLogger;
+	logger: InstanceType<BGA.ScriptLogger>;
 	sendPlayerMessage_callback: unknown;
 	pcConfig: RTCConfiguration;
 	pcConstraints: RTCConfiguration;
@@ -33,7 +31,7 @@ class PeerConnect_Template {
 		mediaConstraints: MediaStreamConstraints,
 		stereo: boolean,
 		localStream: MediaStream,
-		logger: ScriptLogger,
+		logger: InstanceType<BGA.ScriptLogger>,
 		sendPlayerMessage_callback: any
 	) {
 		this.peerId = peerId;

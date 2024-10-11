@@ -339,7 +339,7 @@ declare global {
 			require(e: string, t?: boolean): any;
 			loadInit(e: () => void): void;
 			registerModulePath(path: string, obj: any): void;
-			platformRequire(e: { common?: string[], [dojo._name]?: string[], default?: string[] }): void;
+			platformRequire(e: { common?: string[], default?: string[] } & Record<string, string[]>): void;
 			requireIf(condition: boolean, mid: string, require: any): void;
 			requireAfterIf(condition: boolean, mid: string, require: any): void;
 			requireLocalization(moduleName: string, bundleName: string, locale?: string): any

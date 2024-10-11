@@ -1,4 +1,3 @@
-/// <reference path="index.ts" />
 
 import e = require("require");
 import t = require("dojo/_base/declare");

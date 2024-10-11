@@ -428,9 +428,12 @@ declare global {
 		}
 
 		// Add all of the possible game state actions to the ajax list.
-		interface AjaxActions extends Type<{
-			[K in keyof GameStatePossibleActions as `/${string}/${string}/${K}.html`]: GameStatePossibleActions[K];
-		}>{}
+		interface AjaxActions extends Type<
+			[keyof GameStatePossibleActions] extends [never] ? {
+				[possibleAction: `/${string}/${string}/${string}.html`]: any;
+			} : {
+				[K in keyof GameStatePossibleActions as `/${string}/${string}/${K}.html`]: GameStatePossibleActions[K];
+			}>{}
 
 //#endregion
 

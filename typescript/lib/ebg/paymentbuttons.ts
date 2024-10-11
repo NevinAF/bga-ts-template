@@ -55,18 +55,16 @@ declare global {
 	}
 }
 
-type CorePage = InstanceType<typeof import("ebg/core/core")>;
-
 class PaymentButtons_Template
 {
-	page: CorePage | null = null;
+	page: InstanceType<BGA.CorePage> | null = null;
 	div_id: string | null = null;
 	sections: Record<string, any> = {};
 	rollGameBoxesTimeout: number | null = null;
 
 	constructor() {}
 
-	create(t: CorePage) {
+	create(t: InstanceType<BGA.CorePage>) {
 		this.page = t;
 		"#paymentcomplete" == location.hash &&
 			i.bgaMessage({

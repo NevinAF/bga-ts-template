@@ -1,0 +1,1 @@
+{"version":3,"file":"_FormWidget.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/_FormWidget.ts"],"names":[],"mappings":"AAgBA,QAAA,IAAI,sBAAsB,EA2CpB,OAAO,CAAC,IAAI,CAAC,sBAAsB,CAAC;AAE1C,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,sBAAsB,EAAE,OAAO,sBAAsB,CAAC;SACtD;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,sBAAsB,CAAC"}

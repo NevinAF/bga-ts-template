@@ -229,44 +229,6 @@ declare global {
 			data?: T;
 		}
 
-		interface BaseOptions {
-			/**
-			 * Query parameters to append to the URL.
-			 */
-			query?: string | { [name: string]: any };
-
-			/**
-			 * Data to transfer.  This is ignored for GET and DELETE
-			 * requests.
-			 */
-			data?: string | { [name: string]: any };
-
-			/**
-			 * Whether to append a cache-busting parameter to the URL.
-			 */
-			preventCache?: boolean;
-
-			/**
-			 * Milliseconds to wait for the response.  If this time
-			 * passes, the then the promise is rejected.
-			 */
-			timeout?: number;
-
-			/**
-			 * How to handle the response from the server.  Default is
-			 * 'text'.  Other values are 'json', 'javascript', and 'xml'.
-			 */
-			handleAs?: string;
-		}
-
-		interface MethodOptions {
-			/**
-			 * The HTTP method to use to make the request.  Must be
-			 * uppercase.
-			 */
-			method?: string;
-		}
-
 		interface RequestOptions extends BaseOptions, MethodOptions { }
 
 		interface Request {

@@ -1,0 +1,1 @@
+{"version":3,"file":"a11y.d.ts","sourceRoot":"","sources":["../../lib/dijit/a11y.ts"],"names":[],"mappings":"AAWA,QAAA,IACC,IAAI;;;;;;;;;;;;;;CA+IH,CAAC;AAEH,KAAK,IAAI,GAAG,OAAO,IAAI,CAAC;AAExB,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,UAAU,KAAM,SAAQ,IAAI;SAAG;KAC/B;CACD;AAGD,SAAS,IAAI,CAAC"}

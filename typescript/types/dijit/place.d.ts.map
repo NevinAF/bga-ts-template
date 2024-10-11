@@ -1,0 +1,1 @@
+{"version":3,"file":"place.d.ts","sourceRoot":"","sources":["../../lib/dijit/place.ts"],"names":[],"mappings":"AA+FA,QAAA,IACC,KAAK,EA4JA,OAAO,CAAC,KAAK,CAAC;AAEpB,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,KAAK,EAAE,OAAO,KAAK,CAAC;SACpB;KACD;CACD;AAED,SAAS,KAAK,CAAC"}

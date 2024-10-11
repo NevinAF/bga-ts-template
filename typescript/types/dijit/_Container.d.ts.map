@@ -1,0 +1,1 @@
+{"version":3,"file":"_Container.d.ts","sourceRoot":"","sources":["../../lib/dijit/_Container.ts"],"names":[],"mappings":"AAQA,QAAA,IAAI,UAAU,EAwCR,OAAO,CAAC,qBAAqB,CAAC;AAEpC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,UAAU,EAAE,OAAO,UAAU,CAAC;SAC9B;KACD;CACD;AAED,SAAS,UAAU,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"_MenuBase.d.ts","sourceRoot":"","sources":["../../lib/dijit/_MenuBase.ts"],"names":[],"mappings":"AAmBA,QAAA,IAAI,SAAS,EAuPP,OAAO,CAAC,oBAAoB,CAAC;AAEnC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,SAAS,EAAE,OAAO,SAAS,CAAC;SAC5B;KACD;CACD;AAED,SAAS,SAAS,CAAC"}

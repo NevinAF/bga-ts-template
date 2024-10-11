@@ -13,3 +13,6 @@ yarn.lock
 
 # Documentation
 docs/
+
+# Typescript build files
+*.tsbuildinfo

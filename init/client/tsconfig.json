@@ -16,14 +16,18 @@
 		/* Recommended, should not need to change. */
 		"moduleResolution": "node10",
 		"lib": [ "dom", "esnext" ],
+		"types": [ "bga-ts-template" ], // Includes all non-module types which are on HTML script tags.
+
 		"paths": {
-			// When cookbook files are added, this lets you import them without the full path.
+			// Required: Allows modules to resolve correctly.
+			"*": [ "/*", "../___source-to-template___/typescript/types/*" ],
+			// Optional: Include cookbook modules when auto-completing modules. This are only included if imported in your code.
 			"cookbook/*": [ "../___source-to-template___/typescript/cookbook/*" ]
 		},
-		"noImplicitOverride": true, // Recommended! This will prevent you from accidentally overriding any of the framework's functions.
-
+		
 		/* Preference. This defaults to the most strict ts rules. */
 		"strict": true,
+		"noImplicitOverride": true, // Recommended! This will prevent you from accidentally overriding any of the framework's functions.
 		"exactOptionalPropertyTypes": true,
 		"noImplicitReturns": true,
 		"noPropertyAccessFromIndexSignature": true,

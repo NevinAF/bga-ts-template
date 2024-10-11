@@ -1,0 +1,1 @@
+{"version":3,"file":"registry.d.ts","sourceRoot":"","sources":["../../lib/dijit/registry.ts"],"names":[],"mappings":"AAOA,QAAA,IAEC,QAAQ,EA0EH,OAAO,CAAC,QAAQ,CAAC;AAGvB,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,QAAS,SAAQ,OAAO,CAAC,QAAQ;SAAG;KAC9C;CACD;AAED,SAAS,QAAQ,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"DataList.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/DataList.ts"],"names":[],"mappings":"AAiBA,QAAA,IAAI,QAAQ,EAmBN,OAAO,CAAC,IAAI,CAAC,mBAAmB,CAAC;AAEvC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,QAAQ,EAAE,OAAO,QAAQ,CAAC;SAC1B;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,QAAQ,CAAC"}

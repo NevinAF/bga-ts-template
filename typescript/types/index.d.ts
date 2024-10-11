@@ -1,0 +1,13 @@
+import "html-script/types";
+import "html-script/facebook-sdk";
+import "html-script/google-gsi-client";
+import "html-script/google-analytics";
+import "html-script/script-tags-0";
+import "html-script/script-tags-1";
+import "html-script/socket.io";
+import "html-script/svelte";
+import "html-script/dojo";
+import "dojo/main";
+import "html-script/script-tags-2";
+import "html-script/script-tags-3";
+//# sourceMappingURL=index.d.ts.map

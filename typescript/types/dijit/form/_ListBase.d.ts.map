@@ -1,0 +1,1 @@
+{"version":3,"file":"_ListBase.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/_ListBase.ts"],"names":[],"mappings":"AAOA,QAAA,IAAI,SAAS,8CAyEe,CAAC;AAE7B,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,SAAS,EAAE,OAAO,SAAS,CAAC;SAC5B;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,SAAS,CAAC"}

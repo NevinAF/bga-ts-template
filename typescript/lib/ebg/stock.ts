@@ -1,8 +1,6 @@
 import e = require("dojo");
 import declare = require("dojo/_base/declare");
 
-type GamePage = InstanceType<typeof import("ebg/core/gamegui")>;
-
 declare global {
 	namespace BGA {
 		interface StockItem {
@@ -87,7 +85,7 @@ declare global {
 class Stock_Template {
 	// #region Properties
 
-	page: GamePage | null = null;
+	page: InstanceType<BGA.Gamegui> | null = null;
 	/** The div element to attach all of the stock items to. */
 	container_div: Element | string | null = null;
 	item_height: number | null = null;
@@ -192,7 +190,7 @@ class Stock_Template {
 	 * this.playerHand = new ebg.stock();
 	 * this.playerHand.create( this, $('myhand'), this.cardwidth, this.cardheight );
 	 */
-	create(page: GamePage, container_div: Element | string, itemWidth: number, itemHeight: number): void
+	create(page: InstanceType<BGA.Gamegui>, container_div: Element | string, itemWidth: number, itemHeight: number): void
 	{
 		if (typeof container_div === 'string') {
 			console.error("stock::create: second argument must be a HTML object and not a string");

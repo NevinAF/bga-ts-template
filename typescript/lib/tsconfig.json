@@ -13,7 +13,7 @@
 		"declaration": true,
 		"emitDeclarationOnly": true,
 		"declarationMap": true,
-		"outFile": "../types.js",
+		"outDir": "../types",
 
 		/* Preference. This defaults to the most strict ts rules. */
 		"strict": true,

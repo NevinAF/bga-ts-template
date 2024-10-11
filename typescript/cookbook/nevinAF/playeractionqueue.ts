@@ -109,7 +109,7 @@ class PlayerActionQueue
 	 * playCard( 2, 42 ); // Posts immediately.
 	 * playCard( 1, 05 ); // This will wait for the first playCard(1, 37) to complete before posting.
 	 */
-	enqueueAjaxAction<T extends keyof BGA.GameStatePossibleActions>(refItem: PlayerActionQueueArgs<T>, dependencies?: (keyof BGA.GameStatePossibleActions | PlayerActionQueueItem)[]): PlayerActionQueueItem
+	enqueueAjaxAction<T extends Default<keyof BGA.GameStatePossibleActions, string>>(refItem: PlayerActionQueueArgs<T>, dependencies?: (Default<keyof BGA.GameStatePossibleActions, string> | PlayerActionQueueItem)[]): PlayerActionQueueItem
 	{
 		if (this.queue === undefined)
 			this.queue = [];
@@ -152,7 +152,7 @@ class PlayerActionQueue
 	 * @param action The action to filter out of the queue.
 	 * @returns True if any action was filtered out, false otherwise.
 	 */
-	filterActionQueue(filter: keyof BGA.GameStatePossibleActions | ((item: PlayerActionQueueItem) => boolean)): boolean
+	filterActionQueue(filter: Default<keyof BGA.GameStatePossibleActions, string> | ((item: PlayerActionQueueItem) => boolean)): boolean
 	{
 		if (!this.queue) return false;
 	
@@ -294,7 +294,7 @@ class PlayerActionQueue
 	}
 }
 
-interface PlayerActionQueueItem extends PlayerActionQueueArgs<keyof BGA.GameStatePossibleActions>
+interface PlayerActionQueueItem extends PlayerActionQueueArgs<Default<keyof BGA.GameStatePossibleActions, string>>
 {
 	/** The actions that need to be completed before this action item is posted. If any of these dependencies  */
 	dependencies: PlayerActionQueueItem[] | null;
@@ -302,7 +302,7 @@ interface PlayerActionQueueItem extends PlayerActionQueueArgs<keyof BGA.GameStat
 	state: 'queued' | 'inProgress' | 'complete' | 'failed';
 }
 
-interface PlayerActionQueueArgs<T extends keyof BGA.GameStatePossibleActions> {
+interface PlayerActionQueueArgs<T extends Default<keyof BGA.GameStatePossibleActions, string>> {
 	/** The name of the action to enqueue */
 	action: T;
 	/** The arguments for the action. If action can be multiple types, this will include all possible combinations, but only the correct arguments should really be populated and sent. */

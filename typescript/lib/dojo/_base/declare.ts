@@ -485,7 +485,7 @@ declare global {
 		 * dojo/_base/declare() returns a constructor `C`.   `new C()` returns an Object with the following
 		 * methods, in addition to the methods and properties specified via the arguments passed to declare().
 		 */
-		interface DojoClassObject {
+		interface DojoClassObject<This = any> {
 			declaredClass: string;
 
 			/**
@@ -518,11 +518,11 @@ declare global {
 			inherited<U>(args: IArguments): U;
 			inherited<U>(args: IArguments, newArgs: any[]): U;
 			inherited(args: IArguments, get: true): Function | void;
-			inherited<T extends InheritedMethod<this>>(method: T, args: IArguments, newArgs?: Parameters<Hitched<this, T>>): ReturnType<Hitched<this, T>>;
-			inherited<T extends InheritedMethod<this>>(method: T, args: IArguments, get: true): Hitched<this, T>;
+			inherited<T extends InheritedMethod<This>>(method: T, args: IArguments, newArgs?: Parameters<Hitched<This, T>>): ReturnType<Hitched<This, T>>;
+			inherited<T extends InheritedMethod<This>>(method: T, args: IArguments, get: true): Hitched<This, T>;
 
 			/** Same as {@link inherited}, but always does not have debugging */
-			__inherited: this['inherited'];
+			__inherited: DojoClassObject['inherited'];
 
 			/**
 			 * Returns a super method.
@@ -532,7 +532,7 @@ declare global {
 			 * method, it returns it, or "undefined" if not found.
 			 */
 			getInherited(args: IArguments): Function | void;
-			getInherited<T extends InheritedMethod<this>>(method: T, args: IArguments): Hitched<this, T>;
+			getInherited<T extends InheritedMethod<This>>(method: T, args: IArguments): Hitched<This, T>;
 
 			/**
 			 * Checks the inheritance chain to see if it is inherited from this class.
@@ -545,7 +545,7 @@ declare global {
 		}
 
 		interface DojoClass<T = any, Args extends any[] = any[]> {
-			new (...args: Args): T & DojoClassObject;
+			new (...args: Args): T & DojoClassObject<T>;
 			prototype: T;
 
 			/**
@@ -624,8 +624,8 @@ declare global {
 		type DojoClassFrom<T> = T extends [infer A extends (DojoClass | VanillaClass), infer B, ...infer Rest extends any[]]
 			? DojoClassFrom<[_DeclareSubclass<A, B>, ...Rest]>
 			: T extends [infer A extends DojoClass] ? A
-				: T extends object ? DojoClass<T, PropsCtorArgs<T>>
-				: never;
+			: T extends object ? DojoClass<T, PropsCtorArgs<T>>
+			: never;
 
 		type DeclareProps<T, C = null> = C extends any[]
 			? T & ThisType<InstanceType<DojoClassFrom<[...C, T]>>>

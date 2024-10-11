@@ -1,0 +1,1 @@
+{"version":3,"file":"DropDownMenu.d.ts","sourceRoot":"","sources":["../../lib/dijit/DropDownMenu.ts"],"names":[],"mappings":"AAQA,QAAA,IAAI,YAAY,EAwBV,OAAO,CAAC,uBAAuB,CAAC;AAEtC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,YAAY,EAAE,OAAO,YAAY,CAAC;SAClC;KACD;CACD;AAED,SAAS,YAAY,CAAC"}

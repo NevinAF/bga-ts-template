@@ -1,0 +1,1 @@
+{"version":3,"file":"Destroyable.d.ts","sourceRoot":"","sources":["../../lib/dijit/Destroyable.ts"],"names":[],"mappings":"AAOA,QAAA,IAAI,WAAW;;;MAmCb,CAAC;AAEH,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,WAAW,EAAE,OAAO,WAAW,CAAC;SAChC;KACD;CACD;AAED,SAAS,WAAW,CAAC"}

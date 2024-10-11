@@ -3,9 +3,6 @@
 import dojo = require("dojo");
 import declare = require("dojo/_base/declare");
 
-type CorePage = InstanceType<typeof import('ebg/core/core')>;
-type PopinDialog = InstanceType<typeof import('ebg/popindialog')>;
-
 declare global {
 	namespace BGA {
 		interface AjaxActions {
@@ -23,7 +20,7 @@ declare global {
  * The Thumb class represents a thumbs-up/thumbs-down control for player reputation in a game.
  */
 class Thumb_Template {
-	page: CorePage | null = null;
+	page: InstanceType<BGA.CorePage> | null = null;
 	div_id: string | null = null;
 	div: HTMLElement | null = null;
 	value: number = 0;
@@ -31,7 +28,7 @@ class Thumb_Template {
 	staticControl: boolean = false;
 	bForceThumbDown: boolean = false;
 
-	thumbdownDlg: PopinDialog | null = null;
+	thumbdownDlg: InstanceType<BGA.PopinDialog> | null = null;
 
 	/**
 	 * Initializes the Thumb control.
@@ -40,7 +37,7 @@ class Thumb_Template {
 	 * @param target_player - The target player for the thumb control.
 	 * @param value - The initial value of the thumb control (as a string).
 	 */
-	create(page: CorePage, div_id: string, target_player: BGA.ID, value: BGA.ID) {
+	create(page: InstanceType<BGA.CorePage>, div_id: string, target_player: BGA.ID, value: BGA.ID) {
 		this.page = page;
 		this.div_id = div_id;
 		this.div = $(this.div_id) as HTMLElement;

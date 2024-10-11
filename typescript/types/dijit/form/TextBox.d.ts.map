@@ -1,0 +1,1 @@
+{"version":3,"file":"TextBox.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/TextBox.ts"],"names":[],"mappings":"AAeA,QAAA,IAAI,OAAO,EAoIN,OAAO,CAAC,IAAI,CAAC,kBAAkB,CAAC;AAgCrC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,OAAO,EAAE,OAAO,OAAO,CAAC;SACxB;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,OAAO,CAAC"}

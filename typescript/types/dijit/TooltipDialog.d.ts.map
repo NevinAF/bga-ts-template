@@ -1,0 +1,1 @@
+{"version":3,"file":"TooltipDialog.d.ts","sourceRoot":"","sources":["../../lib/dijit/TooltipDialog.ts"],"names":[],"mappings":"AAiBA,QAAA,IAAI,aAAa,EAiGX,OAAO,CAAC,wBAAwB,CAAC;AAwBvC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,aAAa,EAAE,OAAO,aAAa,CAAC;SACpC;KACD;CACD;AAED,SAAS,aAAa,CAAC"}

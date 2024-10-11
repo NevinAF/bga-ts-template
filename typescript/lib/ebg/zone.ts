@@ -1,8 +1,6 @@
 import e = require("dojo");
 import declare = require("dojo/_base/declare");
 
-type CorePage = InstanceType<typeof import("ebg/core/core")>;
-
 interface XYWH { x: number; y: number; w: number; h: number }
 
 /**
@@ -26,7 +24,7 @@ interface XYWH { x: number; y: number; w: number; h: number }
 */
 class Zone_Template
 {
-	page: CorePage | null = null;
+	page: InstanceType<BGA.CorePage> | null = null;
 	container_div: HTMLElement | null = null;
 	item_height: number | null = null;
 	item_width: number | null = null;
@@ -45,7 +43,7 @@ class Zone_Template
 	 * @param item_width An integer for the width of the objects you want to organize in this zone.
 	 * @param item_height An integer for the height of the objects you want to organize in this zone.
 	 */
-	create(page: CorePage, container_div: HTMLElement, item_width: number, item_height: number): void
+	create(page: InstanceType<BGA.CorePage>, container_div: HTMLElement, item_width: number, item_height: number): void
 	{
 		if (container_div === null) {
 			console.error("Null container in zone::create");

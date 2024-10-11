@@ -1,4 +1,3 @@
-/// <reference path="index.ts" />
 // @ts-nocheck
 
 import lang = require("../_base/lang");

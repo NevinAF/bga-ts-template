@@ -1,0 +1,1 @@
+{"version":3,"file":"QueryReadStore.d.ts","sourceRoot":"","sources":["../../../lib/dojox/data/QueryReadStore.ts"],"names":[],"mappings":"AAOA,QAAA,IAAI,cAAc;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;YAqRhB,CAAC;AAEH,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,IAAI,EAAE;gBACL,cAAc,EAAE,OAAO,cAAc,CAAC;aACtC,CAAA;SACD;KACD;CACD;AAED,SAAS,cAAc,CAAC"}

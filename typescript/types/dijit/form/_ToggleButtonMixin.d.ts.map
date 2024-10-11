@@ -1,0 +1,1 @@
+{"version":3,"file":"_ToggleButtonMixin.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/_ToggleButtonMixin.ts"],"names":[],"mappings":"AAMA,QAAA,IAAI,kBAAkB,uDA+Be,CAAC;AAEtC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,kBAAkB,EAAE,OAAO,kBAAkB,CAAC;SAC9C;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,kBAAkB,CAAC"}

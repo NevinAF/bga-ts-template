@@ -1,0 +1,1 @@
+{"version":3,"file":"_WidgetsInTemplateMixin.d.ts","sourceRoot":"","sources":["../../lib/dijit/_WidgetsInTemplateMixin.ts"],"names":[],"mappings":"AASA,QAAA,IAAI,uBAAuB,EAgErB,OAAO,CAAC,kCAAkC,CAAC;AAEjD,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,uBAAuB,EAAE,OAAO,uBAAuB,CAAC;SACxD;KACD;CACD;AAED,SAAS,uBAAuB,CAAC"}

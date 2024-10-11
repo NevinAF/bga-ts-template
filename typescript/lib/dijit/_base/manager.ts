@@ -1,5 +1,3 @@
-/// <reference path="../index.ts" />
-
 import array = require("dojo/_base/array");
 import config = require("dojo/_base/config");
 import lang = require("dojo/_base/lang");

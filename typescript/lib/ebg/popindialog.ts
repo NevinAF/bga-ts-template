@@ -3,8 +3,6 @@
 import e = require("dojo");
 import declare = require("dojo/_base/declare");
 
-type Core = InstanceType<typeof import('ebg/core/core')>;
-
 /**
  * A helper class for creating and managing pop-in dialogs. See {@link https://en.doc.boardgamearena.com/Game_interface_logic:_yourgamename.js#Generic_Dialogs | yourgamename.js: Generic Dialogs} for more information.
  */
@@ -18,7 +16,7 @@ class PopinDialog_Template {
 	onShow: (() => any) | null = null;
 	onHide: (() => any) | null = null;
 	jstpl_standard_popin: string = '<div id="popin_${id}" class="standard_popin"><h2 id="popin_${id}_title" class="standard_popin_title"></h2><a href="#" target="_blank" id="popin_${id}_help" class="standard_popin_helpicon"><i class="fa fa-question-circle-o fa-2x" aria-hidden="true"></i></a><a href="#" id="popin_${id}_close" class="standard_popin_closeicon"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></a><div id="popin_${id}_contents" class="clear"></div></div>';
-	tableModule?: Core;
+	tableModule?: InstanceType<BGA.CorePage>;
 
 	/**
 	 * Creates the dialog div in a hidden state. This should only be called once and used as an initializer for the dialog.

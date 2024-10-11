@@ -1,0 +1,1 @@
+{"version":3,"file":"tracer.d.ts","sourceRoot":"","sources":["../../../lib/dojo/promise/tracer.ts"],"names":[],"mappings":"AAQA,QAAA,IAAI,MAAM,EAAE;IAAE,EAAE,CAAC,IAAI,EAAE,UAAU,GAAG,UAAU,GAAG,UAAU,GAAG,MAAM,CAAC,MAAM,CAAC;IAAC,IAAI,EAAE,IAAI,CAAA;CAAY,CAAC;AAiCpG,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;KACC;CACD;AAED,SAAS,MAAM,CAAC"}

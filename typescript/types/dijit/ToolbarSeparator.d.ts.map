@@ -1,0 +1,1 @@
+{"version":3,"file":"ToolbarSeparator.d.ts","sourceRoot":"","sources":["../../lib/dijit/ToolbarSeparator.ts"],"names":[],"mappings":"AAMA,QAAA,IAAI,gBAAgB,EAUd,OAAO,CAAC,2BAA2B,CAAC;AAE1C,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,gBAAgB,EAAE,OAAO,gBAAgB,CAAC;SAC1C;KACD;CACD;AAED,SAAS,gBAAgB,CAAC"}

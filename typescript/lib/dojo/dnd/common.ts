@@ -1,5 +1,3 @@
-/// <reference path="index.ts" />
-
 import has = require("../sniff");
 import dojo = require("../_base/kernel");
 import lang = require("../_base/lang");

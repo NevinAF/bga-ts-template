@@ -1,0 +1,1 @@
+{"version":3,"file":"_LayoutWidget.d.ts","sourceRoot":"","sources":["../../../lib/dijit/layout/_LayoutWidget.ts"],"names":[],"mappings":"AAaA,QAAA,IAAI,aAAa,EAmEX,OAAO,CAAC,MAAM,CAAC,wBAAwB,CAAC;AAE9C,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,WAAW;YACpB,aAAa,EAAE,OAAO,aAAa,CAAA;SACnC;QAED,UAAU,KAAK;YACd,MAAM,EAAE,WAAW,CAAA;SACnB;KACD;CACD;AAED,SAAS,aAAa,CAAC"}

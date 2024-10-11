@@ -141,22 +141,7 @@ declare global {
 			action_arg: AjaxActions[T];
 		}
 
-
-		/**
-		 * A loosely typed structure that represents all possible arguments for a notification. This is an intersection of all possible arguments, which prevents the need to cast the args to a specific type. Use {@link NotifFrom} to represent a specific arguments rather then the specific notif type(s).
-		 * 
-		 * Because this is one big intersection, it can suffer from a {@link https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-9.html#intersections-reduced-by-discriminant-properties | intersections reduced by discriminant properties} issue. If this is the case, you should either change argument properties so they don't share names with differing types (T1 & T2 == never), or add them here as an omitted type, and manually intersect like with 'id' below.
-		 */
-
-		/** A loosely typed structure that represents the data of a network message. This is used to represent any notification type, where the args is an intersection of all possible args. */
-		interface Notif<T extends keyof NotifTypes = keyof NotifTypes>
-		{
-			/** The type of the notification (as passed by php function). */
-			type: T;
-			/** The arguments passed from the server for this notification. This type should always match the notif.type. */
-			args: keyof NotifTypes extends T
-				? (Record<keyof any, any> & BGA.ID) | null // It is fairly easy to create a too complex type that results in unknown/never. Instead, cast as a simple record.
-				: AnyOf<NotifTypes[T]>;
+		interface BaseNotif {
 			/** The message string passed from php notification. */
 			log: string;
 			/** True when NotifyAllPlayers method is used (false otherwise), i.e. if all player are receiving this notification. */
@@ -184,6 +169,23 @@ declare global {
 			table_id?: BGA.ID;
 		}
 
+		/** A loosely typed structure that represents the data of a network message. This is used to represent any notification type, where the args is an intersection of all possible args. */
+		type Notif<T extends keyof NotifTypes = keyof NotifTypes> = BaseNotif & (
+			keyof NotifTypes extends T ? {
+				/** The type of the notification (as passed by php function). */
+				type: T;
+				/** The arguments passed from the server for this notification. This type should always match the notif.type. */
+				args: (Record<keyof any, any> & BGA.ID) | null
+			} : {
+				[K in T]: {
+				/** The type of the notification (as passed by php function). */
+				type: K;
+				/** The arguments passed from the server for this notification. This type should always match the notif.type. */
+				args: NotifTypes[K];
+				}
+			}[T]
+		);
+
 		/**
 		 * Internal. A group of notifications which are sent to the client. This is almost always a network message of several notifications.
 		 * 
@@ -209,12 +211,24 @@ declare global {
 			time?: number;
 		}
 
-		interface ChatNotif extends Notif<"chat" | "groupchat" | "chatmessage" | "tablechat" | "privatechat" | "startWriting" | "stopWriting" | "newRTCMode" | "history_history"> {
+		/**
+		 * A notification that represents one of the chat types. This types is defined instead of using the type parameter on {@link Notif} because it makes it much easier to check IF properties exist (without getting a type error saying property is not possible on the union).
+		 */
+		type ChatNotif = {
+			/** The type of the notification (as passed by php function). */
+			type: "chat" | "groupchat" | "chatmessage" | "tablechat" | "privatechat" | "startWriting" | "stopWriting" | "newRTCMode" | "history_history";
+			/** The arguments passed from the server for this notification. This type should always match the notif.type. */
+			args: AnyOf<NotifTypes["chat" | "groupchat" | "chatmessage" | "tablechat" | "privatechat" | "startWriting" | "stopWriting" | "newRTCMode" | "history_history"]>;
+
+			/** ID of the move associated with the notification, if any. */
+			move_id?: BGA.ID;
+			/** ID of the table (comes as string), if any. */
+			table_id?: BGA.ID;
 			channel?: ChannelInfos['channel'];
 			loadprevious?: boolean;
 			mread?: boolean | null | undefined;
 			donotpreview?: any;
-		}
+		} & BaseNotif;
 	}
 }
 

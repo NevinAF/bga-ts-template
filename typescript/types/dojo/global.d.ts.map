@@ -1,0 +1,1 @@
+{"version":3,"file":"global.d.ts","sourceRoot":"","sources":["../../lib/dojo/global.ts"],"names":[],"mappings":"AAAA,QAAA,IAAI,aAAa,4BAOiC,CAAC;AAEnD,SAAS,aAAa,CAAC;AAEvB,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,KAAK,MAAM,GAAG,OAAO,aAAa,CAAC;KACnC;IAED;;OAEG;IACH,IAAI,MAAM,EAAE,CAAC,MAAM,GAAG,OAAO,UAAU,CAAC,GAAG,SAAS,GAAG,QAAQ,CAAC;CAChE"}

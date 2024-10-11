@@ -372,10 +372,6 @@ if (n("touch"))
 declare global {
 	namespace DojoJS
 	{
-		interface ExtensionEvent {
-			(target: Element | Record<string, any>, listener: EventListener): Handle;
-		}
-	
 		interface PauseHandle extends Handle {
 			pause(): void;
 			resume(): void;

@@ -1,0 +1,1 @@
+{"version":3,"file":"instrumentation.d.ts","sourceRoot":"","sources":["../../../lib/dojo/promise/instrumentation.ts"],"names":[],"mappings":"AAkEA,iBAAS,eAAe,CAAC,QAAQ,EAAE,cAAc,aAAa,CAAC,QA2B9D;AAED,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;KACC;CACD;AAED,SAAS,eAAe,CAAC"}

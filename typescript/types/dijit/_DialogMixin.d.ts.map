@@ -1,0 +1,1 @@
+{"version":3,"file":"_DialogMixin.d.ts","sourceRoot":"","sources":["../../lib/dijit/_DialogMixin.ts"],"names":[],"mappings":"AAMA,QAAA,IAAI,YAAY,4CAmBU,CAAC;AAG3B,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,UAAU,KAAK;YACd,YAAY,EAAE,OAAO,YAAY,CAAC;SAClC;KACD;CACD;AACD,SAAS,YAAY,CAAC"}

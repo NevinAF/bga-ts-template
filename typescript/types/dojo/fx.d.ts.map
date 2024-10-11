@@ -1,0 +1,1 @@
+{"version":3,"file":"fx.d.ts","sourceRoot":"","sources":["../../lib/dojo/fx.ts"],"names":[],"mappings":"AAmBA,QAAA,IAAI,GAAG,eA0BL,CAAC;AAmXH,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,MAAO,SAAQ,IAAI,CAAC,cAAc,eAAe,CAAC,CAAC;SAAG;QAEhE,UAAU,IAAI;YACb,EAAE,EAAE,MAAM,CAAC;SACX;KACD;CACD;AAED,SAAS,GAAG,CAAC"}

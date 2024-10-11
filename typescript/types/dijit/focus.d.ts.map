@@ -1,0 +1,1 @@
+{"version":3,"file":"focus.d.ts","sourceRoot":"","sources":["../../lib/dijit/focus.ts"],"names":[],"mappings":"AASA,OAAO,OAAO,GAAG,QAAQ,cAAc,CAAC,CAAC;AAYzC,QAAA,IAEC,KAAK,+GAsKiB,CAAC;AAsBxB,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,UAAU,KAAK;YACd,KAAK,EAAE,OAAO,KAAK,CAAC;SACpB;KACD;CACD;AAED,SAAS,KAAK,CAAC"}

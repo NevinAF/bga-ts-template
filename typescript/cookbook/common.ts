@@ -59,10 +59,10 @@ const CommonMixin = <TBase extends new (...args: any[]) => InstanceType<BGA.Game
 	 * // Arguments must match the arguments of the PlayerAction 'myAction'.
 	 * this.ajaxAction( 'myAction', { myArgument1: arg1, myArgument2: arg2 }, (is_error) => {} );
 	 */
-	ajaxAction<K extends keyof BGA.GameStatePossibleActions>(
+	ajaxAction<K extends Default<keyof BGA.GameStatePossibleActions, string>>(
 		action: K,
 		args: BGA.AjaxParams<`/${string}/${string}/${K}.html`, this>[1],
-		callback?: (error: boolean, errorMessage?: string, errorCode?: number) => any,
+		callback?: (this: this, error: boolean, errorMessage?: string, errorCode?: number) => any,
 		ajax_method?: 'post' | 'get'): boolean
 	{
 		if (!this.checkAction(action))
@@ -76,7 +76,10 @@ const CommonMixin = <TBase extends new (...args: any[]) => InstanceType<BGA.Game
 		this.ajaxcall(
 			`/${this.game_name}/${this.game_name}/${action}.html`,
 			args,
-			this, () => {}, callback, ajax_method
+			this,
+			() => {},
+			callback as any,
+			ajax_method
 		);
 
 		return true;
@@ -98,7 +101,7 @@ const CommonMixin = <TBase extends new (...args: any[]) => InstanceType<BGA.Game
 	 * // With defined argument type
 	 * notif_cardPlayed(notif: Notif<NotifTypes['cardPlayed']>) { ... }
 	 */
-	subscribeNotif<T extends keyof BGA.NotifTypes>(event: T, callback: (notif: BGA.Notif<T>) => any): DojoJS.Handle
+	subscribeNotif<T extends keyof BGA.NotifTypes>(event: NoInfer<T>, callback: (notif: BGA.Notif<T>) => any): DojoJS.Handle
 	{
 		return dojo.subscribe(event, this, callback);
 	}

@@ -1,0 +1,1 @@
+{"version":3,"file":"autoscroll.d.ts","sourceRoot":"","sources":["../../../lib/dojo/dnd/autoscroll.ts"],"names":[],"mappings":"AAUA,QAAA,IAAI,UAAU,EAAS,MAAM,CAAC,GAAG,CAAC,UAAU,CAAC;AA8F7C,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,UAAU,OAAO;YAChB,UAAU,EAAE,OAAO,UAAU,CAAC;SAC9B;QACD,UAAU,IAAI;YACb,GAAG,EAAE,OAAO,CAAC;SACb;KACD;CACD;AAED,SAAS,UAAU,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"_KeyNavContainer.d.ts","sourceRoot":"","sources":["../../lib/dijit/_KeyNavContainer.ts"],"names":[],"mappings":"AAcA,QAAA,IAAI,gBAAgB,EAyDd,OAAO,CAAC,2BAA2B,CAAA;AAEzC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,gBAAgB,EAAE,OAAO,gBAAgB,CAAC;SAC1C;KACD;CACD;AAED,SAAS,gBAAgB,CAAC"}

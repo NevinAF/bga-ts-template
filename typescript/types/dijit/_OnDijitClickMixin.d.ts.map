@@ -1,0 +1,1 @@
+{"version":3,"file":"_OnDijitClickMixin.d.ts","sourceRoot":"","sources":["../../lib/dijit/_OnDijitClickMixin.ts"],"names":[],"mappings":"AAUA,QAAA,IAAI,kBAAkB,EAQhB,OAAO,CAAC,6BAA6B,CAAC;AAG5C,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,kBAAkB,EAAE,OAAO,kBAAkB,CAAC;SAC9C;KACD;CACD;AAED,SAAS,kBAAkB,CAAC"}

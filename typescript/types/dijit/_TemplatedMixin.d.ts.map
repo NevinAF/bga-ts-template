@@ -1,0 +1,1 @@
+{"version":3,"file":"_TemplatedMixin.d.ts","sourceRoot":"","sources":["../../lib/dijit/_TemplatedMixin.ts"],"names":[],"mappings":"AAYA,QAAA,IAAI,eAAe,EAsEb,OAAO,CAAC,0BAA0B,CAAC;AAiCzC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,KAAK;YACd,eAAe,EAAE,OAAO,eAAe,CAAC;SACxC;KACD;CACD;AAED,SAAS,eAAe,CAAC"}

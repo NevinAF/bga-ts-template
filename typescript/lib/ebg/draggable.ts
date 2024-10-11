@@ -1,13 +1,11 @@
 import dojo = require('dojo');
 import declare = require('dojo/_base/declare');
 
-type Core = InstanceType<typeof import('ebg/core/core')>;
-
 /**
  * Draggable it was created long time ago when HTML5 did not have such support, it probably best to use direct html5 spec now.
  */
 class Draggable_Template {
-	page: Core | null = null;
+	page: InstanceType<BGA.CorePage> | null = null;
 	item_id: string | null = null;
 	item_div: HTMLElement | null = null;
 	mouse_x_origin: number | null = null;
@@ -33,7 +31,7 @@ class Draggable_Template {
 	onEndDragging = (e: string, t: number, i: number, n: boolean): any => {};
 	onDragging = (e: string, t: number, i: number, n: number, o: number): any => {};
 
-	create(page: Core, item_id: string, interact_element?: HTMLElement |string | null) {
+	create(page: InstanceType<BGA.CorePage>, item_id: string, interact_element?: HTMLElement |string | null) {
 		this.page = page;
 		this.item_id = item_id;
 		this.item_div = $(item_id) as HTMLElement;

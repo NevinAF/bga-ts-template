@@ -1,0 +1,1 @@
+{"version":3,"file":"ToggleButton.d.ts","sourceRoot":"","sources":["../../../lib/dijit/form/ToggleButton.ts"],"names":[],"mappings":"AAQA,QAAA,IAAI,YAAY,EAcV,OAAO,CAAC,IAAI,CAAC,uBAAuB,CAAC;AAE3C,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAChB;QACC,UAAU,SAAS;YAClB,YAAY,EAAE,OAAO,YAAY,CAAC;SAClC;QAED,UAAU,KAAK;YACd,IAAI,EAAE,SAAS,CAAC;SAChB;KACD;CACD;AAED,SAAS,YAAY,CAAC"}

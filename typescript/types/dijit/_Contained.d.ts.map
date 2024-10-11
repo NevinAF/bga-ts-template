@@ -1,0 +1,1 @@
+{"version":3,"file":"_Contained.d.ts","sourceRoot":"","sources":["../../lib/dijit/_Contained.ts"],"names":[],"mappings":"AAMA,QAAA,IAAI,UAAU,EAyBR,OAAO,CAAC,qBAAqB,CAAC;AAEpC,OAAO,CAAC,MAAM,CAAC;IACd,UAAU,MAAM,CAAC;QAChB,UAAU,KAAK;YACd,UAAU,EAAE,OAAO,UAAU,CAAC;SAC9B;KACD;CACD;AAED,SAAS,UAAU,CAAC"}

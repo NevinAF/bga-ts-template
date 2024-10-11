@@ -13,8 +13,7 @@ import d = require("./BackgroundIframe");
 import c = require("./Viewport");
 import dijit = require("./main");
 
-
-interface DialogUnderlay_Template extends InstanceType<typeof _Widget>, InstanceType<typeof _TemplatedMixin> {}
+interface DialogUnderlay_Template extends DojoJS.DojoClass<DijitJS._Widget & DijitJS._TemplatedMixin, []> {}
 
 class DialogUnderlay_Template {
 	node: HTMLElement;
