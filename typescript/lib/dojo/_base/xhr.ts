@@ -426,7 +426,7 @@ interface ContentHandlers {
 }
 
 interface Xhr {
-	(method: string, args: XhrArgs, hasBody?: boolean): Deferred<any>;
+	(method: string, args: XhrArgs, hasBody?: boolean): DojoJS.Deferred<any>;
 
 	/**
 	 * does the work of portably generating a new XMLHTTPRequest object.
@@ -500,7 +500,7 @@ interface Xhr {
 	 * sets up the Deferred and ioArgs property on the Deferred so it
 	 * can be used in an io call.
 	 */
-	_ioSetArgs(args: IoArgs, canceller: Function, okHandler: Function, errHandler: Function): DojoJS.Deferred<any>;
+	_ioSetArgs(args: DojoJS.IoArgs, canceller: Function, okHandler: Function, errHandler: Function): DojoJS.Deferred<any>;
 
 	_isDocumentOk(x: Document): boolean;
 

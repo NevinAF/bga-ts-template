@@ -292,19 +292,19 @@ declare global {
 			 * Returns object with special values specifically useful for node
 			 * fitting.
 			 */
-			getPadExtents(node: Element | string, computedStyle?: DomComputedStyle): DomGeometryBoxExtents | throws<TypeError>;
+			getPadExtents(node: Element | string, computedStyle?: CSSStyleDeclaration): DomGeometryBoxExtents | throws<TypeError>;
 	
 			/**
 			 * returns an object with properties useful for noting the border
 			 * dimensions.
 			 */
-			getBorderExtents(node: Element | string, computedStyle?: DomComputedStyle): DomGeometryBoxExtents | throws<TypeError>;
+			getBorderExtents(node: Element | string, computedStyle?: CSSStyleDeclaration): DomGeometryBoxExtents | throws<TypeError>;
 	
 			/**
 			 * Returns object with properties useful for box fitting with
 			 * regards to padding.
 			 */
-			getPadBorderExtents(node: Element | string, computedStyle?: DomComputedStyle): DomGeometryBoxExtents | throws<TypeError>;
+			getPadBorderExtents(node: Element | string, computedStyle?: CSSStyleDeclaration): DomGeometryBoxExtents | throws<TypeError>;
 	
 			/**
 			 * returns object with properties useful for box fitting with
@@ -316,26 +316,26 @@ declare global {
 			 * Normally application code will not need to invoke this
 			 * directly, and will use the ...box... functions instead.
 			 */
-			getMarginExtents(node: Element | string, computedStyle?: DomComputedStyle): DomGeometryBoxExtents | throws<TypeError>;
+			getMarginExtents(node: Element | string, computedStyle?: CSSStyleDeclaration): DomGeometryBoxExtents | throws<TypeError>;
 	
 			/**
 			 * returns an object that encodes the width, height, left and top
 			 * positions of the node's margin box.
 			 */
-			getMarginBox(node: Element | string, computedStyle?: DomComputedStyle): DomGeometryBox | throws<TypeError>;
+			getMarginBox(node: Element | string, computedStyle?: CSSStyleDeclaration): DomGeometryBox | throws<TypeError>;
 	
 			/**
 			 * Returns an object that encodes the width, height, left and top
 			 * positions of the node's content box, irrespective of the
 			 * current box model.
 			 */
-			getContentBox(node: Element | string, computedStyle?: DomComputedStyle): DomGeometryBox | throws<TypeError>;
+			getContentBox(node: Element | string, computedStyle?: CSSStyleDeclaration): DomGeometryBox | throws<TypeError>;
 	
 			/**
 			 * Sets the size of the node's contents, irrespective of margins,
 			 * padding, or borders.
 			 */
-			setContentSize(node: Element | string, box: DomGeometryWidthHeight, computedStyle?: DomComputedStyle): void | throws<TypeError>;
+			setContentSize(node: Element | string, box: DomGeometryWidthHeight, computedStyle?: CSSStyleDeclaration): void | throws<TypeError>;
 	
 			/**
 			 * sets the size of the node's margin box and placement
@@ -343,7 +343,7 @@ declare global {
 			 * passthrough to setBox that handles box-model vagaries for
 			 * you.
 			 */
-			setMarginBox(node: Element | string, box: DomGeometryBox, computedStyle?: DomComputedStyle): void | throws<TypeError>;
+			setMarginBox(node: Element | string, box: DomGeometryBox, computedStyle?: CSSStyleDeclaration): void | throws<TypeError>;
 	
 			/**
 			 * Returns true if the current language is left-to-right, and false otherwise.
@@ -379,7 +379,7 @@ declare global {
 			 * returns an object that encodes the width and height of
 			 * the node's margin box
 			 */
-			getMarginSize(node: Element | string, computedStyle?: DomComputedStyle): DomGeometryWidthHeight | throws<TypeError>;
+			getMarginSize(node: Element | string, computedStyle?: CSSStyleDeclaration): DomGeometryWidthHeight | throws<TypeError>;
 	
 			/**
 			 * Normalizes the geometry of a DOM event, normalizing the pageX, pageY,

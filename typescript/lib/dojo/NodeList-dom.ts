@@ -210,7 +210,7 @@ declare global {
 			 * returns an object that encodes the width, height, left and top
 			 * positions of the node's margin box.
 			 */
-			getMarginBox(node: Element | string, computedStyle?: DomComputedStyle): ArrayLike<DomGeometryBox>;
+			getMarginBox(node: Element | string, computedStyle?: CSSStyleDeclaration): ArrayLike<DomGeometryBox>;
 
 			/**
 			 * Places every node in the list relative to the first node in the list.

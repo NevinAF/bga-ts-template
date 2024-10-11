@@ -315,7 +315,7 @@ class Gamegui_Template
 	tablechannelSpectators: `/table/ts${number}` | null = null;
 
 	/** Unmodified clone of the gamedatas gamestate. See {@link restoreServerGameState} for more information. This is null only when accessing from within the constructor. */
-	last_server_state: BGA.GameState | null = null;
+	last_server_state: BGA.IActiveGameState | null = null;
 	/** Boolean indicating that the current game state is a client state, i.e. we have called {@link setClientState} and have not yet sent anything to the server. */
 	on_client_state: boolean = false;
 	/** How the log is currently layed out within the DOM. */
@@ -448,7 +448,7 @@ class Gamegui_Template
 	 * 	}
 	 * }
 	 */
-	onEnteringState(...[stateName, state]: BGA.GameStateTuple_NameState) { }
+	onEnteringState(...[stateName, state]: BGA.GameStateTuple<['name', 'state']>) { }
 
 	/**
 	 * This method is called each time we leave a game state. You can use this method to perform some user interface changes at this point (i.e. cleanup).
@@ -468,7 +468,7 @@ class Gamegui_Template
 	 * 	}
 	 * }
 	 */
-	onLeavingState(stateName: BGA.GameState["name"]) { }
+	onLeavingState(stateName: BGA.ActiveGameState["name"]) { }
 
 	/**
 	 * In this method you, can manage "action buttons" that are displayed in the action status bar and highlight active UI elements. To access state arguments passed via calling php arg* method use args parameter. Note: args can be null! For game states and when you don't supply state args function - it is null. This method is called when the active or multiactive player changes. In a classic "activePlayer" state this method is called before the onEnteringState state. In multipleactiveplayer state it is a mess. The sequencing of calls depends on whether you get into that state from transitions OR from reloading the whole game (i.e. F5).
@@ -493,7 +493,7 @@ class Gamegui_Template
 	 * 	}
 	 * }
 	 */
-	onUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple_NameArgs) { }
+	onUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple<['name', 'args']>) { }
 
 	/**
 	 * This method associates notifications with notification handlers. For each game notification, you can trigger a javascript method to handle it and update the game interface. This method should be manually invoked during the `setup` function.
@@ -534,7 +534,7 @@ class Gamegui_Template
 	 * @returns The id of the active player.
 	 */
 	getActivePlayerId(): BGA.ID | null {
-		return "activeplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type']
+		return "activeplayer" == this.gamedatas!.gamestate.type as BGA.IDefinedGameState['type']
 			? this.gamedatas!.gamestate.active_player
 			: null;
 	}
@@ -544,11 +544,12 @@ class Gamegui_Template
 	 * @returns The ids of the active players.
 	 */
 	getActivePlayers(): BGA.ID[] {
-		if ("activeplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type'])
+		if ("activeplayer" == (this.gamedatas!.gamestate as BGA.IActiveGameState).type) // Avoid type no possible error when game does not include this type.
 			return [this.gamedatas!.gamestate.active_player];
-		if ("multipleactiveplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type']) {
+		if ("multipleactiveplayer" == (this.gamedatas!.gamestate as BGA.IActiveGameState).type) { // Avoid type no possible error when game does not include this type.
 			var e: BGA.ID[] = [];
-			for (var t in this.gamedatas!.gamestate.multiactive) e.push(this.gamedatas!.gamestate.multiactive[t]!);
+			for (var t in (this.gamedatas!.gamestate as BGA.IActiveGameState).multiactive)
+				e.push((this.gamedatas!.gamestate as BGA.IActiveGameState).multiactive![t as any]!);
 			return e;
 		}
 		return [];
@@ -767,9 +768,9 @@ class Gamegui_Template
 	 * 	...
 	 * }
 	 */
-	updatePageTitle(stateArgs: BGA.GameState | null = null): void {
+	updatePageTitle(stateArgs: BGA.IActiveGameState | null = null): void {
 		null === stateArgs && (stateArgs = this.gamedatas!.gamestate);
-		var i: NonNullable<BGA.GameState['args']> = e.clone(stateArgs!.args) || ({} as any);
+		var i: NonNullable<BGA.IActiveGameState['args']> = e.clone(stateArgs!.args) || ({} as any);
 		var n = this.getActivePlayers();
 		var o: BGA.ID | null;
 		if (1 == n.length) o = n.pop()!;
@@ -1128,7 +1129,7 @@ class Gamegui_Template
 	 * });
 	 * @see {@link https://en.doc.boardgamearena.com/BGA_Studio_Cookbook#Multi_Step_Interactions:_Select_Worker.2FPlace_Worker_-_Using_Client_States | Multi Step Interactions: Select Worker/Place Worker - Using Client States}
 	 */
-	setClientState(...[newState , args]: BGA.GameStateTuple_NameArgs): void {
+	setClientState(newState: BGA.IActiveGameState['name'], args: BGA.IActiveGameState['args']): void {
 		"gameSetup" == newState &&
 			undefined !== this.lockScreenTimeout &&
 			clearTimeout(this.lockScreenTimeout);
@@ -1138,13 +1139,13 @@ class Gamegui_Template
 		);
 		this.onLeavingState(this.gamedatas!.gamestate.name);
 		this.on_client_state = true;
-		this.gamedatas!.gamestate.name = newState;
+		this.gamedatas!.gamestate.name = newState as any;
 		for (var n in args)
 			// @ts-ignore - copy the gamestate arguments
 			this.gamedatas!.gamestate[n] = args[n];
 		this.updatePageTitle();
 		e.addClass("overall-content", "gamestate_" + newState);
-		// @ts-ignore - typescript is unable to couple the name and state for some reason.
+		// @ts-ignore - typescript is unable to couple the name and state for some reaso
 		this.onEnteringState(newState, this.gamedatas!.gamestate);
 	}
 
@@ -1157,7 +1158,7 @@ class Gamegui_Template
 		this.onLeavingState(this.gamedatas!.gamestate.name);
 		this.last_server_state;
 		var t = e.clone(this.gamedatas!.gamestate.reflexion);
-		this.gamedatas!.gamestate = e.clone(this.last_server_state!);
+		this.gamedatas!.gamestate = e.clone(this.last_server_state!) as BGA.ActiveGameState; // Case to specific instead of generic
 		this.on_client_state = false;
 		this.gamedatas!.gamestate.reflexion = t;
 		this.gamedatas!.gamestate;
@@ -1224,7 +1225,7 @@ class Gamegui_Template
 	/** Internal. This is the user id that is appended as a ajax argument to replay from messages. */
 	forceTestUser: BGA.ID | null = null;
 	/** Internal. When about to switch to a private game state, this will be populated with the arguments for that state. Next time the game state is changed, this will be consumed. */
-	next_private_args: BGA.GameStateMap[keyof BGA.GameStateMap]['args'] = null;
+	next_private_args: BGA.ActiveGameState['args'] = null;
 	/** Internal. Counter for the index of archived log messages. Used to populating notifications that have passed any don't need to be processed like normal. */
 	next_archive_index: number = 0;
 	/** Internal. When in archive mode, this is used to manage the state of the archive playback. */
@@ -1446,21 +1447,21 @@ class Gamegui_Template
 			e.place($("reflexiontime_value")!, "page-title");
 			e.place($("ingame_menu_content")!, "page-title");
 		}
-		var p: BGA.GameState[] = [this.gamedatas.gamestate];
+		var p: BGA.ActiveGameState[] = [this.gamedatas.gamestate];
 		this.gamedatas.gamestate.private_state &&
 			p.push(this.gamedatas.gamestate.private_state);
 		p.forEach(
-			function (this: Gamegui_Template, e: BGA.GameState) {
+			function (this: Gamegui_Template, e: BGA.ActiveGameState) {
 				if (undefined !== e.id) {
 					undefined ===
 						this.gamedatas!.gamestates[e.id] &&
 						console.error(
 							"Unknow gamestate: " + e.id
 						);
-					undefined !== this.gamedatas!.gamestates[e.id]!.args &&
-						delete this.gamedatas!.gamestates[e.id]!.args;
-					undefined !== this.gamedatas!.gamestates[e.id]!.updateGameProgression &&
-						delete this.gamedatas!.gamestates[e.id]!.updateGameProgression;
+					undefined !== (this.gamedatas!.gamestates[e.id] as BGA.IDefinedGameState)!.args &&
+						delete (this.gamedatas!.gamestates[e.id] as BGA.IDefinedGameState)!.args;
+					undefined !== (this.gamedatas!.gamestates[e.id] as BGA.IDefinedGameState)!.updateGameProgression &&
+						delete (this.gamedatas!.gamestates[e.id] as BGA.IDefinedGameState)!.updateGameProgression;
 					for (var t in this.gamedatas!.gamestates[e.id])
 						// @ts-ignore - copy the gamestate props
 						e[t] = this.gamedatas!.gamestates[e.id][t];
@@ -1643,6 +1644,7 @@ class Gamegui_Template
 		this.updatePageTitle();
 		this.gamedatas.decision = this.decision!;
 		this.updateDecisionPanel(this.gamedatas.decision);
+		// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 		"gameEnd" == gamedatas.gamestate.name
 			? this.onGameEnd()
 			// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
@@ -1661,6 +1663,7 @@ class Gamegui_Template
 			this.onEnteringState( gamedatas.gamestate.private_state.name, gamedatas.gamestate.private_state);
 		}
 		if (
+			// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 			"gameSetup" == gamedatas.gamestate.name &&
 			!g_archive_mode
 		) {
@@ -3330,6 +3333,7 @@ class Gamegui_Template
 			e.hasClass("ebd-body", "new_gameux") &&
 				this.pageheaderfooter.hideAllSections();
 		}
+		// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 		"gameSetup" == this.gamedatas.gamestate.name &&
 			g_archive_mode &&
 			this.sendNextArchive();
@@ -3362,6 +3366,7 @@ class Gamegui_Template
 			}
 		}
 		u || this.init3d();
+		// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 		"gameEnd" == gamedatas.gamestate.name &&
 			this.updateResultPage();
 		u || this.initHotseat();
@@ -4147,7 +4152,7 @@ class Gamegui_Template
 			e.query(".rtc_video_pulsating").removeClass(
 				"rtc_video_pulsating"
 			);
-			if ("activeplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type']) {
+			if ("activeplayer" == this.gamedatas!.gamestate.type as BGA.IDefinedGameState['type']) {
 				this.gamedatas!.gamestate.active_player;
 				t = this.gamedatas!.gamestate.active_player;
 				if (this.gamedatas!.players[t]) {
@@ -4190,9 +4195,10 @@ class Gamegui_Template
 						"Error: there is no more active player!",
 						"error"
 					);
-			} else if ("multipleactiveplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type'])
-				for (var r in this.gamedatas!.gamestate.multiactive) {
-					t = this.gamedatas!.gamestate.multiactive[r]!;
+			// Avoid type no possible error when game does not include this type. Non of this casting is needed if type exists.
+			} else if ("multipleactiveplayer" == (this.gamedatas!.gamestate as BGA.IActiveGameState).type)
+				for (var r in (this.gamedatas!.gamestate as BGA.IActiveGameState).multiactive) {
+					t = (this.gamedatas!.gamestate as BGA.IActiveGameState).multiactive![r as any]!;
 					this.gamedatas!.players[t];
 					if (
 						"unavail" !=
@@ -4316,12 +4322,14 @@ class Gamegui_Template
 	}
 
 	isPlayerActive(playerId: BGA.ID | null | undefined): boolean {
-		if ("activeplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type']) {
+		 // Avoid type no possible error when game does not include this type. Non of this casting is needed if type exists.
+		if ("activeplayer" == (this.gamedatas!.gamestate as BGA.IActiveGameState).type) {
 			if (this.gamedatas!.gamestate.active_player == playerId)
 				return true;
-		} else if ( "multipleactiveplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type'])
-			for (var t in this.gamedatas!.gamestate.multiactive)
-				if (this.gamedatas!.gamestate.multiactive[t] == playerId)
+		 // Avoid type no possible error when game does not include this type. Non of this casting is needed if type exists.
+		} else if ( "multipleactiveplayer" == (this.gamedatas!.gamestate as BGA.IActiveGameState).type)
+			for (var t in (this.gamedatas!.gamestate as BGA.IActiveGameState).multiactive)
+				if ((this.gamedatas!.gamestate as BGA.IActiveGameState).multiactive![t as any] == playerId)
 					return true;
 		return false;
 	}
@@ -4335,6 +4343,7 @@ class Gamegui_Template
 			var a = t[o]!;
 			if (
 				this.gamedatas!.players[o] &&
+				// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 				"gameEnd" != this.gamedatas!.gamestate.name
 			) {}
 			else {
@@ -4663,7 +4672,7 @@ class Gamegui_Template
 
 	displayScores() {
 		e.style("maingameview_menuheader", "display", "block");
-		var t = (this.gamedatas!.gamestate.args as BGA.GameStateArgs['argGameEnd']).result,
+		var t = ((this.gamedatas!.gamestate as BGA.IActiveGameState).args as BGA.GameStateArgs['argGameEnd']).result,
 			i = this.buildScoreDlgHtmlContent(t);
 		let n = Object.values(t).filter((e) => 1 == e.rank);
 		if (null !== i.title) {
@@ -5283,6 +5292,7 @@ class Gamegui_Template
 	onGlobalActionQuit(t: MouseEvent) {
 		t.preventDefault();
 		if (
+			// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 			"gameEnd" == this.gamedatas!.gamestate.name ||
 			g_archive_mode ||
 			this.isSpectator
@@ -6721,7 +6731,7 @@ class Gamegui_Template
 			case "nextturn":
 				this.gamedatas!.gamestate.active_player !=
 					this.archive_previous_player &&
-				"activeplayer" == this.gamedatas!.gamestate.type as BGA.GameState_Interface['type']
+				"activeplayer" == this.gamedatas!.gamestate.type as BGA.IDefinedGameState['type']
 					? (this.archive_playmode = "stop")
 					: this.sendNextArchive();
 				break;
@@ -9657,13 +9667,13 @@ class Gamegui_Template
 			undefined === this.gamedatas!.gamestates[t.args.id] &&
 				console.error("Unknow gamestate: " + t.args.id);
 			undefined !==
-				this.gamedatas!.gamestates[t.args.id]!.args &&
-				delete this.gamedatas!.gamestates[t.args.id]!
+				(this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState).args &&
+				delete (this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState)
 					.args;
 			undefined !==
-				this.gamedatas!.gamestates[t.args.id]!
+				(this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState)
 					.updateGameProgression &&
-				delete this.gamedatas!.gamestates[t.args.id]!
+				delete (this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState)
 					.updateGameProgression;
 			for (var i in this.gamedatas!.gamestates[t.args.id]!)
 				// @ts-ignore - copy the args from the gamestate to the notif
@@ -9688,6 +9698,7 @@ class Gamegui_Template
 			t.args.args!._private = this.next_private_args;
 			this.next_private_args = null;
 		}
+		// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 		"gameSetup" == this.gamedatas!.gamestate.name &&
 			this.sendResizeEvent();
 		this.gamedatas!.gamestate = e.clone(t.args) as any;
@@ -9740,8 +9751,6 @@ class Gamegui_Template
 					));
 			}
 		}
-
-		this.gamedatas!.gamestate.id 
 	}
 
 	ntf_gameStateChangePrivateArgs(e: BGA.Notif<'gameStateChangePrivateArg'>) {
@@ -9749,7 +9758,7 @@ class Gamegui_Template
 	}
 
 	ntf_gameStateMultipleActiveUpdate(e: BGA.Notif<'gameStateMultipleActiveUpdate'>) {
-		this.gamedatas!.gamestate.multiactive = e.args;
+		(this.gamedatas!.gamestate as BGA.IActiveGameState).multiactive = e.args;
 		this.last_server_state!.multiactive = e.args;
 		this.updateActivePlayerAnimation() &&
 			this.sendWakeupInTenSeconds();
@@ -10981,6 +10990,7 @@ class Gamegui_Template
 
 	lockScreenCounter() {
 		if (
+			// @ts-ignore - The user defined games states will not include this name (ignore infer always false)
 			"gameSetup" == this.gamedatas!.gamestate.name &&
 			!g_archive_mode
 		) {
@@ -11446,13 +11456,13 @@ class Gamegui_Template
 			undefined === this.gamedatas!.gamestates[t.args.id] &&
 				console.error("Unknow gamestate: " + t.args.id);
 			undefined !==
-				this.gamedatas!.gamestates[t.args.id]!.args &&
-				delete this.gamedatas!.gamestates[t.args.id]!
+				(this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState).args &&
+				delete (this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState)
 					.args;
 			undefined !==
-				this.gamedatas!.gamestates[t.args.id]!
+				(this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState)
 					.updateGameProgression &&
-				delete this.gamedatas!.gamestates[t.args.id]!
+				delete (this.gamedatas!.gamestates[t.args.id] as BGA.IDefinedGameState)
 					.updateGameProgression;
 			for (var i in this.gamedatas!.gamestates[t.args.id])
 				// @ts-ignore - this is a copy

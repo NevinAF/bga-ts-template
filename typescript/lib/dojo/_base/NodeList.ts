@@ -6,8 +6,8 @@ import n = require("dojo/_base/array");
 import "dojo/_base/html";
 import "../NodeList-dom";
 
-var r: typeof t.NodeList = t.NodeList,
-	o = r.prototype;
+var r: DojoJS.NodeListConstructor = t.NodeList,
+	o: DojoJS.NodeList<any> = r.prototype;
 o.connect = r._adaptAsForEach(function () {
 	return dojo.connect.apply(this, arguments);
 });
@@ -54,7 +54,7 @@ declare global {
 				method: DojoJS.Global extends DojoJS.WithFunc<null, M, [DojoJS.AllEvents[K]]> ? M : never,
 				dontFix?: boolean): this;
 			// connect to a specified target that contains the 'addEventListener' method using the given function (which uses 'this' as global context)...
-			connect<K extends keyof DojoJS.AllEvents, M extends DojoJS.BoundFunc<null, DojoJS.ConnectGlobalEventParams<U>>>(
+			connect<K extends keyof DojoJS.AllEvents, M extends DojoJS.BoundFunc<null, DojoJS.ConnectGlobalEventParams<K>>>(
 				event: T extends DojoJS.ConnectListenerTarget<K> ? (K | `on${K}`) : never,
 				method: M,
 				dontFix?: boolean): this;
@@ -75,28 +75,35 @@ declare global {
 			// Connect to a specified target's method/event name using the name of a global method...
 			connect<U extends string, M extends keyof DojoJS.Global>(
 				event: T extends DojoJS.ConnectMethodTarget<U> ? U : never,
-				method: DojoJS.Global extends DojoJS.WithFunc<null, M, DojoJS.ConnectMethodParams<T, U>> ? M : never,
+				method: DojoJS.Global extends DojoJS.WithFunc<null, M, T extends DojoJS.ConnectMethodTarget<U> ? DojoJS.ConnectMethodParams<T, U> : any[]> ? M : never,
 				dontFix?: boolean): this;
 			// Connect to a specified target's method/event name using the given function (which uses 'this' as global context)...
-			connect<U extends string, M extends DojoJS.BoundFunc<null, DojoJS.ConnectMethodParams<T, U>>>(
+			connect<U extends string>(
 				event: T extends DojoJS.ConnectMethodTarget<U> ? U : never,
-				method: M,
+				method: DojoJS.BoundFunc<null, T extends DojoJS.ConnectMethodTarget<U> ? DojoJS.ConnectMethodParams<T, U> : any[]>,
 				dontFix?: boolean): this;
 			// Connect to a specified target's method/event name using the name of a method on the scope...
 			connect<U extends string, S, M extends keyof any>(...[
 				event, scope, method, dontFix]: [
 					T extends DojoJS.ConnectMethodTarget<U> ? U : never,
-					...DojoJS.HitchedPair<S, M, DojoJS.ConnectMethodParams<T, U>>,
+					...DojoJS.HitchedPair<S, M, T extends DojoJS.ConnectMethodTarget<U> ? DojoJS.ConnectMethodParams<T, U> : any[]>,
 					boolean?
 				]): this;
 			// Connect to a specified target's method/event name using the given function (which uses scope as 'this')...
-			connect<U extends string, S, M extends DojoJS.BoundFunc<S, DojoJS.ConnectMethodParams<T, U>>>(
+			connect<U extends string, S>(
 				event: T extends DojoJS.ConnectMethodTarget<U> ? U : never,
 				scope: S,
-				method: M,
+				method: DojoJS.BoundFunc<S, T extends DojoJS.ConnectMethodTarget<U> ? DojoJS.ConnectMethodParams<T, U> : any[]>,
 				dontFix?: boolean): this;
 
-			coords: typeof o.coords;
+			coords(includeScroll?: boolean): ArrayLike<{
+				w?: number;
+				h?: number;
+				l?: number;
+				t?: number;
+				x?: number;
+				y?: number;
+			}>;
 			events: string[];
 		}
 	}

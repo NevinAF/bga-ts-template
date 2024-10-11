@@ -8,30 +8,38 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  */
+
+/**
+ * See {@link ../___source-to-template___/docs/typescript/index.md} for a LOT more information on this file.
+ * The file include alternative ways to structure this file, how to break it up into multiple files, and more.
+ */
+
+// Defines the name of this module. Same as putting this code into a file at path: bgagame/___yourgamename___.ts
 /// <amd-module name="bgagame/___yourgamename___"/>
 
 import Gamegui = require('ebg/core/gamegui');
 import "ebg/counter";
 
-/** The root for all of your game code. */
+/** See {@link BGA.Gamegui} for more information. */
 class ___YourGameName___ extends Gamegui
 {
 	// myGlobalValue: number = 0;
 	// myGlobalArray: string[] = [];
 
-	/** @gameSpecific See {@link Gamegui} for more information. */
+	/** See {@link BGA.Gamegui} for more information. */
 	constructor(){
 		super();
 		console.log('___yourgamename___ constructor');
 	}
 
-	/** @gameSpecific See {@link Gamegui.setup} for more information. */
-	override setup(gamedatas: Gamedatas): void
+	/** See {@link  BGA.Gamegui#setup} for more information. */
+	override setup(gamedatas: BGA.Gamedatas): void
 	{
 		console.log( "Starting game setup" );
 		
 		// Setting up player boards
-		for( var player_id in gamedatas.players )
+		var player_id: BGA.ID;
+		for(player_id in gamedatas.players)
 		{
 			var player = gamedatas.players[player_id];
 			// TODO: Setting up players boards if needed
@@ -48,10 +56,10 @@ class ___YourGameName___ extends Gamegui
 	///////////////////////////////////////////////////
 	//// Game & client states
 	
-	/** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
-	override onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void
+	/** See {@link BGA.Gamegui#onEnteringState} for more information. */
+	override onEnteringState(...[stateName, state]: BGA.GameStateTuple<['name', 'state']>): void
 	{
-		console.log( 'Entering state: '+stateName );
+		console.log( 'Entering state: ' + stateName );
 		
 		switch( stateName )
 		{
@@ -60,10 +68,10 @@ class ___YourGameName___ extends Gamegui
 		}
 	}
 
-	/** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
-	override onLeavingState(stateName: GameStateName): void
+	/** See {@link BGA.Gamegui#onLeavingState} for more information. */
+	override onLeavingState(stateName: BGA.ActiveGameState["name"]): void
 	{
-		console.log( 'Leaving state: '+stateName );
+		console.log( 'Leaving state: ' + stateName );
 		
 		switch( stateName )
 		{
@@ -72,8 +80,8 @@ class ___YourGameName___ extends Gamegui
 		}
 	}
 
-	/** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
-	override onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
+	/** See {@link BGA.Gamegui#onUpdateActionButtons} for more information. */
+	override onUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple<['name', 'args']>): void
 	{
 		console.log( 'onUpdateActionButtons: ' + stateName, args );
 
@@ -145,7 +153,7 @@ class ___YourGameName___ extends Gamegui
 	///////////////////////////////////////////////////
 	//// Reaction to cometD notifications
 
-	/** @gameSpecific See {@link Gamegui.setupNotifications} for more information. */
+	/** See {@link BGA.Gamegui#setupNotifications} for more information. */
 	override setupNotifications()
 	{
 		console.log( 'notifications subscriptions setup' );
@@ -175,6 +183,5 @@ class ___YourGameName___ extends Gamegui
 }
 
 
-// The global 'bgagame.___yourgamename___' class is instantiated when the page is loaded. The following code sets this variable to your game class.
-dojo.setObject( "bgagame.___yourgamename___", ___YourGameName___ );
-// Same as: (window.bgagame ??= {}).___yourgamename___ = ___YourGameName___;
+// The global 'bgagame.___yourgamename___' class is instantiated when the page is loaded and used as the Gamegui.
+bgagame = { ___yourgamename___: ___YourGameName___ };

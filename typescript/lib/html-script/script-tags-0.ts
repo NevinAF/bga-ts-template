@@ -1,7 +1,3 @@
-/// <reference path="facebook-sdk.ts" />
-/// <reference path="google-gsi-client.ts" />
-/// <reference path="google-analytics.ts" />
-
 /** The pages name using the {@link location} global. */
 var pagename: string = location.pathname + location.search + location.hash;
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
@@ -7,35 +8,63 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  */
+declare namespace BGA {
 
-// If you have any imports/exports in this file, 'declare global' is access/merge your game specific types with framework types. 'export {};' is used to avoid possible confusion with imports/exports.
-declare global {
+	/** Goto {@link Gamedatas} or hover name for info. */
+	interface Gamedatas extends Record<string, any> {}
 
-	/** @gameSpecific Add game specific notifications / arguments here. See {@link NotifTypes} for more information. */
+	/** Goto {@link NotifTypes} or hover name for info. */
 	interface NotifTypes {
-		// [name: string]: any; // Uncomment to remove type safety on notification names and arguments
+		[name: string]: any; // RECOMMENDED: comment out this line to type notifications specific to it's name using BGA.Notif<"name">.
 	}
 
-	/** @gameSpecific Add game specific gamedatas arguments here. See {@link Gamedatas} for more information. */
-	interface Gamedatas {
-		// [key: string | number]: Record<keyof any, any>; // Uncomment to remove type safety on game state arguments
+	/** Goto {@link GameSpecificIdentifiers} or hover name for info. */
+	interface GameSpecificIdentifiers {
+		// CounterNames: 'foo' | 'bar' | 'bread' | 'butter';
 	}
 
-	//
-	// When gamestates.jsonc is enabled in the config, the following types are automatically generated. And you should not add to anything to 'GameStates' or 'PlayerActions'. If gamestates.jsonc is enabled, 'GameStates' and 'PlayerActions' can be removed from this file.
-	//
+// #region !gamestates.jsonc!
+// The following interfaces are automatically generated when using the 'gamestates.jsonc' option is enabled (or file exists). Consider enabling this to ensure that server-side and client-side states are equal.
 
-	interface GameStates {
-		// [id: number]: string | { name: string, argsType: object} | any; // Uncomment to remove type safety with ids, names, and arguments for game states
-		'-1': 'dummmy'; // Added so 'dummy' case in examples can compile.
-		1: 'gameSetup';
-		99: { name: 'gameEnd', argsType: {  } };
+	/** Goto {@link DefinedGameStates} or hover name for info. */
+	interface DefinedGameStates extends ValidateGameStates<{
+		[id: BGA.ID]: IDefinedGameState; // RECOMMENDED: comment out this line for specific typing on gamestates.
+		"1": {
+			"name": "gameSetup",
+			"description": "",
+			"type": "manager",
+			"action": "stGameSetup",
+			"transitions": { "": BGA.ID }
+		};
+		"99": {
+			"name": "gameEnd",
+			"description": "End of game",
+			"type": "manager",
+			"action": "stGameEnd",
+			"args": "argGameEnd"
+		};
+	}> {}
+
+	/** Goto {@link GameStateArgs} or hover name for info. */
+	interface GameStateArgs {
+		[funcName: string]: any; // RECOMMENDED: comment out this line to type gamestate args specific to the gamestate.
+		"argGameEnd": {
+			result: Record<BGA.ID, {
+				rank: BGA.ID;
+				name: string;
+				score: BGA.ID;
+				score_aux: BGA.ID;
+				color: HexString;
+				color_back: HexString;
+				player: BGA.ID;
+			}>;
+		};
 	}
 
-	/** @gameSpecific Add game specific player actions / arguments here. See {@link PlayerActions} for more information. */
-	interface PlayerActions {
-		// [action: string]: Record<keyof any, any>; // Uncomment to remove type safety on player action names and arguments
+	/** Goto {@link GameStatePossibleActions} or hover name for info. */
+	interface GameStatePossibleActions {
+		[action: string]: any; // RECOMMENDED: comment out this line to type ajax calls for specific action names.
 	}
+
+// #endregion !gamestates.jsonc!
 }
-
-export {}; // Force this file to be a module.

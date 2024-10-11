@@ -324,4 +324,4 @@ declare global {
 	}
 }
 
-export = h as Xhr;
+export = h as DojoJS.request.Xhr;

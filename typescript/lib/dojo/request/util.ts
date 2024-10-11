@@ -79,12 +79,12 @@ class Util {
 	}
 
 	deferred<T>(
-		response: Response<T>,
-		cancel: (def: Deferred<Response<T>>, response: Response<T>) => void,
-		isValid: (response: Response<T>) => boolean,
-		isReady: (response: Response<T>) => boolean,
+		response: DojoJS.Response<T>,
+		cancel: (def: Deferred<DojoJS.Response<T>>, response: DojoJS.Response<T>) => void,
+		isValid: (response: DojoJS.Response<T>) => boolean,
+		isReady: (response: DojoJS.Response<T>) => boolean,
 		last?: boolean
-	): RequestDeferred<Response<T>> {
+	): DojoJS.RequestDeferred<DojoJS.Response<T>> {
 		var def = new Deferred(function (e) {
 			cancel && cancel(def, response);
 			return e && (e instanceof RequestError || e instanceof CancelError)

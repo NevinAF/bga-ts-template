@@ -624,8 +624,8 @@ declare global {
 		type DojoClassFrom<T> = T extends [infer A extends (DojoClass | VanillaClass), infer B, ...infer Rest extends any[]]
 			? DojoClassFrom<[_DeclareSubclass<A, B>, ...Rest]>
 			: T extends [infer A extends DojoClass] ? A
-			: T extends object ? DojoClass<T, PropsCtorArgs<T>>
-			: never;
+				: T extends object ? DojoClass<T, PropsCtorArgs<T>>
+				: never;
 
 		type DeclareProps<T, C = null> = C extends any[]
 			? T & ThisType<InstanceType<DojoClassFrom<[...C, T]>>>

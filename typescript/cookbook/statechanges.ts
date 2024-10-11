@@ -1,11 +1,11 @@
 import "ebg/core/gamegui";
 
 type OnStateChangeHandlers =
-	{ [K in keyof BGA.GameStateMap as `onEnteringState_${BGA.GameStateMap[K]['name']}`]:
-		(args: BGA.GameStateMap[K]['args']) => void } &
-	{ [K in keyof BGA.GameStateMap as `onUpdateActionButtons_${BGA.GameStateMap[K]['name']}`]:
-		(args: BGA.GameStateMap[K]['args']) => void } &
-	{ [K in keyof BGA.GameStateMap as `onLeavingState_${BGA.GameStateMap[K]['name']}`]:
+	{ [K in keyof BGA.ActiveGameStates as `onEnteringState_${BGA.ActiveGameStates[K]['name']}`]:
+		(args: BGA.ActiveGameStates[K]['args']) => void } &
+	{ [K in keyof BGA.ActiveGameStates as `onUpdateActionButtons_${BGA.ActiveGameStates[K]['name']}`]:
+		(args: BGA.ActiveGameStates[K]['args']) => void } &
+	{ [K in keyof BGA.ActiveGameStates as `onLeavingState_${BGA.ActiveGameStates[K]['name']}`]:
 		() => void };
 
 /**
@@ -34,29 +34,30 @@ function StateChangeMixin <TBase extends new (...args: any[]) => InstanceType<BG
 		private _stateEntered?: string;
 		private _pendingUpdate: boolean = false;
 
-		onEnteringState_gameEnd(args: BGA.AdditionalGameStateArgs | null)
+		onEnteringState_gameEnd(args: BGA.IActiveGameState['args'])
 		{
 			console.log("onEnteringState_gameEnd", args);
 		}
 
-		onEnteringState_gameSetup(args: BGA.AdditionalGameStateArgs | null)
+		onEnteringState_gameSetup(args: BGA.IActiveGameState['args'])
 		{
 			console.log("onEnteringState_gameSetup", args);
 		}
 
-		override onEnteringState(...[stateName, state]: BGA.GameStateTuple_NameState)
+		override onEnteringState(...[stateName, state]: BGA.GameStateTuple<['name', 'state']>)
 		{
 			this._stateEntered = stateName;
 			
 			console.log("onEnteringState: " + stateName, state, this.debugStateInfo());
-			super.onEnteringState(...[stateName, state] as BGA.GameStateTuple_NameState);
+			super.onEnteringState(...[stateName, state] as BGA.GameStateTuple<['name', 'state']>);
+			// @ts-ignore - this is an issue somehow
 			this[`onEnteringState_${stateName}`]?.(state.args);
 
 			if (this._pendingUpdate)
-				this.onUpdateActionButtons(...[stateName, state.args] as BGA.GameStateTuple_NameArgs);
+				this.onUpdateActionButtons(...[stateName, state.args] as BGA.GameStateTuple<['name', 'args']>);
 		}
 
-		override onLeavingState(stateName: BGA.GameState["name"])
+		override onLeavingState(stateName: BGA.ActiveGameState["name"])
 		{
 			this._pendingUpdate = false;
 
@@ -65,20 +66,21 @@ function StateChangeMixin <TBase extends new (...args: any[]) => InstanceType<BG
 			this[`onLeavingState_${stateName}`]?.();
 		}
 
-		override onUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple_NameArgs)
+		override onUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple<['name', 'args']>)
 		{
 			this._pendingUpdate = this._stateEntered != stateName;
 			if (!this._pendingUpdate && this.isCurrentPlayerActive())
 			{
 				console.log("onUpdateActionButtons: " + stateName, args, this.debugStateInfo());
-				super.onUpdateActionButtons(...[stateName, args] as BGA.GameStateTuple_NameArgs);
-				this[`onUpdateActionButtons_${stateName}`]?.(args as any);
-				this.afterUpdateActionButtons(...[stateName, args] as BGA.GameStateTuple_NameArgs);
+				super.onUpdateActionButtons(...[stateName, args] as BGA.GameStateTuple<['name', 'args']>);
+				// @ts-ignore - this is an issue somehow
+				this[`onUpdateActionButtons_${stateName}`]?.(args);
+				this.afterUpdateActionButtons(...[stateName, args] as BGA.GameStateTuple<['name', 'args']>);
 				return;
 			}
 		}
 
-		afterUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple_NameArgs) {}
+		afterUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple<['name', 'args']>) {}
 
 		/**
 		 * Returns a record of debuggable information which is automatically logged when entering, leaving, or updating a state. Override this method to add any information wanted.

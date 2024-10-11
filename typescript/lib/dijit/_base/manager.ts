@@ -1,4 +1,4 @@
-/// <reference path="../index.d.ts" />
+/// <reference path="../index.ts" />
 
 import array = require("dojo/_base/array");
 import config = require("dojo/_base/config");

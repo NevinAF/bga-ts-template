@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 // @ts-nocheck
 
@@ -21,7 +21,21 @@ import g = require("./BackgroundIframe");
 import f = require("dojo/text"); // import f = require("dojo/text!./templates/Tooltip.html");
 import dijit = require("./main");
 
-var v = t("dijit._MasterTooltip", [p, m], {
+// TODO: This does not output with "DojoClass" when not forcibly typed.
+var v: DojoJS.DojoClass<DijitJS._Widget & DijitJS._TemplatedMixin & {
+	duration: number;
+	templateString: {
+		dynamic: boolean;
+		normalize: (e: any, t: any) => string;
+		load: (e: any, t: any, i: any) => void;
+	};
+	postCreate: () => void;
+	show: (e: any, t: any, i: any, n: any, o: any, a: any, l: any) => void;
+	orient: (e: any, t: any, i: any, n: any, o: any) => number;
+	_onShow: () => void;
+	hide: (e: any) => void;
+	_onHide: () => void;
+}, any[]> = t("dijit._MasterTooltip", [p, m], {
 	duration: h.defaultDuration,
 	templateString: f,
 	postCreate: function () {

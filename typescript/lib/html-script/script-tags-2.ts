@@ -1,7 +1,3 @@
-/// <reference path="socket.io.ts" />
-/// <reference path="../svelte/index.ts" />
-/// <reference path="dojo.ts" />
-
 // add modules from "ebg/layer/nls/ly_studio_ROOT"
 // add modules from "sveltec/dist/index"
 // add modules from "yourgamename"

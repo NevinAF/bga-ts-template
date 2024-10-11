@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 // @ts-nocheck
 
@@ -120,8 +120,9 @@ var _ContentPaneResizeMixin = t("dijit.layout._ContentPaneResizeMixin", null, {
 declare global {
 	namespace DojoJS
 	{
+		interface _ContentPaneResizeMixin extends Type<typeof _ContentPaneResizeMixin> {}
 		interface DijitLayout {
-			_ContentPaneResizeMixin: typeof _ContentPaneResizeMixin;
+			_ContentPaneResizeMixin: _ContentPaneResizeMixin;
 		}
 
 		interface Dijit {

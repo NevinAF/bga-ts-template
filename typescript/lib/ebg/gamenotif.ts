@@ -41,8 +41,8 @@ declare global {
 		interface NotifTypes
 		{
 			/** All other args on this object are later copied from {@link CurrentStateArgs} */
-			"gameStateChange": BGA.NotifSafeGameState;
-			"gameStateChangePrivateArg": BGA.GameStateMap[keyof BGA.GameStateMap]['args'];
+			"gameStateChange": BGA.IActiveGameState;
+			"gameStateChangePrivateArg": BGA.IActiveGameState['args'];
 			"gameStateMultipleActiveUpdate": BGA.ID[];
 			"newActivePlayer": BGA.ID;
 			"playerstatus": { player_id: BGA.ID, player_status: 'online' | 'offline' | 'inactive' };
@@ -97,7 +97,7 @@ declare global {
 			"resultsAvailable": null;
 			"switchToTurnbased": null;
 			/** All other args on this object are later copied from {@link CurrentStateArgs} */
-			"newPrivateState": BGA.NotifSafeGameState;
+			"newPrivateState": BGA.IActiveGameState;
 
 			"chat": ChatNotifArgs;
 			"groupchat": ChatNotifArgs & { gamesession?: string; gamesessionadmin?: string, group_id: BGA.ID, group_avatar: string, group_type: "group" | "tournament", group_name: string, seemore?: string };

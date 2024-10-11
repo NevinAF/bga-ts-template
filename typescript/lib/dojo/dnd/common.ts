@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 import has = require("../sniff");
 import dojo = require("../_base/kernel");

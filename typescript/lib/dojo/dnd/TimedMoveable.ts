@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 // @ts-nocheck
 
 import e = require("../_base/declare");

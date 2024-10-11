@@ -52,12 +52,12 @@ lang.mixin(htmlstrings, {
 			""
 		);
 	},
-} as DojoJS.Dojox_Dtl_Filter["htmlstrings"]);
+} as DojoJS.Dojox_DTL_Filter["htmlstrings"]);
 		
 declare global {
 	namespace DojoJS
 	{
-		interface Dojox_Dtl_Filter {
+		interface Dojox_DTL_Filter {
 			htmlstrings: {
 				_linebreaksrn: RegExp;
 				_linebreaksn: RegExp;
@@ -73,9 +73,9 @@ declare global {
 		}
 
 		interface Dojox_DTL {
-			filter: Dojox_Dtl_Filter;
+			filter: Dojox_DTL_Filter;
 		}
 	}
 }
 
-export = htmlstrings as DojoJS.Dojox_Dtl_Filter["htmlstrings"];
+export = htmlstrings as DojoJS.Dojox_DTL_Filter["htmlstrings"];

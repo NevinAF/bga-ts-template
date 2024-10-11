@@ -115,7 +115,8 @@ class Props {
 				try {
 					delete (eNode as any)[prop];
 				} catch (e) {}
-			value ? (Props.u[attrId]![prop] = s.connect(eNode, prop, value)) : ((eNode as any)[prop] = null);
+			// @ts-ignore - Prop exists on eNode
+			value ? (Props.u[attrId]![prop] = s.connect(eNode, prop, value)) : ((eNode)[prop] = null);
 			return eNode;
 		}
 		(eNode as any)[prop] = value;

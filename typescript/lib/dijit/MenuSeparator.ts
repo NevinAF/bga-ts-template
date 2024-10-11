@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 import e = require("dojo/_base/declare");
 import t = require("dojo/dom");

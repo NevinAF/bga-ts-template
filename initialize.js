@@ -320,16 +320,17 @@ const copyGameInfos = (content) =>
 
 			// Special rules:
 			{
-				// Remove the ts-ignore/ts-nocheck comments from the typescript files (which prevent errors from within the init folder).
+				// Remove the @ts-ignore/@ts-nocheck comments from the typescript files (which prevent errors from within the init folder).
 				if (content.startsWith("// @ts-"))
 					content = content.substring(content.indexOf('\n') + 1);
 
 				// Remove the default game states if the gamestates should be generated.
 				if (config.gamestates && source.endsWith("___yourgamename___.d.ts"))
 				{
-					let start = content.indexOf("\n		'-1': 'dummmy';");
-					let end = content.indexOf("\n\t}", start);
-					content = content.substring(0, start) + content.substring(end);
+					let start = content.indexOf("// #region !gamestates.jsonc!");
+					const endString = "// #endregion !gamestates.jsonc!";
+					let end = content.indexOf(endString, start);
+					content = content.substring(0, start) + content.substring(end + endString.length);
 				}
 
 				// Uncomment the schema line in the jsonc files

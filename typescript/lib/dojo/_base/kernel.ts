@@ -151,7 +151,7 @@ declare global {
 			config: typeof import("./config");
 			global: typeof import("../global");
 			dijit: DojoJS.Dijit;
-			dojox: dojox_js.DojoX;
+			dojox: DojoxJS.DojoX;
 
 			/**
 			 * a map from a name used in a legacy module to the (global variable name, object addressed by that name)
@@ -161,7 +161,7 @@ declare global {
 				[scope: string]: [string, any];
 				dojo: [string, Dojo];
 				dijit: [string, DojoJS.Dijit];
-				dojox: [string, dojox_js.DojoX];
+				dojox: [string, DojoxJS.DojoX];
 			};
 
 			baseUrl: string;
@@ -207,6 +207,16 @@ declare global {
 
 			_scopeName: "dojo"; // TODO: Defining modules seems to automatically add the "_scopeName" property to the module.
 		}
+	}
+
+	namespace DijitJS
+	{
+		interface Dijit {}
+	}
+
+	namespace DojoxJS
+	{
+		interface DojoX {}
 	}
 }
 

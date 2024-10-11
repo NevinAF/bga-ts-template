@@ -110,7 +110,7 @@ declare global {
 			 * Array containing the r, g, b components used as transparent color in dojo.Color;
 			 * if undefined, ColorValue (white) will be used.
 			 */
-			transparentColor: Vector3 | Vector4;
+			transparentColor: [number, number, number] | [number, number, number, number];
 
 			/**
 			 * Defines dependencies to be used before the loader has been loaded.

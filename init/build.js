@@ -78,7 +78,7 @@ const builder = {
 //#region JSON Writer
 
 const writer = {
-	typescript_type_properties: new Set(['argsType', 'typescriptType']),
+	typescript_type_properties: new Set([]),
 	php_translated_properties: new Set(['description', 'descriptionmyturn']),
 	translateFunc: 'clienttranslate',
 	indent: 0,
@@ -97,7 +97,8 @@ const writer = {
 `,
 	buffer: null,
 	recursion: 0,
-	stringify: (obj, isPHP) => {
+	stringify: (obj, isPHP, tsprop = false) => {
+		if (tsprop) writer.inTSProperty++;
 		if (writer.recursion === 0)
 			writer.buffer = '';
 		writer.recursion++;
@@ -187,6 +188,7 @@ const writer = {
 		}
 
 		writer.recursion--;
+		if (tsprop) writer.inTSProperty--;
 		return writer.buffer;
 	}
 }
@@ -329,6 +331,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 					return false;
 			}
 		}
+
 		const possibleActions = new Map();
 		for (const key in statesJSON) {
 			const state = statesJSON[key];
@@ -376,7 +379,28 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			}
 		}
 
+		// Check that all args and argsType are the same.
+		const argsTypes = new Map();
+		for (const key in statesJSON) {
+			const state = statesJSON[key];
+			const args = state.args;
+			let argsType = state.argsType;
+
+			if (!args && !argsType)
+				continue;
+			else if (!args && argsType)
+				exitWithError(`State ${key} ("${state.name}") has an argsType defined but no args.`);
+			else if (args && !argsType)
+				argsType = 'object';
+
+			if (!argsTypes.has(args))
+				argsTypes.set(args, argsType);
+			else if (argsTypes.get(args) !== argsType)
+				exitWithError(`State ${key} ("${state.name}") has a different args type than another state with the same args function.`);
+		}
+
 		// Add typescriptTypes to all possibleaction parameters:
+		const actionTypes = new Map();
 		for (const key in statesJSON) {
 			const state = statesJSON[key];
 			const actions = state.possibleactions;
@@ -384,12 +408,16 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			if (!actions) continue;
 
 			for (const action in actions) {
+				if (actionTypes.has(action)) continue;
+
 				let parameters = actions[action];
+				let type = {};
 
 				for (let parameter of parameters) {
 					if (parameter["typescriptType"]) {
 						if (parameter.type == 'AT_enum')
 							exitWithError(`Action ${action} in state ${key} ("${state.name}") has a parameter with type 'AT_enum'. Enums are listed using argTypeDetails and is automatically converted to typescript string literal union.`);
+						type[parameter.name] = parameter["typescriptType"];
 						continue;
 					}
 
@@ -397,16 +425,16 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 						case "AT_int":
 						case "AT_posint":
 						case "AT_float":
-							parameter["typescriptType"] = "number";
+							type[parameter.name] = "number";
 							break;
 						case "AT_email":
-							parameter["typescriptType"] = "`${string}@${string}.${string}";
+							type[parameter.name] = "`${string}@${string}.${string}`";
 							break;
 						case "AT_bool":
-							parameter["typescriptType"] = "boolean";
+							type[parameter.name] = "boolean";
 							break;
 						case "AT_enum":
-							parameter["typescriptType"] = Array.from(new Set(parameter.argTypeDetails.map(e => `'${e}'`))).join(' | ');
+							type[parameter.name] = Array.from(new Set(parameter.argTypeDetails.map(e => `'${e}'`))).join(' | ');
 							break;
 						case "AT_login":
 						case "AT_url":
@@ -428,13 +456,15 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 						case "AT_namewithaccent":
 						case "AT_json":
 						case "AT_base64":
-							parameter["typescriptType"] = "string";
+							type[parameter.name] = "string";
 							break;
 						default:
 							exitWithError(`Unknown parameter type: ${parameter.type}`);
 							break;
 					}
 				}
+
+				actionTypes.set(action, type);
 			}
 		}
 
@@ -457,6 +487,12 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 
 		//#endregion
 
+		for (const key in statesJSON) {
+			if (statesJSON[key].possibleactions) {
+				statesJSON[key].possibleactions = Object.keys(statesJSON[key].possibleactions);
+			}
+		}
+
 		// #region Write .d.ts
 
 		if (fs.existsSync('___source-folder___client/tsconfig.json'))
@@ -466,33 +502,21 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 
 			fs.writeFileSync('___source-folder___client/build/gamestates.d.ts',
 `${writer.fileSignature}
-interface GameStates ${writer.stringify(statesJSON, false)}
+declare namespace BGA {
 
-type PullActionArgs<T extends readonly any[]> = T extends [] ? {} : AnyOf<{
-	[arg in TupleIndices<T>]: {
-		[argName in T[arg]['name']]: T[arg]['typescriptType']
-	}
-}[TupleIndices<T>]>;
+interface GameStates extends ValidateGameStates<${writer.stringify(statesJSON, false)}> {}
 
-interface PlayerActions extends AnyOf<{
-	[K in keyof GameStates]:
-		GameStates[K] extends { possibleactions: { [key: string]: any[] } } ?
-		{
-			[action in keyof GameStates[K]['possibleactions']]:
-				PullActionArgs<GameStates[K]['possibleactions'][action]>
-		} : {}
-}[keyof GameStates]> {}`);
+interface GameStateArgs ${writer.stringify(argsTypes, false, true)}
+
+interface GameStatePossibleActions ${writer.stringify(actionTypes, false, true)}
+
+}`);
 		}
 
 		//#endregion
 
 		// #region Write states.inc.php
 
-		for (const key in statesJSON) {
-			if (statesJSON[key].possibleactions) {
-				statesJSON[key].possibleactions = Object.keys(statesJSON[key].possibleactions);
-			}
-		}
 		fs.writeFileSync('states.inc.php',
 `<?php
 declare(strict_types=1);

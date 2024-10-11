@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 // @ts-nocheck
 
@@ -214,7 +214,7 @@ r(function () {
 declare global {
 	namespace DojoJS {
 		interface Dijit {
-			_CssStateMixin: typeof _CssState
+			_CssStateMixin: typeof _CssStateMixin
 		}
 	}
 }

@@ -206,7 +206,7 @@ const CommonMixin = <TBase extends new (...args: any[]) => InstanceType<BGA.Game
 	setDescriptionOnMyTurn(description: string): void
 	{
 		// @ts-ignore - if specific states are defined, the descriptionmyturn will a set of literal strings.
-		this.gamedatas!.gamestate.descriptionmyturn = description;
+		(this.gamedatas!.gamestate).descriptionmyturn = description;
 	
 		let tpl: any = dojo.clone(this.gamedatas?.gamestate.args);
 		if (tpl === null)

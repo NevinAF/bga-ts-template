@@ -43,7 +43,6 @@ declare global {
 							real_elo_delta: number;
 							global_modifiers: boolean;
 							elo_delta_adjust_desc: string;
-							real_elo_delta: number;
 							new_elo_rating: number;
 						}>;
 					}

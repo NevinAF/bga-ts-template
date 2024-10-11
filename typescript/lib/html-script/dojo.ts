@@ -1,11 +1,7 @@
-/// <reference path="../dojo/main.ts" />
 // @ts-nocheck
 
 declare namespace DojoJS
 {
-	type Vector3 = [number, number, number];
-	type Vector4 = [number, number, number, number];
-
 	interface Handle {
 		remove(): void;
 	}

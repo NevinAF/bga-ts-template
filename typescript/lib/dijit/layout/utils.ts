@@ -99,8 +99,10 @@ o.setObject("dijit.layout.utils", s);
 declare global {
 	namespace DojoJS
 	{
+		interface _ContentPaneResizeMixin extends Type<typeof s> {}
+
 		interface DijitLayout {
-			_ContentPaneResizeMixin: typeof s;
+			_ContentPaneResizeMixin: _ContentPaneResizeMixin;
 		}
 
 		interface Dijit {

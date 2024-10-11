@@ -13,7 +13,8 @@ import d = require("../_Plugin");
 import c = require("../../form/DropDownButton");
 import h = require("../range");
 
-var LinkDialog = t("dijit._editor.plugins.LinkDialog", d, {
+// TODO: This does not output with "DojoClass" when not forcibly typed.
+var LinkDialog: any = t("dijit._editor.plugins.LinkDialog", d, {
 		buttonClass: c,
 		useDefaultCommand: false,
 		urlRegExp:
@@ -477,7 +478,8 @@ var LinkDialog = t("dijit._editor.plugins.LinkDialog", d, {
 			}
 		},
 	}),
-	ImgLinkDialog = t("dijit._editor.plugins.ImgLinkDialog", [LinkDialog], {
+	// TODO: This does not output with "DojoClass" when not forcibly typed.
+	ImgLinkDialog: any = t("dijit._editor.plugins.ImgLinkDialog", [LinkDialog], {
 		linkDialogTemplate: [
 			"<table role='presentation'><tr><td>",
 			"<label for='${id}_urlInput'>${url}</label>",

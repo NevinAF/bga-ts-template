@@ -81,11 +81,114 @@ declare global {
 // #endregion
 
 declare global {
+
 	namespace BGA {
+
+		/**
+		 * Specifies game specific literal to help reduce spelling or expected values errors. Supported properties:
+		 * - CounterNames: The keys for {@link Gamedatas.counters}, used with for several of the {@link BGA.CorePage} helper methods.
+		 */
+		interface GameSpecificIdentifiers { }
+
+		type CounterNames = "CounterNames" extends infer K extends keyof GameSpecificIdentifiers
+			? GameSpecificIdentifiers[K] extends string
+				? GameSpecificIdentifiers[K]
+				: string
+			: string;
 
 //#region Gamedatas/States
 
-		interface GameState_Interface {
+		/**
+		 * An JSON like type that is a represents all possible game states. This is the exact type of the {@link Gamedatas#gamestates} and used to infer the exact information about a gamestate using typescript intellisense. For example, using an if statement when checking for a specific state name, all information inside the if statement will pertain to that exact state.
+		 * 
+		 * All entries should follow the format as {@link BGA.ID} => {@link IDefinedGameState}. The see the {@link IDefinedGameState} interface for the specific fields, but this matches the exact information that is defined within the state machine (states.inc.php).
+		 * 
+		 * All invalid key/value pairs will be ignored. The {@link ValidateGameStates} type can wrap the type to ensure that all keys/values are typed correctly. 
+		 * 
+		 * @example
+		 * // Default (without specific state information)
+		 * interface DefinedGameStates extends ValidateGameStates<{
+		 * 	[id: BGA.ID]: IDefinedGameState;
+		 * 	"1": {
+		 * 		"name": "gameSetup",
+		 * 		"description": "",
+		 * 		"type": "manager",
+		 * 		"action": "stGameSetup",
+		 * 		"transitions": { "": BGA.ID }
+		 * 	};
+		 * 	"99": {
+		 * 		"name": "gameEnd",
+		 * 		"description": "End of game",
+		 * 		"type": "manager",
+		 * 		"action": "stGameEnd",
+		 * 		"args": "argGameEnd"
+		 * 	};
+		 * }> {}
+		 * @example
+		 * // Example from Reversi Tutorial
+		 * interface GameState {
+		 * 	10: { name: 'playerTurn', args: {
+		 * 		possibleMoves: {
+		 * 			[x: number]: {
+		 * 				[y: number]: boolean;
+		 * 			};
+		 * 		}
+		 * 	} };
+		 * 	11: 'nextPlayer';
+		 * }
+		 */
+		interface DefinedGameStates {}
+
+		/**
+		 * A record for looking up the state specific argument types passed by the server. Each property name represents the server side 'args' function name and the property value is the typescript type returned by that function. When using the {@link BGA.Gamegui#onEnteringState} and {@link BGA.Gamegui#onUpdateActionButtons} methods, the args can be inferred to the respective state's argument type through the state's name.
+		 * @example
+		 * interface GameStateArgs {
+		 * 	[funcName: string]: any;
+		 * 	"argGameEnd": {
+		 * 		result: Record<BGA.ID, {
+		 * 			rank: BGA.ID;
+		 * 			name: string;
+		 * 			score: BGA.ID;
+		 * 			score_aux: BGA.ID;
+		 * 			color: HexString;
+		 * 			color_back: HexString;
+		 * 			player: BGA.ID;
+		 * 		}>;
+		 * 	};
+		 * }
+		 */
+		interface GameStateArgs {
+			"argGameEnd": {
+				result: Record<BGA.ID, {
+					rank: BGA.ID;
+					name: string;
+					score: BGA.ID;
+					score_aux: BGA.ID;
+					color: HexString;
+					color_back: HexString;
+					player: BGA.ID;
+				}>;
+			};
+		}
+		/**
+		 * An interface type that represents all possible player actions. This is only used as a type for internal validation, ensuring the all player action string literal names and arguments are typed correctly.
+		 * 
+		 * All entries should follow the format as follows: `[action: string]: object;`. This format is omitted so coding intellisense can restrict parameters/types. At runtime, this may not accurately represent the possible actions for a player depending on if this matches the state machine (states.inc.php).
+		 * 
+		 * Any player actions can be added by expanding (not extending) this interface.
+		 * @example
+		 * // Example from the Hearts Tutorial.
+		 * interface GameStateArgs {
+		 * 	'giveCards': { cards: number[] };
+		 * 	'playCard': { id: number };
+		 * }
+		 */
+		interface GameStatePossibleActions {}
+
+		/**
+		 * The actual interface for a defined game state. This differs from {@link DefinedGameState} because all properties are generalized type rather than being a union of all of the defined types. For example, {@link IDefinedGameState.name} is any string but {@link DefinedGameState.name} must be one of the defined game state names (like 'gameSetup' | 'gameEnd' | ...).
+		 */
+		interface IDefinedGameState {
 			/** The name of this game state. */
 			name: string;
 			/** The type of game state. See {@link GameStateType} for more information on game state types. */
@@ -97,20 +200,55 @@ declare global {
 			/** The server side function that should be run when entering this state. If the state `type` is game, this is the only function called before waiting for the next state to be started. */
 			action?: string;
 			/** The transitions that can be made from the current state. The action key in this dictionary is purely server side and is used of clarity. The name signifies the type of action/transition that should be made which pairs with the less readable ID of the target game state. */
-			transitions?: { [action: string]: BGA.ID };
+			transitions?: { [action: string]: Default<keyof DefinedGameStates, BGA.ID> };
 			/** The list of possible actions that the active player clients can call using the ajax method. See {@link Gamegui.ajaxcall} and {@link Gamegui.checkAction}. */
-			possibleactions?: (keyof GameStatePossibleActions)[];
+			possibleactions?: Default<keyof GameStatePossibleActions, string>[];
 			/** The server side function used to generate the arguments for this state. If undefined, this state will always pass 'null' for the arguments, unless it is a client state. */
 			args?: keyof GameStateArgs;
 			/** If defined and true, this state will call the server side `getGameProgression` progression and update the `CurrentStateArgs` with this value. */
 			updateGameProgression?: boolean;
-			initialprivate?: BGA.ID;
+			initialprivate?: Default<keyof DefinedGameStates, string>;
+		}
+
+		/** The function {@link BGA.Gamegui#updatePageTitle}.updatePageTitle reuses the {@link IActiveGameState.args} to populate additional properties for formatting the title. This interface represents these additional properties that can be added/used when calling that function. */
+		interface AdditionalGameStateArgs extends Type<{
+			[titlearg: `titlearg${number}`]: string
+		}> {
+			/** An HTML span representing the first active player in the list of active players. Updated when a new state is entered or when {@link Gamegui}.updatePageTitle is called. */
+			actplayer?: "" | `<span style="font-weight:bold;color:#'${string}';${string}">${string}</span>`;
+			/** An HTML span representing the client player when the client is active and there is no descriptionmyturn defined. Updated when a new state is entered or when {@link BGA.Gamegui}.updatePageTitle is called. */
+			you?: `<span style="font-weight:bold;color:#'${string}';${string}">${string}</span>`;
+			/** An HTML span representing the 'otherplayer'. Updated when a new state is entered or when {@link BGA.Gamegui}.updatePageTitle is called. */
+			otherplayer?: `<span style="font-weight:bold;color:#'${string}';${string}">${string}</span>`;
+			/** The id of the 'otherplayer' used to populate the {@link otherplayer} HTML span field. */
+			otherplayer_id?: BGA.ID;
+	
+			titlearg?: string;
+
+			_private?: IActiveGameState['args'];
+		}
+
+		interface IActiveGameState extends Omit<IDefinedGameState, 'args' | 'updateGameProgression'> {
+			/** Id of the current state. The type of args will always match the type of `GameStateArgs<id>` */
+			id: ValidDefinedGameStateKeys;
+			args: null | (AdditionalGameStateArgs & GameStateArgs[keyof GameStateArgs]);
+			updateGameProgression?: BGA.ID;
+			/** The id of the single active player for an activeplayer state. If this `type` is not activeplayer, this value will be 0 */
+			active_player: BGA.ID | 0;
+			/** When the state is a multipleactiveplayer state, this will be an array of player ids that are active. */
+			multiactive?: BGA.ID[];
+			/** The timers foreach player in the game. This include the `initial` time in ms, the `initial_ts` timestamp in UNIX format, and the `total` time in ms. */
+			reflexion: {
+				initial: { [playerId: BGA.ID]: number };
+				initial_ts: { [playerId: BGA.ID]: number };
+				total: { [playerId: BGA.ID]: number };
+			}
 		}
 	
 		/**
-		 * A helper type used to make sure that the GameStates type is set up correctly.
+		 * A helper type used to make sure that the {@link DefinedGameStates} type is set up correctly.
 		 * @example
-		 * type type GameStates = ValidateGameStates<{
+		 * interface DefinedGameStates extends ValidateGameStates<{
 		 * 	[id: BGA.ID]: GameState_Interface;
 		 * 	"1": {
 		 * 		"name": "gameSetup",
@@ -126,100 +264,93 @@ declare global {
 		 * 		"action": "stGameEnd",
 		 * 		"args": "argGameEnd"
 		 * 	};
-		 * }>;
+		 * }> {};
 		 */
 		type ValidateGameStates<T extends {
-			[P in keyof GameStates]: P extends BGA.ID ? GameState_Interface : never;
+			[P in keyof DefinedGameStates]: P extends BGA.ID ? IDefinedGameState : never;
 		}> = T;
-	
-		type ValidGameStates = {
-			[P in keyof GameStates]: P extends BGA.ID ?
-				GameStates[P] extends GameState_Interface ? GameStates[P] :
-				never : never;
-		};
-	
-		interface AjaxActions extends Type<{
-			[K in keyof GameStatePossibleActions as `/${string}/${string}/${K}.html`]: GameStatePossibleActions[K];
-		}>{}
-	
-		interface AdditionalGameStateArgs extends Type<{
-			[titlearg: `titlearg${number}`]: string
-		}> {
-			/** An HTML span representing the first active player in the list of active players. Updated when a new state is entered or when {@link Gamegui}.updatePageTitle is called. */
-			actplayer?: "" | `<span style="font-weight:bold;color:#'${string}';${string}">${string}</span>`;
-			/** An HTML span representing the client player when the client is active and there is no descriptionmyturn defined. Updated when a new state is entered or when {@link BGA.Gamegui}.updatePageTitle is called. */
-			you?: `<span style="font-weight:bold;color:#'${string}';${string}">${string}</span>`;
-			/** An HTML span representing the 'otherplayer'. Updated when a new state is entered or when {@link BGA.Gamegui}.updatePageTitle is called. */
-			otherplayer?: `<span style="font-weight:bold;color:#'${string}';${string}">${string}</span>`;
-			/** The id of the 'otherplayer' used to populate the {@link otherplayer} HTML span field. */
-			otherplayer_id?: BGA.ID;
-	
-			titlearg?: string;
-		}
-	
-		type GameStateMap = {
-			[K in keyof ValidGameStates]: {
-				/** Id of the current state. The type of args will always match the type of `GameStateArgs<id>` */
-				id: K;
-				name: ValidGameStates[K]['name'];
-				type: ValidGameStates[K]['type'];
-				args: ('args' extends keyof ValidGameStates[K] ? (
-					ValidGameStates[K]['args'] extends keyof GameStateArgs
-						? GameStateArgs[ValidGameStates[K]['args']] & AdditionalGameStateArgs
-						: null | AdditionalGameStateArgs
-				) : null | AdditionalGameStateArgs);
-			}
-			& PartialOrPick<ValidGameStates[K], 'description'>
-			& PartialOrPick<ValidGameStates[K], 'descriptionmyturn'>
-			& PartialOrPick<ValidGameStates[K], 'action'>
-			& PartialOrPick<ValidGameStates[K], 'transitions'>
-			& PartialOrPick<ValidGameStates[K], 'possibleactions'>
-			& PartialOrPick<ValidGameStates[K], 'initialprivate'>
-			& ('updateGameProgression' extends keyof ValidGameStates[K] ? {
-				updateGameProgression: ValidGameStates[K]['updateGameProgression'] extends true ? number : false
-			} : { updateGameProgression?: never })
-		}
-	
-		type GameStateTuple_NameArgs = {
-			[K in keyof GameStateMap]: [
-				stateName: GameStateMap[K]['name'],
-				args: GameStateMap[K]['args']
-			]
-		}[keyof ValidGameStates];
-	
-		type GameStateTuple_NameState = {
-			[K in keyof GameStateMap]: [
-				stateName: GameStateMap[K]['name'],
-				state: GameStateMap[K]
-			]
-		}[keyof ValidGameStates];
-	
+
+		/** Used in place of 'keyof DefinedGameState' to ensure that all keys point to values extending {@link IDefinedGameState}. */
+		type ValidDefinedGameStateKeys = {
+			[P in keyof DefinedGameStates]:
+				P extends BGA.ID ? // key must be a number
+				DefinedGameStates[P] extends IDefinedGameState ? // value must be a valid IDefinedGameState
+					P
+				: never : never;
+		}[keyof DefinedGameStates];
+
+		type ActiveGameStates =
+			// If gamestates are not defined or not specific
+			number extends Default<ValidDefinedGameStateKeys, number>
+				? { [K in BGA.ID]: IActiveGameState } 
+			// If gamestates are not specific..
+			: `${number}` extends ValidDefinedGameStateKeys
+				? { [K in BGA.ID]: IActiveGameState } 
+			: {
+				[K in ValidDefinedGameStateKeys]: {
+					/** A {@link IActiveGameState.id} but typed for a specific game state. */
+					id: K;
+					/** A {@link IActiveGameState.name} but typed for a specific game state. */
+					name: DefinedGameStates[K]['name']; // Name must be defined, which is why it is not optional.
+					/** A {@link IActiveGameState.type} but typed for a specific game state. */
+					type: DefinedGameStates[K]['type']; // Type must be defined, which is why it is not optional.
+					/** A {@link IActiveGameState.args} but typed for a specific game state. */
+					args: ('args' extends keyof DefinedGameStates[K]
+						? (DefinedGameStates[K]['args'] extends keyof GameStateArgs
+							? (GameStateArgs[DefinedGameStates[K]['args']] & AdditionalGameStateArgs)
+							: null)
+						: null);
+
+					active_player: DefinedGameStates[K]['type'] extends "activeplayer" ? BGA.ID : 0;
+					/** The timers foreach player in the game. This include the `initial` time in ms, the `initial_ts` timestamp in UNIX format, and the `total` time in ms. */
+					reflexion: {
+						initial: { [playerId: BGA.ID]: number };
+						initial_ts: { [playerId: BGA.ID]: number };
+						total: { [playerId: BGA.ID]: number };
+					}
+				}
+				& ('description' extends keyof DefinedGameStates[K]
+					? { description: DefinedGameStates[K]['description'] | string } // this can/should be updated as needed
+					: { description?: string })
+				& ('descriptionmyturn' extends keyof DefinedGameStates[K]
+					? { descriptionmyturn: DefinedGameStates[K]['descriptionmyturn'] | string } // this can/should be updated as needed
+					: { descriptionmyturn?: string })
+				& ('action' extends keyof DefinedGameStates[K]
+					? { action: DefinedGameStates[K]['action'] }
+					: { action?: never })
+				& ('transitions' extends keyof DefinedGameStates[K]
+					? { transitions: DefinedGameStates[K]['transitions'] }
+					: { transitions?: never })
+				& ('possibleactions' extends keyof DefinedGameStates[K]
+					? { possibleactions: DefinedGameStates[K]['possibleactions'] }
+					: { possibleactions?: never })
+				& ('initialprivate' extends keyof DefinedGameStates[K]
+					? { initialprivate: DefinedGameStates[K]['initialprivate'] }
+					: { initialprivate?: never })
+				& ('updateGameProgression' extends keyof DefinedGameStates[K]
+					? { updateGameProgression: number }
+					: { updateGameProgression?: never })
+				& (DefinedGameStates[K]['type'] extends "multipleactiveplayer"
+					? { multiactive: BGA.ID[] }
+					: { multiactive?: never })
+			};
+
+		/** A helper type to generating the tuple portion of the {@link GameStateTuple} */
+		type _GameStateTupleReducer<K extends keyof ActiveGameStates, Ks> =
+			Ks extends [infer F, ...infer R]
+				? [F extends keyof ActiveGameStates[K] ? ActiveGameStates[K][F] : ActiveGameStates[K], ..._GameStateTupleReducer<K, R>]
+				: [];
+
+		/** Used to create a tuple type where each index is the property of an ActiveGameState. This tuple is strongly coupled allowing types to be infer based on uses of other tuple elements, i.e, a switch statement on a state name will let cases to infer all of that specific state's types. */
+		type GameStateTuple<Ks extends ((keyof ActiveGameStates[keyof ActiveGameStates]) | 'state')[]> = {
+			[K in keyof ActiveGameStates]: _GameStateTupleReducer<K, Ks>
+		}[keyof ActiveGameStates];
+
 		/**
 		 * The data structure for the current game state. This contains the base data from source {@link ValidateGameStates} and additional data that is passed to the client whenever the state changes.
 		 */
-		type GameState = {
-			[K in keyof GameStateMap]: GameStateMap[K] & {
-				/** The id of the single active player for an activeplayer state. If this `type` is not activeplayer, this value will be 0 */
-				active_player: BGA.ID | 0;
-				/** When the state is a multipleactiveplayer state, this will be an array of player ids that are active. */
-				multiactive: BGA.ID[];
-				/** The timers foreach player in the game. This include the `initial` time in ms, the `initial_ts` timestamp in UNIX format, and the `total` time in ms. */
-				reflexion: {
-					initial: { [playerId: BGA.ID]: number };
-					initial_ts: { [playerId: BGA.ID]: number };
-					total: { [playerId: BGA.ID]: number };
-				}
-			};
-		}[keyof ValidGameStates];
-	
-		type NotifSafeGameState = Omit<BGA.GameState_Interface, "updateGameProgression"> & {
-			id: keyof BGA.GameStates;
-			args?: {
-				_private: BGA.GameStateMap[keyof BGA.GameStateMap]['args'];
-			}
-			updateGameProgression?: BGA.ID;
-		}
-	
+		type ActiveGameState = ActiveGameStates[keyof ActiveGameStates];
+
 		/**
 		 * The game data structure that is passed to the client when the page is first loaded, and partially update when new game states are entered. All properties that are not game specific are originally populated by the framework. All other properties, are populated by the game specific code in the `.game.php` file, under the Table::getAllDatas method.
 		 * 
@@ -234,7 +365,7 @@ declare global {
 			/** A dictionary of all player information. See {@link Player} for more information. */
 			players: { [playerId: BGA.ID]: GamePlayer };
 			/** The current game state data. This is the same data that is passed to the `onEnteringState` method. */
-			gamestate: GameState & { private_state?: GameState };
+			gamestate: ActiveGameState & { private_state?: ActiveGameState };
 			/** Not documented. */
 			tablespeed: BGA.ID;
 			/** Not documented. Likely has something to do with players leaving the game, thus making the game results neutralized. The may be a boolean. */
@@ -244,16 +375,11 @@ declare global {
 			/** An ordered array of player ids which signify the current player order. */
 			playerorder: BGA.ID[];
 			/**
-			 * A dictionary of all game states defined in the states.inc.php file. This should be the same as {@link GameStates} but possibly contain additional information based on what was included in the game specific interface. 
+			 * A dictionary of all game states defined in the states.inc.php file. This should be the same as {@link DefinedGameStates} but possibly contain additional information based on what was included in the game specific interface. 
 			 */
-			gamestates: {
-				[K in keyof ValidGameStates]: Omit<ValidGameStates[K], 'args' | 'updateGameProgression'> & {
-					/** Always undefined. This property is stripped from the gamestates during the {@link BGA.Gamegui}.completesetup function using the delete keyword. */
-					args?: string;
-					/** Always undefined. This property is stripped from the gamestates during the {@link BGA.Gamegui}.completesetup function using the delete keyword. */
-					updateGameProgression?: string;
-				}
-			};
+			gamestates: [ValidDefinedGameStateKeys] extends [never]
+				? Record<BGA.ID, IDefinedGameState> // If DefinedGameStates are not defined
+				: { [K in ValidDefinedGameStateKeys]: DefinedGameStates[K] };
 			/** The notification pointers used for evaluating notifications. */
 			notifications: {
 				last_packet_id: BGA.ID,
@@ -300,6 +426,12 @@ declare global {
 			/** Not documented. */
 			no?: string;
 		}
+
+		// Add all of the possible game state actions to the ajax list.
+		interface AjaxActions extends Type<{
+			[K in keyof GameStatePossibleActions as `/${string}/${string}/${K}.html`]: GameStatePossibleActions[K];
+		}>{}
+
 //#endregion
 
 		interface AjaxActions {
@@ -1870,7 +2002,7 @@ class CorePage_Template {
 	 * @param new_value The new value of the counter.
 	 * @throws TypeError if the counter does not exist in `this.gamedatas.counters` or if the `counter_name` does not refer to a valid element.
 	 */
-	setCounter(counter_name: string, new_value: BGA.ID): void | throws<TypeError> {
+	setCounter(counter_name: BGA.CounterNames, new_value: BGA.ID): void | throws<TypeError> {
 		var i = this.gamedatas!.counters![counter_name]!;
 		i.counter_value = new_value;
 		$(i.counter_name)!.innerHTML = String(i.counter_value);
@@ -1882,7 +2014,7 @@ class CorePage_Template {
 	 * @param delta The amount to increment the counter by.
 	 * @throws TypeError if the counter does not exist in `this.gamedatas.counters` or if the `counter_name` does not refer to a valid element.
 	 */
-	incCounter(counter_name: string, delta: BGA.ID): void {
+	incCounter(counter_name: BGA.CounterNames, delta: BGA.ID): void {
 		var i = this.gamedatas!.counters![counter_name]!;
 		i.counter_value =
 			parseInt(String(i.counter_value)) + parseInt(String(delta));
@@ -1895,7 +2027,7 @@ class CorePage_Template {
 	 * @param delta The amount to decrement the counter by.
 	 * @throws TypeError if the counter does not exist in `this.gamedatas.counters` or if the `counter_name` does not refer to a valid element.
 	 */
-	decrCounter(counter_name: string, delta: BGA.ID): void {
+	decrCounter(counter_name: BGA.CounterNames, delta: BGA.ID): void {
 		var i = this.gamedatas!.counters![counter_name]!;
 		i.counter_value =
 			parseInt(i.counter_value.toString()) - parseInt(delta as string);
@@ -1907,11 +2039,11 @@ class CorePage_Template {
 	 * Updates game counters in the player panel (such as resources). The `counters` argument is a map of counters (the key must match counter_name).
 	 * @param counters A map of counters to update.
 	 */
-	updateCounters(counters?: {
-		[key: string]: { counter_name: typeof key; counter_value: BGA.ID };
-	}): void {
+	updateCounters(counters?: Partial<BGA.Gamedatas["counters"]>): void {
 		if (undefined !== counters)
-			for (var key in counters) {
+		{
+			var key: BGA.CounterNames;
+			for (key in counters) {
 				var val = counters[key]!;
 				this.gamedatas!.counters![key] &&
 					null != val.counter_value &&
@@ -1920,6 +2052,7 @@ class CorePage_Template {
 						val.counter_value
 					);
 			}
+		}
 	}
 
 	/**

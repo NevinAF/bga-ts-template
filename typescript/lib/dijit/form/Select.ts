@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 // @ts-nocheck
 
@@ -23,7 +23,13 @@ import _ = require("../registry");
 import v = require("dojo/text"); // import v = require("dojo/text!./templates/Select.html");
 import "dojo/i18n"; // import y = require("dojo/i18n!./nls/validate");
 
-var _SelectMenu = t("dijit.form._SelectMenu", u, {
+// TODO: This does not output with "DojoClass" when not forcibly typed.
+var _SelectMenu: DojoJS.DojoClass<DijitJS.DropDownMenu & {
+	autoFocus: boolean;
+	buildRendering: () => void;
+	postCreate: () => void;
+	focus: () => void;
+}> = t("dijit.form._SelectMenu", u, {
 		autoFocus: true,
 		buildRendering: function () {
 			this.inherited(arguments);

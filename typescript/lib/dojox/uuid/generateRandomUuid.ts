@@ -23,12 +23,14 @@ dojox.uuid.generateRandomUuid = function () {
 declare global {
 	namespace DojoJS
 	{
+		type UUID = `${string}-${string}-4${string}-8${string}-${string}`;
+
 		interface Dojox_UUID
 		{
 			/**
 			 * @returns A random UUID in the format xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx
 			 */
-			generateRandomUuid: () => `${string}-${string}-4${string}-8${string}-${string}`;
+			generateRandomUuid: () => UUID;
 		}
 
 		interface Dojox

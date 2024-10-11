@@ -6,14 +6,14 @@
 		/* NEVER CHANGE THESE */
 		"target": "es5", // This is the framework's version
 		"module": "AMD", // This is what allows for imports and automatically creates the define function.
-		"outDir": "../types",
-
+		
 		/* Recommended, should not need to change. */
 		"moduleResolution": "node10",
 		"lib": [ "dom", "esnext" ],
 		"declaration": true,
 		"emitDeclarationOnly": true,
 		"declarationMap": true,
+		"outFile": "../types.js",
 
 		/* Preference. This defaults to the most strict ts rules. */
 		"strict": true,

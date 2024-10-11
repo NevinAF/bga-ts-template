@@ -160,29 +160,29 @@ class Connect {
 	 * listeners may be attached to a function, and source functions may
 	 * be either regular function calls or DOM events.
 	 */
-	// // Connect to global target using the name of a global method...
-	// connect<U extends DojoJS.ConnectGlobalEvent, M extends keyof DojoJS.Global>(
-	// 	event: U,
-	// 	method: DojoJS.Global extends DojoJS.WithFunc<null, M, DojoJS.ConnectGlobalEventParams<U>> ? M : never,
-	// 	dontFix?: boolean): DojoJS.Handle;
-	// // Connect to global target using the given function (which uses 'this' as global context)...
-	// connect<U extends DojoJS.ConnectGlobalEvent, const M extends DojoJS.BoundFunc<null, DojoJS.ConnectGlobalEventParams<U>>>(
-	// 	event: U,
-	// 	method: M,
-	// 	dontFix?: boolean): DojoJS.Handle;
-	// // Connect to global target using the name of a method on the scope...
-	// connect<U extends DojoJS.ConnectGlobalEvent, S, M extends keyof any>(...[
-	// 	event, scope, method, dontFix]: [
-	// 		U,
-	// 		...DojoJS.HitchedPair<S, M, DojoJS.ConnectGlobalEventParams<U>>,
-	// 		boolean?
-	// 	]): DojoJS.Handle;
-	// // Connect to global target using the given function (which uses scope as 'this')...
-	// connect<U extends DojoJS.ConnectGlobalEvent, S, const M extends DojoJS.BoundFunc<S, DojoJS.ConnectGlobalEventParams<U>>>(
-	// 	event: U,
-	// 	scope: S,
-	// 	method: M,
-	// 	dontFix?: boolean): DojoJS.Handle;
+	// Connect to global target using the name of a global method...
+	connect<U extends keyof any, M extends keyof DojoJS.Global>(
+		event: DojoJS.ConnectGlobalEvent<U>,
+		method: DojoJS.Global extends DojoJS.WithFunc<null, M, DojoJS.ConnectGlobalEventParams<U>> ? M : never,
+		dontFix?: boolean): DojoJS.Handle;
+	// Connect to global target using the given function (which uses 'this' as global context)...
+	connect<U extends keyof any, const M extends DojoJS.BoundFunc<null, DojoJS.ConnectGlobalEventParams<U>>>(
+		event: DojoJS.ConnectGlobalEvent<U>,
+		method: M,
+		dontFix?: boolean): DojoJS.Handle;
+	// Connect to global target using the name of a method on the scope...
+	connect<U extends keyof any, S, M extends keyof any>(...[
+		event, scope, method, dontFix]: [
+			DojoJS.ConnectGlobalEvent<U>,
+			...DojoJS.HitchedPair<S, M, DojoJS.ConnectGlobalEventParams<U>>,
+			boolean?
+		]): DojoJS.Handle;
+	// Connect to global target using the given function (which uses scope as 'this')...
+	connect<U extends keyof any, S, const M extends DojoJS.BoundFunc<S, DojoJS.ConnectGlobalEventParams<U>>>(
+		event: DojoJS.ConnectGlobalEvent<U>,
+		scope: S,
+		method: M,
+		dontFix?: boolean): DojoJS.Handle;
 
 	// connect to a specified target that contains the 'addEventListener' method using the name of a global method...
 	connect<K extends keyof DojoJS.AllEvents, M extends keyof DojoJS.Global>(
@@ -191,7 +191,7 @@ class Connect {
 		method: DojoJS.Global extends DojoJS.WithFunc<null, M, [DojoJS.AllEvents[K]]> ? M : never,
 		dontFix?: boolean): DojoJS.Handle;
 	// connect to a specified target that contains the 'addEventListener' method using the given function (which uses 'this' as global context)...
-	connect<K extends keyof DojoJS.AllEvents, M extends DojoJS.BoundFunc<null, DojoJS.ConnectGlobalEventParams<U>>>(
+	connect<K extends keyof DojoJS.AllEvents, M extends DojoJS.BoundFunc<null, DojoJS.ConnectGlobalEventParams<K>>>(
 		targetObject: DojoJS.ConnectListenerTarget<K>,
 		event: K | `on${K}`,
 		method: M,
@@ -332,12 +332,11 @@ class Connect {
 	 * dojo.disconnect() to disable subsequent automatic publication on
 	 * the topic.
 	 */
-	connectPublisher(topic: string, event: any): DojoJS.Handle;
-	subscribe<M extends keyof DojoJS.Global, Args extends any[] = any[]>(
+	connectPublisher<M extends keyof DojoJS.Global, Args extends any[] = any[]>(
 		topic: string,
 		event: any,
 		method: DojoJS.Global extends DojoJS.WithFunc<null, M, Args> ? M : never): DojoJS.Handle;
-	subscribe<const M extends DojoJS.BoundFunc<null, Args>, Args extends any[] = any[]>(
+	connectPublisher<const M extends DojoJS.BoundFunc<null, Args>, Args extends any[] = any[]>(
 		topic: string,
 		event: any,
 		method: M): DojoJS.Handle;
@@ -362,26 +361,40 @@ declare global {
 	{
 		interface Dojo extends Connect {}
 		type AllEvents = WindowEventMap & GlobalEventHandlersEventMap & WindowEventHandlersEventMap & DocumentEventMap & ElementEventMap;
-		type ConnectGlobalEvent = keyof WindowEventMap | KeysWithType<Window & typeof globalThis, ((...args: any[]) => any) | Event>
-		type ConnectGlobalEventParams<U extends GlobalConnectEvent> =
-			U extends keyof (Window & typeof globalThis) ? (
-				(Window & typeof globalThis)[U] extends (...args: any[]) => any
-					? Parameters<(Window & typeof globalThis)[U]>
-				: (Window & typeof globalThis)[U] extends Event ? [Element]
-				: never)
-			: U extends keyof WindowEventMap ? [WindowEventMap[U]]
+		type ConnectGlobalEvent<U extends keyof any> = keyof WindowEventMap | (
+			(Window & typeof globalThis) extends { [K in U]: (((...args: any[]) => any) | Event) }
+				? U
+				: never
+		)
+		
+		KeysWithType<Window & typeof globalThis, ((...args: any[]) => any) | Event>
+		type ConnectGlobalEventParams<U extends keyof any> =
+			// U extends keyof (Window & typeof globalThis) ? (
+			// 	(Window & typeof globalThis)[U] extends (...args: any[]) => any
+			// 		? Parameters<(Window & typeof globalThis)[U]>
+			// 	: (Window & typeof globalThis)[U] extends Event ? [Element]
+			// 	: never)
+			// : U extends keyof WindowEventMap ? [WindowEventMap[U]]
+			// : never;
+			U extends keyof WindowEventMap ? [WindowEventMap[U]]
+			: (Window & typeof globalThis) extends { [K in U]: infer F extends (((...args: any[]) => any) | Event) }
+				? F extends (...args: any[]) => any
+					? Parameters<F>
+					: [Element]
 			: never;
+
 
 		type ConnectListenerTarget<K extends keyof AllEvents> = {
 			addEventListener(e: keyof AllEvents, l: (evt: AllEvents[K]) => any): void
 		}
 
 		type ConnectMethodTarget<U extends keyof any> = object & { [K in U]: ((...args: any[]) => any) | Event | null }
-		type ConnectMethodParams<T, U extends keyof any> = Exclude<T[U], null> extends (...args: any[]) => any
-				? Parameters<T[U]>
+		type ConnectMethodParams<T extends ConnectMethodTarget<U>, U extends keyof any> = Exclude<T[U], null> extends infer F extends (...args: any[]) => any
+				? Parameters<F>
 				: [Element];
 	}
 }
 
+var connect = new Connect();
 lang.mixin(dojo, connect);
 export = connect;

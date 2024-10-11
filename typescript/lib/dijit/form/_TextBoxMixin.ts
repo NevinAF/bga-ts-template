@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 // @ts-nocheck
 
@@ -331,7 +331,7 @@ var _TextBoxMixin = t(
 			this.inherited(arguments);
 		},
 	}
-) as DojoJS.DojoClass<DijitJS.form._TextBoxMixin> & {
+) as DojoJS.DojoClass<DijitJS.form._TextBoxMixin<any>> & {
 	_setSelectionRange: (e: HTMLInputElement, t: number, i: number) => void;
 	selectInputText: (e: string | HTMLElement, t?: number, n?: number) => void;
 };

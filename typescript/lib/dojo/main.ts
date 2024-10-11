@@ -11,7 +11,7 @@ import "./_base/connect";
 import "./_base/Deferred";
 import "./_base/json";
 import "./_base/Color";
-import "./has!dojo-firebug?./_firebug/firebug";
+// import "./has!dojo-firebug?./_firebug/firebug"; // TODO: Fix the weird imports
 import "./_base/browser";
 import "./_base/loader";
 

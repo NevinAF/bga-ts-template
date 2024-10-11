@@ -5,66 +5,13 @@ type AnyOf<T> =
 	(T extends {} ? (x: T) => any : never) extends 
 	(x: infer R) => void ? R : never;
 
-
 /** Utility type which returns all keys of an object type that have a value type of ValueType. */
 type KeysWithType<T, ValueType> = {
 	[K in keyof T]: T[K] extends ValueType ? K : never;
 }[keyof T];
 
-type UndefinedKeys<T> = {
-	[K in keyof T]: undefined extends T[K] ? K : never;
-}[keyof T];
-
-/** Utility type that filters a union type for all types that contain at least one of U. */
-type AtLeastOne<T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
-
-/** Utility Type that filters all empty types from a union type. */
-type ExcludeEmpty<T> = T extends AtLeastOne<T> ? T : never;
-
-type ExcludeFalsy<T> = undefined extends T ? never : Exclude<T, Falsy>;
-
-/**
-* Utility type that filters for the keys of an interface type which have a 'null' literal type. Used to fix typescript limitations regarding complex intersections on interfaces.
-* @example
-* interface Test { a: string | null, b: number, c: null, d: string | null }
-* type NullableKeysTest = NullableKeys<Test>; // 'c'
-*/
-type NullableKeys<T> = {
-	[K in keyof T]: T[K] extends null ? K : never;
-}[keyof T];
-
-/**
-* Utility type that filters for the keys of an interface type which don't have a 'null' literal type. Used to fix typescript limitations regarding complex intersections on interfaces.
-* @example
-* interface Test { a: string | null, b: number, c: null, d: string | null }
-* type NullableKeysTest = NullableKeys<Test>; // 'a', 'b', 'd'
-*/
-type NotNullableKeys<T> = {
-[K in keyof T]: T[K] extends null ? never : K;
-}[keyof T];
-
-/**
-* Utility type that filters removes all properties with a 'null' literal type from an interface type. Used to fix typescript limitations regarding complex intersections on interfaces.
-* @example
-* type ExampleInterface = {
-* 	1: { c: number },
-* 	2: null,
-* 	3: { a: string | null, b: null },
-* }
-* 
-* KeysWithType<ExampleInterface, { c: number }> // 1 | 2
-* KeysWithType<ExcludeNull<ExampleInterface>, { c: number }> // 1
-*/
-type ExcludeNull<T> = Omit<T, NullableKeys<T>>;
-
-/**
-* Utility type that returns the indices of a tuple type. This is similar to the `keyof` operator for objects, but tuples would normally return all other keys on an array type like `length`, `push`, `pop`, etc.
-* @example
-* type Tuple = [string, number, boolean];
-* type TupleIndices = TupleIndices<Tuple>; // 0 | 1 | 2
-*/
-type TupleIndices<T extends readonly any[]> =
-	Extract<keyof T, `${number}`> extends `${infer N extends number}` ? N : never;
+/** Utility type that uses the default type, D, when the supplied type, T, is 'never' */
+type Default<T, D = any> = [T] extends [never] ? D : T;
 
 type Falsy = false | 0 | "" | null | undefined;
 
@@ -72,7 +19,6 @@ type Constructor<T> = {
 	new (...args: any[]): T;
 	prototype: T;
 }
-
 
 type Tail<T extends any[]> = T extends [any, ...infer Rest] ? Rest : [];
 
@@ -93,28 +39,7 @@ type UnionTuple<A extends any[], B extends any[]> = [...{
 	[K in keyof A]: A[K] | (K extends keyof B ? B[K] : never);
 }, ...Skip<B, Length<A>>];
 
-type UnionTuples<T extends any[][]> = T extends [infer A extends any[], infer B extends any[], ...infer Rest extends any[][]]
-	? UnionTuples<[UnionTuple<A, B>, ...Rest]>
-	: T extends [infer A] ? A : never;
-
-type Prettify<T> = {
-	[K in keyof T]: T[K];
-}
-
-type PartialOrPick<T, K extends string> = K extends keyof T
-	? { [key in K]: T[K] }
-	: { [key in K]?: never };
-
 type throws<T extends Error> = never;
-
-type Char = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' 
-	| 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' 
-	| 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' 
-	| 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' 
-	| 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-	| '!' | '"' | '#' | '$' | '%' | '&' | '\'' | '(' | ')' | '*' | '+' | ',' | '-'
-	| '.' | '/' | ':' | ';' | '<' | '=' | '>' | '?' | '@' | '[' | '\\' | ']' | '^'
-	| '_' | '`' | '{' | '|' | '}' | '~';
 
 type HexChar = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 	| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
@@ -133,8 +58,10 @@ type InferHexColor<T extends string = string> =
 
 type HexString = string; // There is no way to validate a hex string in typescript.
 
+/** A utility type for defining inline types using the interface or 'typeof' format. */
 type Type<T> = T;
 
+/** Defines a fixed length array. */
 type Buffer<T, N extends number, Append extends unknown[] = []> = Append['length'] extends N ? Append : Buffer<T, N, [T, ...Append]>;
 
 //#endregion

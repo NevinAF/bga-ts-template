@@ -1,4 +1,4 @@
-/// <reference path="index.d.ts" />
+/// <reference path="index.ts" />
 
 // @ts-nocheck
 
@@ -26,7 +26,8 @@ function f() {
 		delete this._popupWrapper;
 	}
 }
-var popup = i(null, {
+// TODO: This does not output with "DojoClass" when not forcibly typed.
+var popup: DojoJS.DojoClass<DijitJS.Popup, []> = i(null, {
 	_stack: [],
 	_beginZIndex: 1e3,
 	_idGen: 1,
