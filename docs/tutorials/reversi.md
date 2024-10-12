@@ -173,7 +173,7 @@ From this point in the tutorial and on:
 	/** Adds a token matching the given player to the board at the specified location. */
 	addTokenOnBoard( x: number, y: number, player_id: number )
 	{
-		let player = this.gamedatas.players[ player_id ];
+		let player = this.gamedatas!.players[ player_id ];
 		if (!player)
 			throw new Error( 'Unknown player id: ' + player_id );
 
@@ -195,7 +195,7 @@ From this point in the tutorial and on:
 	///////////////////////////////////////////////////
 	//// Game setup
 
-	setup(gamedatas: Gamedatas): void
+	setup(gamedatas: BGA.Gamedatas): void
 	{
 		console.log( "Starting game setup" );
 
@@ -281,15 +281,19 @@ From this point in the tutorial and on:
 4. Add the board data to the `Gamedatas` interface in the `yourgamename.d.ts` file:
 
 	```typescript
+	declare namespace BGA {
+
 	interface Gamedatas {
 		board: { x: number, y: number, player: number }[];
+	}
+
 	}
 	```
 
 5. Add the following to the `yourgamename.ts` file to place the discs at the start of a page load:
 
 	```typescript
-	setup(gamedatas: Gamedatas): void
+	setup(gamedatas: BGA.Gamedatas): void
 	{
 		console.log( "Starting game setup" );
 
@@ -400,17 +404,17 @@ From this point in the tutorial and on:
 3. Fix the `dummmy` state errors in your `yourgamename.ts` file. These are added as a placeholder and now cause issues because there is no gamestate with the name `dummmy`:
 
 	```typescript
-	onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void
+	onEnteringState(...[stateName, state]: BGA.GameStateTuple<['name', 'state']>): void
 	{
 		console.log( 'Entering state: ' + stateName );
 	}
 
-	onLeavingState(stateName: GameStateName): void
+	onLeavingState(stateName: BGA.ActiveGameState["name"]): void
 	{
 		console.log( 'Leaving state: ' + stateName );
 	}
 
-	onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
+	onUpdateActionButtons(...[stateName, args]: BGA.GameStateTuple<['name', 'args']>): void
 	{
 		console.log( 'onUpdateActionButtons: ' + stateName, args );
 	}
@@ -591,14 +595,15 @@ There are a couple of variations on the rules for Reversi, but the most common i
 
 	// Game & client states
 
-	onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void
+	onEnteringState(...[stateName, state]: BGA.GameStateTuple<['name', 'state']>): void
 	{
 		console.log( 'Entering state: '+stateName );
 
 		switch( stateName )
 		{
 			case 'playerTurn':
-				this.updatePossibleMoves( args.args!.possibleMoves );
+				// Automatically typed 'args' based on this state name!
+				this.updatePossibleMoves( state.args.possibleMoves );
 				break;
 		}
 	}
@@ -713,7 +718,8 @@ The game is still not playable, but you can now see the possible moves for the f
 	setup(gamedatas: Gamedatas): void
 	{
 		// ...
-		dojo.query( '.square' ).connect( 'onclick', this, 'onPlayDisc' );
+		// The 'HTMLElement' is needed so the 'onclick' event is found.
+		dojo.query<HTMLElement>( '.square' ).connect( 'onclick', this, 'onPlayDisc' );
 		// ...
 	}
 
@@ -744,7 +750,9 @@ The game is still not playable, but you can now see the possible moves for the f
 		let [_square_, x, y] = evt.currentTarget.id.split('_');
 
 		this.ajaxcall( `/${this.game_name}/${this.game_name}/playDisc.html`, {
-			x, y, lock: true
+			x: Number(x),
+			y: Number(y),
+			lock: true
 		}, this, function() {} );
 	}
 	```
@@ -792,13 +800,17 @@ Notifications are used to inform players when something happens in the game. In 
 2. Add the notifications to your `NotifTypes` interface in the `yourgamename.d.ts` file:
 
 	```typescript
-	interface NotifTypes {
-		'playDisc': { x: number, y: number, player_id: number };
-		'turnOverDiscs': {
-			player_id: number,
-			turnedOver: { x: number, y: number }[]
-		},
-		'newScores': { scores: Record<number, number> };
+	declare namespace BGA {
+
+		interface NotifTypes {
+			'playDisc': { x: number, y: number, player_id: number };
+			'turnOverDiscs': {
+				player_id: number,
+				turnedOver: { x: number, y: number }[]
+			},
+			'newScores': { scores: Record<number, number> };
+		}
+
 	}
 	```
 
@@ -817,13 +829,13 @@ Notifications are used to inform players when something happens in the game. In 
 		this.notifqueue.setSynchronous( 'newScores', 500 );
 	}
 
-	notif_playDisc( notif: NotifAs<'playDisc'> )
+	notif_playDisc( notif: BGA.Notif<'playDisc'> )
 	{
 		this.clearPossibleMoves();
 		this.addTokenOnBoard( notif.args.x, notif.args.y, notif.args.player_id );
 	}
 
-	notif_turnOverDiscs( notif: NotifAs<'turnOverDiscs'> )
+	notif_turnOverDiscs( notif: BGA.Notif<'turnOverDiscs'> )
 	{
 		// Change the color of the turned over discs
 		for( var i in notif.args.turnedOver )
@@ -839,7 +851,7 @@ Notifications are used to inform players when something happens in the game. In 
 		}
 	}
 
-	notif_newScores( notif: NotifAs<'newScores'> )
+	notif_newScores( notif: BGA.Notif<'newScores'> )
 	{
 		for( var player_id in notif.args.scores )
 		{

@@ -509,7 +509,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 `${writer.fileSignature}
 declare namespace BGA {
 
-interface GameStates extends ValidateGameStates<${writer.stringify(statesJSON, false)}> {}
+interface DefinedGameStates extends ValidateGameStates<${writer.stringify(statesJSON, false)}> {}
 
 interface GameStateArgs ${writer.stringify(argsTypes, false, true)}
 
