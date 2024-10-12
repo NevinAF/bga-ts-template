@@ -496,6 +496,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			if (statesJSON[key].possibleactions) {
 				statesJSON[key].possibleactions = Object.keys(statesJSON[key].possibleactions);
 			}
+			delete statesJSON[key].argsType;
 		}
 
 		// #region Write .d.ts

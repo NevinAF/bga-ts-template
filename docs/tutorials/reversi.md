@@ -171,7 +171,7 @@ From this point in the tutorial and on:
 	//// Utility methods
 
 	/** Adds a token matching the given player to the board at the specified location. */
-	addTokenOnBoard( x: number, y: number, player_id: number )
+	addTokenOnBoard( x: number, y: number, player_id: BGA.ID )
 	{
 		let player = this.gamedatas!.players[ player_id ];
 		if (!player)
@@ -199,8 +199,8 @@ From this point in the tutorial and on:
 	{
 		console.log( "Starting game setup" );
 
-		this.addTokenOnBoard( 2, 2, this.player_id );
-		this.addTokenOnBoard( 6, 3, this.player_id );
+		this.addTokenOnBoard( 2, 2, this.player_id! );
+		this.addTokenOnBoard( 6, 3, this.player_id! );
 
 		this.setupNotifications(); // <-- Keep this line
 	}
