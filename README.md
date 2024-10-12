@@ -3,7 +3,7 @@
 <table><tr>
 	<td> Author: NevinAF </td>
 	<td> Version: 2.0.0 </td>
-	<td> Date: March 18, 2024 </td>
+	<td> Date: October 12th, 2024 </td>
 </tr></table>
 
 [![npm version](https://badge.fury.io/js/bga-ts-template.svg)](https://badge.fury.io/js/bga-ts-template)
