@@ -12,6 +12,7 @@ BGA Type Safe Template is an npm package that includes:
 
 - Typescript with
 	- Nearly full typing for all BGA and Dojo components and heavy documentation.
+	- All BGA source code mapped to provided types and slightly cleaned up for typescript.
 	- Detailed yet simple typechecking using expandable types for game states, player actions, notifications, and gamedatas.
 	- Cookbook recipes for common game mechanics and components, pulled from the BGA documentation and other sources.
 - Schema files for all major BGA data files (game states, infos, options, stats, and preferences).
@@ -26,6 +27,8 @@ Typescript Autocomplete using BGA Type Safe Template
 </p>
 
 This project is an npm package that runs an initializer and builds scripts to assist with the development process. In addition, this prevents needing to mangle shared files with your project source keeping your project extremely small but powerful.
+
+> **Only Looking for Typescript types?** Download only [all-bga-types.d.ts](typescript\all-bga-types.d.ts) and add it to your current project! Make sure the `tsconfig.json` uses the following `compilerOptions`: `"target": "es5"`, `"module": "AMD"`,`"moduleResolution": "node10"`, `"lib": [ "dom", "esnext" ]`.
 
 ## Table of Contents
 
@@ -90,7 +93,7 @@ Fill the file with the following content:
 
 > For existing projects with a `package.json` file, you can add the `scripts` section to the existing file as long as the package.json file is in the root of the project folder.
 
-This contains scripts that can be run using `npm run <script-name>`. See more information about the [package scripts](/README.md#package-scripts) below.
+This contains scripts that can be run using `npm run <script-name>` ('init', 'build', 'watch'). See more information about the [package scripts](/README.md#package-scripts) below.
 
 ### 3. Edit the template configuration
 

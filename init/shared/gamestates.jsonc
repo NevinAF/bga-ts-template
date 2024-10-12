@@ -26,7 +26,7 @@
 		"transitions": { "": 2 }
 	},
 
-	// Note: ID=2: your first state
+	// Note: ID=2: your first state. If not, change the transition in the gameSetup above.
 	"2": {
 		"name": "dummmy",
 		"description": "${actplayer} must play a card or pass",
@@ -69,7 +69,6 @@
 		"type": "manager",
 		"action": "stGameEnd",
 		"args": "argGameEnd",
-		/* TODO: get the arguments that are passed at the end of a game.. */
-		"argsType": "object"
+		"argsType": "object" // Automatically typed by framework.
 	}
 }

@@ -380,7 +380,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 		}
 
 		// Check that all args and argsType are the same.
-		const argsTypes = new Map();
+		const argsTypes = {};
 		for (const key in statesJSON) {
 			const state = statesJSON[key];
 			const args = state.args;
@@ -393,14 +393,19 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			else if (args && !argsType)
 				argsType = 'object';
 
-			if (!argsTypes.has(args))
-				argsTypes.set(args, argsType);
-			else if (argsTypes.get(args) !== argsType)
+			if (args == 'argGameEnd') {
+				// Already defined in the source code
+				if (argsType !== 'object' && argsType !== 'any')
+					exitWithError(`State ${key} ("${state.name}") has args defined as 'argGameEnd' but the args type, '${argsType}', is not 'any' or 'object'. This argsType is already defined in the framework and should be omitted from this state.`);
+			}
+			else if (!(args in argsTypes))
+				argsTypes[args] = argsType;
+			else if (argsTypes[args] !== argsType)
 				exitWithError(`State ${key} ("${state.name}") has a different args type than another state with the same args function.`);
 		}
 
 		// Add typescriptTypes to all possibleaction parameters:
-		const actionTypes = new Map();
+		const actionTypes = {};
 		for (const key in statesJSON) {
 			const state = statesJSON[key];
 			const actions = state.possibleactions;
@@ -408,7 +413,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 			if (!actions) continue;
 
 			for (const action in actions) {
-				if (actionTypes.has(action)) continue;
+				if (action in actionTypes) continue;
 
 				let parameters = actions[action];
 				let type = {};
@@ -464,7 +469,7 @@ if (fs.existsSync('___source-folder___shared/gamestates.jsonc'))
 					}
 				}
 
-				actionTypes.set(action, type);
+				actionTypes[action] = type;
 			}
 		}
 

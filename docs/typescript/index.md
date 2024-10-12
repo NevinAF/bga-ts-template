@@ -21,11 +21,122 @@ The files that are generated on `npm run init` are the following:
 	- Contains all game specific logic (or imports to all game logic). See file documentation for splitting up game logic.
 
 - `<source>/client/yourgamename.d.ts`:
-	- Expands all bga framework types for better typechecking and intellisense. The types that are expanded are, `GameStates`, `PlayerActions`, `NotifTypes`, and `Gamedatas`. All of these types have documentation and examples defined using JSDocs.
-		- If `gamestates.jsonc` is enabled, the `GameStates` and `PlayerActions` types are automatically generated.
+	- Expands all bga framework types for better typechecking and intellisense. The types that are expanded are, `GameStates`, `GameStatePossibleActions`, `GameStateArgs`, `NotifTypes`, and `Gamedatas`. All of these types have documentation and examples defined using JSDocs.
+		- If `gamestates.jsonc` is enabled, the `GameStates`, `GameStatePossibleActions`, and `GameStateArgs` types are automatically generated.
 	- Contains game specific types and interfaces.
 
 ## Compilation
+
+### Variation on File Setup
+
+There are two ways the file can be defined:
+
+1. Using `define` like the template js code.
+
+In this method, the file must not include any import or exports statements because it needs to run immediately. All imports must be defined in the 'dependencies' array of the `define` method, and the export (return) can be omitted.
+
+```ts
+define("bgagame/yourgamename", ["dojo", "ebg/core/gamegui"], function (/* dojo, Gamegui */)
+{
+	// ... <class code> ...
+});
+```
+
+2. Using top-level `import`/`require` statements AND the `amd-module` directive.
+
+The code will compile equivalent to the above, but the import types are much easier to work with, and their is one less code indentation.
+
+```ts
+/// <amd-module name="bgagame/yourgamename"/>
+
+import "dojo"; // no export loaded
+import Gamegui = require('ebg/core/gamegui'); // export loaded
+
+// ... <class code> ...
+```
+
+After choosing the define structure, you need to define how the class will be defined on the global scope. There are a lot of different ways to do this, so a handful of examples are provided below. *Note that ALL code is still has FULL type safety, no matter which method below is used.*
+
+1. Using `dojo.declare` with a props object, like the template js code. 
+
+```ts
+import "dojo"; // loads the global dojo object
+import 'ebg/core/gamegui'; // 'gamegui' class onto 'ebg.core'
+
+dojo.declare("bgagame.yourgamename", ebg.core.gamegui, {
+	// ... class properties and methods ...
+	myProp: 0 as number;
+	myMethod: function () {
+		this.slideToObject(...); // Inherited function
+		playSound(...); // Global function
+	}
+	constructor: function () { }
+});
+```
+
+2. Use a typescript class inheritance with the `Gamegui` class. With this method, you'll need to define the class on the global 'bgagame' object manually:
+
+```ts
+import "dojo"; // loads the global dojo object
+import 'ebg/core/gamegui'; // 'gamegui' class onto 'ebg.core'
+
+class YourGameName extends Gamegui {
+	// ... class properties and methods ...
+	myProp: number = 0;
+	myMethod() {
+		this.slideToObject(...); // Inherited function
+		playSound(...); // Global function
+	}
+	constructor() { }
+}
+
+bgagame = { yourgamename: YourGameName };
+// OR
+dojo.setObject("bgagame.yourgamename", YourGameName);
+// OR
+dojo.declare("bgagame.yourgamename", null, new YourGameName());
+```
+
+3. Use `dojo.declare` with a class object:
+
+```ts
+import declare = "dojo/declare"; // same as 'dojo.declare', but more explicit
+import Gamegui = require('ebg/core/gamegui'); // same as 'ebg.core.gamegui', but more explicit
+
+// Implicitly state that this class WILL extend Gamegui
+interface YourGameName extends InstanceType<typeof Gamegui> {}
+
+class YourGameName {
+	// ... class properties and methods ...
+	myProp: number = 0;
+	myMethod() {
+		this.slideToObject(...); // Inherited function
+		playSound(...); // Global function
+	}
+	constructor() { }
+}
+
+// Explicitly extend Gamegui using dojo.declare
+declare("bgagame.yourgamename", [Gamegui, YourGameName]);
+```
+
+### Annoyed with 'undefined' Errors?
+
+There are several properties that are almost always defined after the initial game setup. This means that you will need to check for `undefined` before using them. This can be done by simply prefixing the property with a `!`, but this can be tiresome. If you really don't want to change the `strictNullChecks` option in the `tsconfig.json` file, you can retype the `Gamegui` class to have all of the properties defined as required:
+
+```ts
+import Gamegui = require('ebg/core/gamegui'); // same as 'ebg.core.gamegui', but more explicit
+
+// Typescript casting, which results in no impact.
+const SetupGamegui = Gamegui as DojoJS.DojoClassFrom<[typeof Gamegui, {
+	// Redefine any properties desired...
+	player_id: BGA.ID; // no longer nullable
+	gamedatas: BGA.Gamedatas; // no longer nullable
+	game_id: number; // no longer undefinable
+}]>
+
+class YourGameName extends SetupGamegui {}
+```
 
 ### AMD Module Overview
 
@@ -72,9 +183,7 @@ Whenever you use `import` from inside `<yourgamename>[.d].ts` targeting a `.ts` 
 
 ```ts
 // playerActions.ts
-import Gamegui = require('ebg/core/gamegui');
-
-export function playCard(game: Gamegui, card_id: number) {
+export function playCard(game: InstanceType<BGA.Gamegui>, card_id: number) {
 	...
 }
 

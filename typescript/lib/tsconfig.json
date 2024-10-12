@@ -13,7 +13,8 @@
 		"declaration": true,
 		"emitDeclarationOnly": true,
 		"declarationMap": true,
-		"outDir": "../types",
+		"outDir": "../types", // Multi-file: Use for projects that when import safe code.
+		// "outFile": "../all-bga-types.d.ts", // Single file: Easier for standalone and better auto-imports.
 
 		/* Preference. This defaults to the most strict ts rules. */
 		"strict": true,

@@ -8,6 +8,17 @@
  * -----
  */
 {
+	"files": [
+		"___yourgamename___.ts",
+		"___yourgamename___.d.ts",
+		// Ideally, all other files needed should be included through imports/ref tags in the above files.
+		// If you have other files that are not imported, you can include them here.
+		// Manually add any node_modules *.ts here. All other imports should be included automatically.
+		// "../___source-to-template___/typescript/cookbook/common.ts",
+	],
+	"include": [
+		"build/**/*.ts",
+	],
 	"compilerOptions": {
 		/* NEVER CHANGE THESE */
 		"target": "es5", // This is the framework's version
