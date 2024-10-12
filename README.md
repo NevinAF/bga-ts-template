@@ -119,7 +119,7 @@ Run `npm run init` in a terminal on the bga-ts-template directory (same folder w
 
 - Only the `devDependencies` that are needed by your configuration are installed. In addition, if you have any of these dependencies already installed globally, `-g`, they will not be installed locally.
 
-- This action will overwrite ALL existing project files that are targeted by your configuration! Make sure to back up any files before running this command.
+- This action will overwrite ALL existing project files that are targeted by your configuration! Make sure to back up any files before running this command. *Some files that will be modified are commonly not tracked with source control (like VS Code settings, ie. `sftp.json`), pay special attention to these.*
 
 ### 5. (optional) Add cookbook recipes
 
@@ -213,6 +213,7 @@ This will add a `.vscode` folder with a few files based on the configuration opt
 	- Enables `emmet` syntax for `*.tpl` files.
 	- `json.schemas` settings for all bga-specific files.
 - `sftp.json`. All settings for the [SFTP](https://marketplace.visualstudio.com/items?itemName=Natizyskunk.sftp) extension excluding the username and password. Not that this is set up to upload files that are built unlike the default settings which only upload when a files is saved from within the editor.
+  - **NOTE:** If you use the [split SFTP configuration](https://en.doc.boardgamearena.com/Setting_up_BGA_Development_environment_using_VSCode#Split_settings_for_version_control) you probably want to remove some of the keys that will be added by this script (like `port`, `host`, `protocol`, etc) so they don't inadvertently override your settings. 
 - `php.json`. All snippets recommended by bga for php development.
 
 All settings are constructive and will not override/replace any existing settings. *Comments are not preserved in these files*.
