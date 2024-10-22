@@ -1,6 +1,6 @@
 {
 	"name": "bga-ts-template",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"description": "Nearly full typing for all BGA and Dojo components, including typing checking templates and cookbook recipes.",
 	"main": "./dist/index.d.ts",
 	"types": "./typescript/types/index.d.ts",

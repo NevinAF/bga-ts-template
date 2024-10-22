@@ -2,7 +2,7 @@
 
 <table><tr>
 	<td> Author: NevinAF </td>
-	<td> Version: 2.0.1 </td>
+	<td> Version: 2.0.2 </td>
 	<td> Date: October 12th, 2024 </td>
 </tr></table>
 
@@ -84,7 +84,7 @@ Fill the file with the following content:
 ```json
 {
 	"scripts": {
-		"init": "npm install bga-ts-template && npx bga-init YourGameName \"developers\" source --typescript --scss --vscode-extension-pack --php-8.2 --gameinfos.jsonc --gameoptions.jsonc --gamepreferences.jsonc --stats.jsonc --gamestates.jsonc",
+		"init": "npm install bga-ts-template && npx bga-init YourGameName \"developers\" source --typescript --scss --vscode-extension-pack --gameinfos.jsonc --gameoptions.jsonc --gamepreferences.jsonc --stats.jsonc --gamestates.jsonc",
 		"build": "npx bga-build",
 		"watch": "npx bga-build --watch"
 	}
@@ -217,10 +217,6 @@ This will add a `.vscode` folder with a few files based on the configuration opt
 - `php.json`. All snippets recommended by bga for php development.
 
 All settings are constructive and will not override/replace any existing settings. *Comments are not preserved in these files*.
-
-### `--php-8.2`
-
-If specified, php version 8.2.17 will be used for project files. Otherwise, php version 7.4.33 will be used. *Currently only for vscode settings*.
 
 ### `--gameinfos.jsonc`
 

@@ -38,7 +38,6 @@ Arguments:
 		--typescript: A 'client' folder will be created in the source folder of this project, populated with 'yourgamename.ts', 'yourgamename.d.ts', and 'tsconfig'. As long as their exists a tsconfig in this client folder, the typescript compiler will be run on build.
 		--scss: A 'client' folder will be created in the source folder of this project, populated with 'yourgamename.scss'. As long as there exists a 'yourgamename.scss' file in this client folder, the sass compiler will be run on build.
 		--vscode-extension-pack: Additional settings linking json schemas, php include files, and updated sftp settings will be added to the .vscode folder of the BGA project. This should only be included if you are using vscode as your editor and have installed the extensions from the "BGA Extension Pack".
-		--php-8.2: If specified, php version 8.2.17 will be used for project files. Otherwise, php version 7.4.33 will be used. (currently only for vscode settings)
 
 		--gameinfos.jsonc: The 'gameinfos.inc.php' file will be generated using the <source>/shared/gameinfos.jsonc file.
 		--gameoptions.jsonc: The 'gameoptions.json' file will be generated using the <source>/shared/gameoptions.jsonc file.
@@ -98,6 +97,7 @@ if (process.argv.length > argc && !process.argv[argc].startsWith("--")) {
 else config.source = "./source/";
 
 // Parse the options
+config.php8 = true;
 
 for (; argc < process.argv.length; argc++) {
 	switch (process.argv[argc]) {
@@ -109,7 +109,7 @@ for (; argc < process.argv.length; argc++) {
 		case "--gamepreferences.jsonc": config.gamepreferences = true; break;
 		case "--stats.jsonc": config.stats = true; break;
 		case "--gamestates.jsonc": config.gamestates = true; break;
-		case "--php-8.2": config.php8 = true; break;
+		case "--php-7.4": config.php8 = false; break;
 		default:
 			console.error("Unknown option: " + process.argv[argc], usage);
 			process.exit(1);

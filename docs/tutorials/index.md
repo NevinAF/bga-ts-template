@@ -132,7 +132,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 ```json
 {
 	"scripts": {
-		"init": "npm install bga-ts-template && npx bga-init YourGameName \"developers\" source --typescript --scss --vscode-extension-pack --php-8.2 --gameinfos.jsonc --gameoptions.jsonc --gamepreferences.jsonc --stats.jsonc --gamestates.jsonc",
+		"init": "npm install bga-ts-template && npx bga-init YourGameName \"developers\" source --typescript --scss --vscode-extension-pack --gameinfos.jsonc --gameoptions.jsonc --gamepreferences.jsonc --stats.jsonc --gamestates.jsonc",
 		"build": "npx bga-build",
 		"watch": "npx bga-build --watch"
 	}
