@@ -213,4 +213,4 @@ class ___YourGameName___ extends Gamegui
 
 
 // The global 'bgagame.___yourgamename___' class is instantiated when the page is loaded and used as the Gamegui.
-bgagame = { ___yourgamename___: ___YourGameName___ };
+window.bgagame = { ___yourgamename___: ___YourGameName___ };

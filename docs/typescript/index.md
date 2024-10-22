@@ -90,7 +90,7 @@ class YourGameName extends Gamegui {
 	constructor() { }
 }
 
-bgagame = { yourgamename: YourGameName };
+window.bgagame = { yourgamename: YourGameName };
 // OR
 dojo.setObject("bgagame.yourgamename", YourGameName);
 // OR
