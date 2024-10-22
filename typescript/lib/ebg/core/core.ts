@@ -1207,7 +1207,7 @@ class CorePage_Template {
 	/** Although this function is defined on core, it is a wrapper for the {@link SiteCore.showMessage} function and always overridden. */
 	showMessage(
 		message: string,
-		type: "info" | "error" | "only_to_log" | string
+		type?: "info" | "error" | "only_to_log" | string
 	): void {
 		g_sitecore.showMessage(message, type);
 	}

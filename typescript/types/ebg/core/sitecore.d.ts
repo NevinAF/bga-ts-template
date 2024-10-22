@@ -317,7 +317,7 @@ declare class SiteCore_Template {
      * 	this.inherited(arguments);
      * },
      */
-    showMessage(message: string, type: 'info' | 'error' | 'only_to_log' | string): void;
+    showMessage(message: string, type?: 'info' | 'error' | 'only_to_log' | string): void;
     /** Internal. An internal count to track the number of ajax calls made. */
     ajaxcall_running: number;
     /** Internal. The current active menu label type. This is updated by using that {@link changeActiveMenuItem} function. This is used to remember the previous pick for cleanup before changing. */
@@ -720,7 +720,7 @@ declare let SiteCore: DojoJS.DojoClass<{
     register_subs(...handles: DojoJS.Handle[]): void;
     unsubscribe_all(): void;
     register_cometd_subs(...comet_ids: string[]): string | string[];
-    showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+    showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
     placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
     placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
     disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -786,7 +786,7 @@ declare let SiteCore: DojoJS.DojoClass<{
     displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
     showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
     showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-    getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+    getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
     getKarmaLabel(karma: number | string): {
         label: "Perfect" | string;
         css: "exceptional";

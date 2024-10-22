@@ -11058,6 +11058,52 @@ class Gamegui_Template
 		}
 	}
 
+	/**
+	 * Return the div on the player board where the dev can add counters and other game specific indicators.
+	 * 
+	 * @param playerId the player id
+	 * @returns the div element for game specific content on player panels
+	 */
+	getPlayerPanelElement(playerId: BGA.ID): Element | null {
+		return document.querySelector(`#player_board_${playerId} .player-board-game-specific-content`);
+	}
+
+	async loadBgaGameLib(e: string, t: string) {
+		const i = `https://x.boardgamearena.net/game-libs/${e}/${t}/${e}`;
+		return Promise.all([new Promise((resolve => {
+			const script = document.createElement("script");
+			script.onload = resolve;
+			script.onerror = i => {
+				const message = "Game lib ${lib-name} cannot be loaded".replace("${lib-name}", `${e}-${t}.js`);
+				this.showMessage(message);
+				console.error(message, i);
+				resolve(i)
+			};
+			script.src = `${i}.js`;
+			document.head.appendChild(script)
+		}
+		)), new Promise((resolve => {
+			const link = document.createElement("link");
+			link.rel = "stylesheet";
+			link.type = "text/css";
+			link.onload = resolve;
+			link.onerror = i => {
+				const message = "Game lib ${lib-name} cannot be loaded".replace("${lib-name}", `${e}-${t}.css`);
+				this.showMessage(message);
+				console.error(message, i);
+				resolve(i)
+			};
+			link.href = `${i}.css`;
+			document.head.appendChild(link)
+		}
+		))])
+	}
+
+	async registerBgaGameLibs(libs: [string, string][]) {
+		for (const t of libs)
+			await this.loadBgaGameLib(t[0], t[1])
+	}
+
 	initHotseat() {
 		this.hotseat_focus = null;
 		for (var t in this.hotseat) {

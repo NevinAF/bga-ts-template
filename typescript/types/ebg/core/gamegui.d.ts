@@ -1251,6 +1251,15 @@ declare class Gamegui_Template {
         checkAction?: boolean;
         checkPossibleActions?: boolean;
     }): Promise<void> | void;
+    /**
+     * Return the div on the player board where the dev can add counters and other game specific indicators.
+     *
+     * @param playerId the player id
+     * @returns the div element for game specific content on player panels
+     */
+    getPlayerPanelElement(playerId: BGA.ID): Element | null;
+    loadBgaGameLib(e: string, t: string): Promise<[unknown, unknown]>;
+    registerBgaGameLibs(libs: [string, string][]): Promise<void>;
     initHotseat(): void;
     onHotseatPlayButton(t: MouseEvent): void;
     checkHotseatFocus(): void;
@@ -1350,7 +1359,7 @@ declare let Gamegui: DojoJS.DojoClass<{
     register_subs(...handles: DojoJS.Handle[]): void;
     unsubscribe_all(): void;
     register_cometd_subs(...comet_ids: string[]): string | string[];
-    showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+    showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
     placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
     placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
     disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -1416,7 +1425,7 @@ declare let Gamegui: DojoJS.DojoClass<{
     displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
     showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
     showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-    getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+    getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
     getKarmaLabel(karma: number | string): {
         label: "Perfect" | string;
         css: "exceptional";
@@ -1686,7 +1695,7 @@ declare let Gamegui: DojoJS.DojoClass<{
     current_player_id?: number;
     isSpectator?: boolean;
     table_id?: BGA.ID | null;
-    showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+    showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
     ajaxcall_running: number;
     active_menu_label: BGA.SiteCoreMenuLabelMappings[keyof BGA.SiteCoreMenuLabelMappings] | "";
     next_headmsg_id: number;
@@ -2286,7 +2295,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             register_subs(...handles: DojoJS.Handle[]): void;
             unsubscribe_all(): void;
             register_cometd_subs(...comet_ids: string[]): string | string[];
-            showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+            showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
             placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
             placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
             disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -2352,7 +2361,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
             showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
             showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
             getKarmaLabel(karma: number | string): {
                 label: "Perfect" | string;
                 css: "exceptional";
@@ -2585,7 +2594,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             register_subs(...handles: DojoJS.Handle[]): void;
             unsubscribe_all(): void;
             register_cometd_subs(...comet_ids: string[]): string | string[];
-            showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+            showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
             placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
             placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
             disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -2651,7 +2660,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
             showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
             showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
             getKarmaLabel(karma: number | string): {
                 label: "Perfect" | string;
                 css: "exceptional";
@@ -2884,7 +2893,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             register_subs(...handles: DojoJS.Handle[]): void;
             unsubscribe_all(): void;
             register_cometd_subs(...comet_ids: string[]): string | string[];
-            showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+            showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
             placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
             placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
             disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -2950,7 +2959,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
             showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
             showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
             getKarmaLabel(karma: number | string): {
                 label: "Perfect" | string;
                 css: "exceptional";
@@ -3184,7 +3193,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             register_subs(...handles: DojoJS.Handle[]): void;
             unsubscribe_all(): void;
             register_cometd_subs(...comet_ids: string[]): string | string[];
-            showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+            showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
             placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
             placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
             disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -3250,7 +3259,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
             showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
             showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
             getKarmaLabel(karma: number | string): {
                 label: "Perfect" | string;
                 css: "exceptional";
@@ -3483,7 +3492,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             register_subs(...handles: DojoJS.Handle[]): void;
             unsubscribe_all(): void;
             register_cometd_subs(...comet_ids: string[]): string | string[];
-            showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+            showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
             placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
             placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
             disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -3549,7 +3558,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
             showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
             showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
             getKarmaLabel(karma: number | string): {
                 label: "Perfect" | string;
                 css: "exceptional";
@@ -3790,7 +3799,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             register_subs(...handles: DojoJS.Handle[]): void;
             unsubscribe_all(): void;
             register_cometd_subs(...comet_ids: string[]): string | string[];
-            showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+            showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
             placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
             placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
             disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -3856,7 +3865,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
             showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
             showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
             getKarmaLabel(karma: number | string): {
                 label: "Perfect" | string;
                 css: "exceptional";
@@ -4089,7 +4098,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             register_subs(...handles: DojoJS.Handle[]): void;
             unsubscribe_all(): void;
             register_cometd_subs(...comet_ids: string[]): string | string[];
-            showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+            showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
             placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
             placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
             disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -4155,7 +4164,7 @@ declare let Gamegui: DojoJS.DojoClass<{
             displayScoring(anchor: string | HTMLElement, color: string, score: number, duration?: number, offset_x?: number, offset_y?: number): void;
             showBubble(anchor: string, message: string, delay?: number, duration?: number, custom_class?: string): void;
             showClick(anchor: string, left: CSSStyleDeclaration["left"] | number, top: CSSStyleDeclaration["top"] | number, backgroundColor?: CSSStyleDeclaration["backgroundColor"]): void;
-            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (any extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
+            getRankString(player_rank: string | number, dontOrderLosers?: boolean | any): (typeof dontOrderLosers extends Falsy ? "1st" | "2nd" | "3rd" | `${number}th` : "Winner" | "Loser") | "not ranked" | string;
             getKarmaLabel(karma: number | string): {
                 label: "Perfect" | string;
                 css: "exceptional";

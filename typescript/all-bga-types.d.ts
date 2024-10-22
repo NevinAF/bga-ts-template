@@ -16375,7 +16375,7 @@ declare module "ebg/core/core" {
         /** Registers a cometd subscription to the given comet id. This will unsubscribe this listener when using the {@link unsubscribe_all} function. */
         register_cometd_subs(...comet_ids: string[]): string | string[];
         /** Although this function is defined on core, it is a wrapper for the {@link SiteCore.showMessage} function and always overridden. */
-        showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+        showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
         /**
          * Moves an element such that the visual position of the `target` element is located at the top-left of the `location` element. This is not really an animation, but placeOnObject is frequently used to set up the initial position of an element before an animation is performed.
          * @param target The element to move.
@@ -17628,7 +17628,7 @@ declare module "ebg/core/sitecore" {
          * 	this.inherited(arguments);
          * },
          */
-        showMessage(message: string, type: 'info' | 'error' | 'only_to_log' | string): void;
+        showMessage(message: string, type?: 'info' | 'error' | 'only_to_log' | string): void;
         /** Internal. An internal count to track the number of ajax calls made. */
         ajaxcall_running: number;
         /** Internal. The current active menu label type. This is updated by using that {@link changeActiveMenuItem} function. This is used to remember the previous pick for cleanup before changing. */
@@ -18031,7 +18031,7 @@ declare module "ebg/core/sitecore" {
         register_subs(...handles: DojoJS.Handle[]): void;
         unsubscribe_all(): void;
         register_cometd_subs(...comet_ids: string[]): string | string[];
-        showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+        showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
         placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
         placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
         disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -19534,6 +19534,15 @@ declare module "ebg/core/gamegui" {
             checkAction?: boolean;
             checkPossibleActions?: boolean;
         }): Promise<void> | void;
+        /**
+         * Return the div on the player board where the dev can add counters and other game specific indicators.
+         *
+         * @param playerId the player id
+         * @returns the div element for game specific content on player panels
+         */
+        getPlayerPanelElement(playerId: BGA.ID): Element | null;
+        loadBgaGameLib(e: string, t: string): Promise<[unknown, unknown]>;
+        registerBgaGameLibs(libs: [string, string][]): Promise<void>;
         initHotseat(): void;
         onHotseatPlayButton(t: MouseEvent): void;
         checkHotseatFocus(): void;
@@ -19633,7 +19642,7 @@ declare module "ebg/core/gamegui" {
         register_subs(...handles: DojoJS.Handle[]): void;
         unsubscribe_all(): void;
         register_cometd_subs(...comet_ids: string[]): string | string[];
-        showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+        showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
         placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
         placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
         disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -19969,7 +19978,7 @@ declare module "ebg/core/gamegui" {
         current_player_id?: number;
         isSpectator?: boolean;
         table_id?: BGA.ID | null;
-        showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+        showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
         ajaxcall_running: number;
         active_menu_label: BGA.SiteCoreMenuLabelMappings[keyof BGA.SiteCoreMenuLabelMappings] | "";
         next_headmsg_id: number;
@@ -20569,7 +20578,7 @@ declare module "ebg/core/gamegui" {
                 register_subs(...handles: DojoJS.Handle[]): void;
                 unsubscribe_all(): void;
                 register_cometd_subs(...comet_ids: string[]): string | string[];
-                showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+                showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
                 placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
                 placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
                 disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -20868,7 +20877,7 @@ declare module "ebg/core/gamegui" {
                 register_subs(...handles: DojoJS.Handle[]): void;
                 unsubscribe_all(): void;
                 register_cometd_subs(...comet_ids: string[]): string | string[];
-                showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+                showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
                 placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
                 placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
                 disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -21167,7 +21176,7 @@ declare module "ebg/core/gamegui" {
                 register_subs(...handles: DojoJS.Handle[]): void;
                 unsubscribe_all(): void;
                 register_cometd_subs(...comet_ids: string[]): string | string[];
-                showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+                showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
                 placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
                 placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
                 disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -21467,7 +21476,7 @@ declare module "ebg/core/gamegui" {
                 register_subs(...handles: DojoJS.Handle[]): void;
                 unsubscribe_all(): void;
                 register_cometd_subs(...comet_ids: string[]): string | string[];
-                showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+                showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
                 placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
                 placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
                 disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -21766,7 +21775,7 @@ declare module "ebg/core/gamegui" {
                 register_subs(...handles: DojoJS.Handle[]): void;
                 unsubscribe_all(): void;
                 register_cometd_subs(...comet_ids: string[]): string | string[];
-                showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+                showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
                 placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
                 placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
                 disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -22073,7 +22082,7 @@ declare module "ebg/core/gamegui" {
                 register_subs(...handles: DojoJS.Handle[]): void;
                 unsubscribe_all(): void;
                 register_cometd_subs(...comet_ids: string[]): string | string[];
-                showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+                showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
                 placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
                 placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
                 disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;
@@ -22372,7 +22381,7 @@ declare module "ebg/core/gamegui" {
                 register_subs(...handles: DojoJS.Handle[]): void;
                 unsubscribe_all(): void;
                 register_cometd_subs(...comet_ids: string[]): string | string[];
-                showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+                showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
                 placeOnObject(target: string | HTMLElement, location: string | HTMLElement): void;
                 placeOnObjectPos(target: string | HTMLElement, location: string | HTMLElement, relativeX: number, relativeY: number): void | throws<TypeError>;
                 disable3dIfNeeded(): CSSStyleDeclaration["transform"] | null;

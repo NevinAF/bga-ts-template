@@ -599,7 +599,7 @@ declare class CorePage_Template {
     /** Registers a cometd subscription to the given comet id. This will unsubscribe this listener when using the {@link unsubscribe_all} function. */
     register_cometd_subs(...comet_ids: string[]): string | string[];
     /** Although this function is defined on core, it is a wrapper for the {@link SiteCore.showMessage} function and always overridden. */
-    showMessage(message: string, type: "info" | "error" | "only_to_log" | string): void;
+    showMessage(message: string, type?: "info" | "error" | "only_to_log" | string): void;
     /**
      * Moves an element such that the visual position of the `target` element is located at the top-left of the `location` element. This is not really an animation, but placeOnObject is frequently used to set up the initial position of an element before an animation is performed.
      * @param target The element to move.

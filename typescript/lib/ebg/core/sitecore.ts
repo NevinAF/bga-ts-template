@@ -314,7 +314,7 @@ class SiteCore_Template
 	 * 	this.inherited(arguments);
 	 * },
 	 */
-	showMessage(message: string, type: 'info' | 'error' | 'only_to_log' | string): void {
+	showMessage(message: string, type?: 'info' | 'error' | 'only_to_log' | string): void {
 		this.next_headmsg_id;
 		if ("only_to_log" != type) {
 			var n = "head_infomsg_" + this.next_headmsg_id,
