@@ -81,7 +81,7 @@ The official BGA team recommends [Visual Studio Code](https://code.visualstudio.
 		"name": "BGA",
 		"host": "1.studio.boardgamearena.com",
 		"protocol": "sftp",
-		"port": 22,
+		"port": 2022,
 		"username": "___YourUsername___",
 		"password": "___yourpassword_hexstring___",
 		"remotePath": "/___lowercaseprojectname___/",
