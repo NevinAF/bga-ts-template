@@ -28,7 +28,7 @@ Typescript Autocomplete using BGA Type Safe Template
 
 This project is an npm package that runs an initializer and builds scripts to assist with the development process. In addition, this prevents needing to mangle shared files with your project source keeping your project extremely small but powerful.
 
-> **Only Looking for Typescript types?** Download only [all-bga-types.d.ts](typescript\all-bga-types.d.ts) and add it to your current project! Make sure the `tsconfig.json` uses the following `compilerOptions`: `"target": "es5"`, `"module": "AMD"`,`"moduleResolution": "node10"`, `"lib": [ "dom", "esnext" ]`.
+> **Only Looking for Typescript types?** Download only [all-bga-types.d.ts](/typescript/all-bga-types.d.ts) and add it to your current project! Make sure the `tsconfig.json` uses the following `compilerOptions`: `"target": "es5"`, `"module": "AMD"`,`"moduleResolution": "node10"`, `"lib": [ "dom", "esnext" ]`.
 
 ## Table of Contents
 
