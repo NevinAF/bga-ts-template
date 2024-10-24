@@ -110,6 +110,7 @@ for (; argc < process.argv.length; argc++) {
 		case "--stats.jsonc": config.stats = true; break;
 		case "--gamestates.jsonc": config.gamestates = true; break;
 		case "--php-7.4": config.php8 = false; break;
+		case "--php-8.2": config.php8 = true; break;
 		default:
 			console.error("Unknown option: " + process.argv[argc], usage);
 			process.exit(1);
